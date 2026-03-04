@@ -71,3 +71,20 @@ export default defineConfig([
   },
 ])
 ```
+
+## How to get the database types
+
+1. Login in supbase if needed, have the open session in your browser:
+```bash
+npx supabase login
+```
+2. Init the supabase cli
+```bash
+npx supabase init
+```
+3. Generate the types
+```bash
+npx supabase gen types typescript --project-id <rbfswaytpbjzrdtuzgna> --schema public > src/types/database.types.ts
+```
+
+More docs about it: https://supabase.com/docs/guides/api/rest/generating-types
