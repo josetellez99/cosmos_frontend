@@ -1,7 +1,6 @@
 import type { HttpMethod } from "@/types/http";
 import { ApiError } from "@/lib/ApiError";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
 const DEFAULT_TIMEOUT = 10000;
 
 interface RequestOptions {
@@ -28,7 +27,7 @@ async function request<TResponse, TBody = unknown>(
     const combinedSignal = signal ?? controller.signal;
 
     try {
-        const response = await fetch(`${BASE_URL}${endpoint}`, {
+        const response = await fetch(`${endpoint}`, {
             method,
             headers: {
                 'Content-Type': 'application/json',
