@@ -53,7 +53,7 @@
 :root {
   --radius: 0.75rem;
   --background: #f7f8fd;
-  --foreground: #040714;
+  --foreground: #363637;
 
   --primary: #32085C;
   --primary-foreground: #fafafa;
@@ -73,6 +73,7 @@
   --border: oklch(0.9 0.01 260);
   --input: oklch(0.9 0.01 260);
   --ring: oklch(0.56 0.21 276.93 / 0.5);
+  --card-radius: 2rem;
 }
 
 .dark {
@@ -124,5 +125,11 @@
   h5,
   h6 {
     @apply font-bold tracking-tight text-foreground;
+  }
+}
+
+@layer utilities {
+  .card-radius {
+    border-radius: var(--card-radius);
   }
 }

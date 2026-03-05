@@ -33,20 +33,21 @@ export const RegisterForm = () => {
 
     return (
         <form
-            className="max-w-sm w-full space-y-3 bg-white py-8 px-4 rounded-lg"
+            className="max-w-sm w-full space-y-3 bg-white py-8 px-4 card-radius"
             onSubmit={form.handleSubmit(onSubmit)}
         >
-            <div className="flex justify-center">
+            <div className="flex flex-col justify-center items-center mb-8">
                 <Typography variant="h3">Crear una cuenta</Typography>
+                <Typography variant="p">Organiza tu vida y mide tus metas</Typography>
             </div>
-            <FieldSet>
+            <FieldSet className="mb-8">
                 <FieldGroup>
                     <Controller
                         name="name"
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor={field.name}>Nombre</FieldLabel>
+                                <FieldLabel htmlFor={field.name}><Typography variant="p">Nombre</Typography></FieldLabel>
                                 <Input id={field.name} type="text" placeholder="Maria" {...field} />
                                 {fieldState.invalid && (
                                     <FieldError>{fieldState.error?.message}</FieldError>
@@ -59,7 +60,7 @@ export const RegisterForm = () => {
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor={field.name}>Apellido</FieldLabel>
+                                <FieldLabel htmlFor={field.name}><Typography variant="p">Apellido</Typography></FieldLabel>
                                 <Input id={field.name} type="text" placeholder="Rodriguez" {...field} />
                                 {fieldState.invalid && (
                                     <FieldError>{fieldState.error?.message}</FieldError>
@@ -73,7 +74,7 @@ export const RegisterForm = () => {
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor={field.name}>Fecha de nacimiento</FieldLabel>
+                            <FieldLabel htmlFor={field.name}><Typography variant="p">Fecha de nacimiento</Typography></FieldLabel>
                             <Input id={field.name} type="date" {...field} />
                             {fieldState.invalid && (
                                 <FieldError>{fieldState.error?.message}</FieldError>
@@ -86,7 +87,7 @@ export const RegisterForm = () => {
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor={field.name}>Correo electrónico</FieldLabel>
+                            <FieldLabel htmlFor={field.name}><Typography variant="p">Correo electrónico</Typography></FieldLabel>
                             <Input id={field.name} type="email" placeholder="micorreo@dominio.com" {...field} />
                             {fieldState.invalid && (
                                 <FieldError>{fieldState.error?.message}</FieldError>
@@ -99,7 +100,7 @@ export const RegisterForm = () => {
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor={field.name}>Contraseña</FieldLabel>
+                            <FieldLabel htmlFor={field.name}><Typography variant="p">Contraseña</Typography></FieldLabel>
                             <Input id={field.name} type="password" placeholder="********" {...field} />
                             {fieldState.invalid && (
                                 <FieldError>{fieldState.error?.message}</FieldError>
@@ -112,7 +113,7 @@ export const RegisterForm = () => {
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor={field.name}>Confirmar contraseña</FieldLabel>
+                            <FieldLabel htmlFor={field.name}><Typography variant="p">Confirmar contraseña</Typography></FieldLabel>
                             <Input id={field.name} type="password" placeholder="********" {...field} />
                             {fieldState.invalid && (
                                 <FieldError>{fieldState.error?.message}</FieldError>
