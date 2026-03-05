@@ -2,6 +2,7 @@ import './App.css'
 import { Routes, Route } from "react-router";
 import { RegisterPage } from '@/pages/register-page';
 import { LoginPage } from '@/pages/login-page';
+import { ConfirmEmail } from '@/pages/confirm-email';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
       <Route> {/** Auth routes **/}
         <Route path="register" element={<RegisterPage />} />
         <Route path="login" element={<LoginPage />} />
+        <Route path="confirm-email" element={<ConfirmEmail />} />
       </Route>
 
 
