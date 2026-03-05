@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 
 export const RegisterForm = () => {
     return (
-        <form className="max-w-sm w-full space-y-4" action="">
+        <form className="max-w-sm w-full space-y-3" action="">
             <Input type="text" placeholder="Username" />
             <Input type="email" placeholder="Email" />
             <Input type="password" placeholder="Password" />
