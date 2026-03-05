@@ -16,3 +16,5 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         </AuthContext.Provider>
     );
 }
+
+// TODO: continue with the components creation

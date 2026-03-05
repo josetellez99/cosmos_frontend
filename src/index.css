@@ -7,6 +7,7 @@
 
 @theme inline {
   --font-sans: "Poppins", "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-poppins: "Poppins", sans-serif;
   --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", " Courier New", monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
