@@ -5,6 +5,9 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/zodSchemas/auth/register-schema";
 import { Link } from "react-router";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useNavigate } from "react-router";
+
 import * as z from "zod"
 import {
     Field,
@@ -15,6 +18,9 @@ import {
 } from "@/components/ui/field";
 
 export const RegisterForm = () => {
+
+    const { registerUser } = useAuth();
+    const navigate = useNavigate();
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -28,8 +34,24 @@ export const RegisterForm = () => {
         },
     });
 
-    const onSubmit = (data: z.infer<typeof registerSchema>) => {
-        console.log(data);
+    const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+        const response = await registerUser(data);
+        if (response.ok) {
+            navigate("/confirm-email");
+        } else {
+            if (response.error.details) {
+                Object.entries(response.error.details).forEach(([key, value]) => {
+                    form.setError(key as any, {
+                        type: "manual",
+                        message: value,
+                    });
+                });
+            } else {
+                form.setError("root", {
+                    message: response.message || "Ocurrió un error inesperado",
+                });
+            }
+        }
     };
 
     return (
@@ -124,6 +146,11 @@ export const RegisterForm = () => {
                 />
             </FieldSet>
             <Button type="submit" className="w-full">Registrarse</Button>
+            {form.formState.errors.root && (
+                <Typography variant="p" className="text-xs text-red-500">
+                    {form.formState.errors.root.message}
+                </Typography>
+            )}
             <div className="flex justify-center">
                 <Typography variant="p" className="text-xs">
                     ¿Ya tienes cuenta? <Link to="/login" className="text-primary font-bold">Inicia sesión</Link>

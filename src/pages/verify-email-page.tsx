@@ -1,18 +1,33 @@
 import { useSearchParams } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export const VerifyEmailPage = () => {
+
+    const { verifyEmail } = useAuth();
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
     const type = searchParams.get("type");
-    const { verifyEmail } = useAuth();
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const init = async () => {
-            if (token && type) {
-                const res = await verifyEmail({ tokenHash: token, type })
-                console.log(res)
+            try {
+                setLoading(true)
+                if (token && type) {
+                    const response = await verifyEmail({ tokenHash: token, type })
+                    if (response.ok) navigate("/login")
+                }
+            } catch (e: unknown) {
+                if (e instanceof Error) {
+                    setError(e.message)
+                }
+            } finally {
+                setLoading(false)
             }
         }
         init()
@@ -20,9 +35,8 @@ export const VerifyEmailPage = () => {
 
     return (
         <div>
-            <h1>Verify Email</h1>
-            <p>Token: {token}</p>
-            <p>Type: {type}</p>
+            {loading && <p>Verificando...</p>}
+            {error && <p>{error}</p>}
         </div>
     );
 };
