@@ -1,6 +1,7 @@
 import './App.css'
 import { Routes, Route } from "react-router";
 import { RegisterPage } from '@/pages/register-page';
+import { LoginPage } from '@/pages/login-page';
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
     <Routes>
       <Route path="/" element={<p>Hello world</p>} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/login" element={<LoginPage />} />
     </Routes>
   )
 }

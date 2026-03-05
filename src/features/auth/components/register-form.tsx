@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/zodSchemas/auth/register-schema";
+import { Link } from "react-router";
 import * as z from "zod"
 import {
     Field,
@@ -123,6 +124,11 @@ export const RegisterForm = () => {
                 />
             </FieldSet>
             <Button type="submit" className="w-full">Registrarse</Button>
+            <div className="flex justify-center">
+                <Typography variant="p" className="text-xs">
+                    ¿Ya tienes cuenta? <Link to="/login" className="text-primary font-bold">Inicia sesión</Link>
+                </Typography>
+            </div>
         </form>
     );
 };
