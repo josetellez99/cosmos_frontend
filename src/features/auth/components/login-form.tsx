@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from "@/zodSchemas/auth/login-schema";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { Loader2 } from "lucide-react";
 import {
     Field,
     FieldSet,
@@ -24,6 +25,8 @@ export const LoginForm = () => {
             password: "",
         },
     });
+
+    const { isSubmitting } = form.formState;
 
     const onSubmit = async (data: LoginSchema) => {
         const response = await loginUser(data);
@@ -96,7 +99,8 @@ export const LoginForm = () => {
                     )}
                 />
             </FieldSet>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting && <Loader2 className="animate-spin" />}
                 Entrar
             </Button>
             {form.formState.errors.root && (

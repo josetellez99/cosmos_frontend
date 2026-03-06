@@ -4,9 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/zodSchemas/auth/register-schema";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { useNavigate } from "react-router";
+import { Loader2 } from "lucide-react";
 
 import * as z from "zod"
 import {
@@ -33,6 +33,8 @@ export const RegisterForm = () => {
             confirmPassword: "",
         },
     });
+
+    const { isSubmitting } = form.formState;
 
     const onSubmit = async (data: z.infer<typeof registerSchema>) => {
         const response = await registerUser(data);
@@ -145,7 +147,10 @@ export const RegisterForm = () => {
                     )}
                 />
             </FieldSet>
-            <Button type="submit" className="w-full">Registrarse</Button>
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting && <Loader2 className="animate-spin" />}
+                Registrarse
+            </Button>
             {form.formState.errors.root && (
                 <Typography variant="p" className="text-xs text-red-500">
                     {form.formState.errors.root.message}
