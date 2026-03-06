@@ -5,16 +5,19 @@ import { LoginPage } from '@/pages/login-page';
 import { ConfirmEmail } from '@/pages/confirm-email';
 import { VerifyEmailPage } from '@/pages/verify-email-page';
 import { ProtectedRoute } from '@/components/guards/protected-route';
+import { GuestRoute } from '@/components/guards/guest-route';
 
 function App() {
 
   return (
     <Routes>
-      {/** Public routes **/}
-      <Route path="register" element={<RegisterPage />} />
-      <Route path="login" element={<LoginPage />} />
-      <Route path="confirm-email" element={<ConfirmEmail />} />
-      <Route path="verify-email" element={<VerifyEmailPage />} />
+      {/** Guest-only routes (redirects to / if authenticated) **/}
+      <Route element={<GuestRoute />}>
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="confirm-email" element={<ConfirmEmail />} />
+        <Route path="verify-email" element={<VerifyEmailPage />} />
+      </Route>
 
       {/** Protected routes **/}
       <Route element={<ProtectedRoute />}>
