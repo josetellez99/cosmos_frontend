@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
-import type { RegisterResponse } from "@/features/auth/types/response/register";
+import type { UserSession } from "@/features/auth/types/UserSession";
+import { useUserSession } from "@/features/auth/hooks/useUserSession";
 
 interface AuthContextProviderProps {
     children: ReactNode;
@@ -8,7 +9,8 @@ interface AuthContextProviderProps {
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
-    const [user, setUser] = useState<RegisterResponse | undefined>(undefined);
+    const sessionFromCookie = useUserSession();
+    const [user, setUser] = useState<UserSession | null>(sessionFromCookie);
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>
@@ -16,5 +18,3 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         </AuthContext.Provider>
     );
 }
-
-// TODO: continue with the components creation

@@ -1,9 +1,9 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
-import type { RegisterResponse } from "@/features/auth/types/response/register";
+import type { UserSession } from "@/features/auth/types/UserSession";
 
 export interface AuthContextType {
-    user: RegisterResponse | undefined;
-    setUser: Dispatch<SetStateAction<RegisterResponse | undefined>>;
+    user: UserSession | null;
+    setUser: Dispatch<SetStateAction<UserSession | null>>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
