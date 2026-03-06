@@ -22,7 +22,7 @@ React 19 + TypeScript + Vite app with Tailwind CSS v4 and shadcn UI components.
 - **Shared UI:** shadcn components in `src/components/ui/`, layouts in `src/components/layouts/`.
 - **API layer:** Custom fetch wrapper in `src/lib/apiClient.ts` with typed generic methods (`get`, `post`, `put`, `patch`, `delete`). Endpoints defined in `src/lib/endpointsMap.ts`.
 - **Validation:** Zod schemas in `src/zodSchemas/` paired with React Hook Form via `@hookform/resolvers`.
-- **State:** React Context API for auth state (`src/contexts/` + `src/providers/`).
+- **State:** React Context API for auth state (`src/contexts/` + `src/providers/`). Auth state is seeded on mount from the `cosmos_user_session` cookie (see **Authentication** below).
 - **Types:** Shared types in `src/types/`, feature-specific types in `src/features/<feature>/types/` split into `request/` and `response/`.
 
 ### Path Alias
@@ -40,6 +40,23 @@ Forms use React Hook Form + Zod schema + `zodResolver`. Schemas live in `src/zod
 ### Styling
 
 Tailwind CSS v4 with CSS variables for theming (defined in `src/index.css`). Component variants use `class-variance-authority` (CVA). The `cn()` utility from `src/lib/utils.ts` merges classes via `clsx` + `tailwind-merge`.
+
+### Authentication
+
+Two-cookie strategy — the backend sets both on login and token refresh, clears both on logout:
+
+| Cookie | `httpOnly` | Accessible by JS | Purpose |
+|--------|-----------|-----------------|---------|
+| `cosmos_access_token` | yes | no | Signs every API request |
+| `cosmos_user_session` | no | yes | Stores `{ name, lastName, email }` as URL-encoded JSON |
+
+**Checking auth state:** read `AuthContext` via `useContext(AuthContext)`. `user !== null` means logged in.
+
+**On app load:** `AuthContextProvider` calls `useUserSession()` (`src/features/auth/hooks/useUserSession.ts`) to parse the cookie and seed the initial state — no API request needed.
+
+**On login:** after a successful login API call, call `setUser({ name, lastName, email })` to sync in-memory state with the newly set cookie.
+
+**`UserSession` type:** `src/features/auth/types/UserSession.ts` — `{ name: string; lastName: string; email: string }`.
 
 ### Supabase
 
