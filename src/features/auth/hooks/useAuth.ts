@@ -1,9 +1,12 @@
 import { registerUserService } from "@/features/auth/services/register";
+import { loginService } from "@/features/auth/services/login";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext } from "react";
 import type { RegisterRequest } from "@/features/auth/types/request/register";
+import type { LoginRequest } from "@/features/auth/types/request/login";
 import type { ApiResponse } from "@/lib/apiResponses";
 import type { RegisterResponse } from "@/features/auth/types/response/register";
+import type { UserSession } from "@/features/auth/types/UserSession";
 import type { VerifyEmailRequest } from "@/features/auth/types/request/verify-email";
 import { verifyEmailService } from "@/features/auth/services/verify-email-service";
 
@@ -11,7 +14,7 @@ export const useAuth = () => {
 
     const context = useContext(AuthContext);
     if (!context) throw new Error("useAuth must be used within an AuthProvider");
-    const { user, setUser } = context;
+    const { setUser } = context;
 
     const registerUser = async (req: RegisterRequest): Promise<ApiResponse<RegisterResponse>> => {
         return await registerUserService(req)
@@ -21,8 +24,12 @@ export const useAuth = () => {
         return await verifyEmailService(req)
     }
 
-    const loginUser = () => {
-
+    const loginUser = async (req: LoginRequest): Promise<ApiResponse<UserSession>> => {
+        const response = await loginService(req);
+        if (response.ok) {
+            setUser(response.data);
+        }
+        return response;
     }
 
     return {

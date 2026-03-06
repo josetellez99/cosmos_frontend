@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from "@/zodSchemas/auth/login-schema";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import {
     Field,
     FieldSet,
@@ -13,6 +14,9 @@ import {
 } from "@/components/ui/field";
 
 export const LoginForm = () => {
+    const { loginUser } = useAuth();
+    const navigate = useNavigate();
+
     const form = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -21,8 +25,24 @@ export const LoginForm = () => {
         },
     });
 
-    const onSubmit = (data: LoginSchema) => {
-        console.log("Login data:", data);
+    const onSubmit = async (data: LoginSchema) => {
+        const response = await loginUser(data);
+        if (response.ok) {
+            navigate("/");
+        } else {
+            if (response.error.details) {
+                Object.entries(response.error.details).forEach(([key, value]) => {
+                    form.setError(key as keyof LoginSchema, {
+                        type: "manual",
+                        message: value,
+                    });
+                });
+            } else {
+                form.setError("root", {
+                    message: response.message || "Ocurrió un error inesperado",
+                });
+            }
+        }
     };
 
     return (
@@ -79,6 +99,11 @@ export const LoginForm = () => {
             <Button type="submit" className="w-full">
                 Entrar
             </Button>
+            {form.formState.errors.root && (
+                <Typography variant="p" className="text-xs text-red-500">
+                    {form.formState.errors.root.message}
+                </Typography>
+            )}
             <div className="flex justify-center">
                 <Typography variant="p" className="text-xs">
                     ¿No tienes cuenta? <Link to="/register" className="text-primary font-bold">Regístrate</Link>

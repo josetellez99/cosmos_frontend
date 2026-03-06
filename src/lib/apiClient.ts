@@ -29,6 +29,7 @@ async function request<TResponse, TBody = unknown>(
     try {
         const response = await fetch(`${endpoint}`, {
             method,
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
                 ...headers, // caller can override anything
