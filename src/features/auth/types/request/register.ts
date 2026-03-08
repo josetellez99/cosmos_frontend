@@ -4,5 +4,5 @@ export interface RegisterRequest {
     confirmPassword: string,
     name: string,
     lastName: string,
-    birthDate: string; // LocalDate (yyyy-mm-dd)
+    birthDate: string
 }
