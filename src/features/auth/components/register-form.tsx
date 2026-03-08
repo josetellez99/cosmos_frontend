@@ -8,18 +8,18 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Loader2 } from "lucide-react";
 import { FormField } from "@/components/ui/form-field";
 
-import * as z from "zod"
 import {
     FieldSet,
     FieldGroup,
 } from "@/components/ui/field";
+import type { RegisterSchema } from "@/zodSchemas/auth/register-schema";
 
 export const RegisterForm = () => {
 
     const { registerUser } = useAuth();
     const navigate = useNavigate();
 
-    const form = useForm<z.infer<typeof registerSchema>>({
+    const form = useForm<RegisterSchema>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
             name: "",
@@ -33,7 +33,7 @@ export const RegisterForm = () => {
 
     const { isSubmitting } = form.formState;
 
-    const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+    const onSubmit = async (data: RegisterSchema) => {
         const response = await registerUser(data);
         if (response.ok) {
             navigate("/confirm-email");
