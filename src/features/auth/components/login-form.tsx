@@ -1,17 +1,13 @@
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from "@/zodSchemas/auth/login-schema";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Loader2 } from "lucide-react";
 import {
-    Field,
     FieldSet,
-    FieldError,
-    FieldLabel,
 } from "@/components/ui/field";
 import { FormField } from "@/components/ui/form-field";
 

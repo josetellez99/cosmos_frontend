@@ -1,7 +1,6 @@
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/zodSchemas/auth/register-schema";
 import { Link, useNavigate } from "react-router";
@@ -11,11 +10,8 @@ import { FormField } from "@/components/ui/form-field";
 
 import * as z from "zod"
 import {
-    Field,
     FieldSet,
     FieldGroup,
-    FieldLabel,
-    FieldError,
 } from "@/components/ui/field";
 
 export const RegisterForm = () => {
