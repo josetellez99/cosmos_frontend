@@ -35,7 +35,6 @@ Generic components and hooks should have meaningful constraint names (e.g., TIte
 Custom hooks must start with use and encapsulate a single, cohesive piece of logic. A hook named useUserProfileAndNotificationsAndTheme is doing too much.
 Every custom hook must have a clearly typed return value. Return objects (not arrays) when returning more than 2 values, for readability at the call site.
 Avoid deeply nesting hooks inside hooks. If a custom hook calls 5+ other hooks, consider restructuring or splitting it.
-Always specify complete dependency arrays in useEffect, useMemo, and useCallback. Never suppress the exhaustive-deps lint rule without a documented reason.
 useEffect must have a single, clear purpose. If a useEffect has multiple unrelated side effects, split it into multiple useEffect calls.
 Always return a cleanup function from useEffect when subscribing to events, timers, or external data sources (WebSockets, observers, intervals).
 Avoid using useEffect for derived state. If a value can be computed from props or state, compute it during render or with useMemo.
@@ -48,7 +47,7 @@ Never set state inside a render cycle without a condition guard; this causes inf
 Use local component state (useState / useReducer) by default. Only lift state when two or more sibling components genuinely need to share it.
 Use React Context for low-frequency, broadly-needed state (theme, locale, auth status, feature flags). Never use Context for high-frequency updates (e.g., form inputs, animations, scroll position).
 When using Context, split contexts by domain (AuthContext, ThemeContext, ToastContext) rather than putting everything in a single AppContext.
-Always memoize Context values with useMemo to prevent unnecessary re-renders of all consumers on every parent render.
+Consider memoizing Context values with useMemo when the context has many consumers or its parent re-renders frequently. Before applying this optimization, analyze the context: how many components consume it, how often the parent re-renders, and whether the value changes rarely. For contexts with few consumers and infrequent updates (e.g., auth state), the optimization may add complexity without meaningful benefit. Always justify memoization with a concrete re-render concern, not as a blanket rule.
 For server state (data fetched from APIs), use a dedicated server-state library TanStack Query. Never manage caching, loading, error, and refetch states manually with useState + useEffect.
 Keep global state minimal and normalized. Avoid duplicating server data in global state; let the server-state cache be the source of truth.
 State shape should be as flat as possible. Deeply nested state updates are error-prone and harder to manage immutably.
@@ -69,8 +68,8 @@ Avoid waterfalls: use Promise.all, parallel queries, or prefetching when multipl
 
 Never prematurely optimize. Measure first using React DevTools Profiler, Lighthouse, and browser Performance tab. Optimize only proven bottlenecks.
 Use React.memo on components that receive stable-reference props but whose parent re-renders frequently. Do not wrap every component in React.memo by default.
-Use useMemo for expensive computations (filtering/sorting large lists, complex transformations). Do not memoize trivial calculations; the memoization overhead may exceed the computation cost.
-Use useCallback for functions passed as props to memoized child components or used in dependency arrays. Do not wrap every function in useCallback by default.
+Use useMemo for expensive computations (filtering/sorting large lists, complex transformations). Do not memoize trivial calculations; the memoization overhead may exceed the computation cost. Before flagging a missing useMemo or useCallback, analyze the actual context: how many consumers exist, how frequently re-renders occur, and whether the unstable reference causes measurable issues. If a component has no user interactions that trigger re-renders and the unstable reference is only used in a one-time effect, memoization adds no value.
+Use useCallback for functions passed as props to memoized child components or used in dependency arrays where the unstable reference would cause repeated effect execution or unnecessary child re-renders. Do not wrap every function in useCallback by default.
 Implement code splitting at the route level with React.lazy and Suspense. Consider splitting heavy feature modules (rich text editors, charting libraries) on demand.
 Virtualize long lists and tables (>50 items) using a virtualization library (react-window, react-virtuoso, or @tanstack/react-virtual). Never render hundreds of DOM nodes.
 Debounce or throttle high-frequency events (search inputs, scroll handlers, resize listeners) with appropriate delay values.
@@ -110,5 +109,6 @@ Follow consistent naming conventions: PascalCase for components and types, camel
 Keep files focused: one component per file, one hook per file, one utility per file. Colocate test files next to their source (Component.tsx + Component.test.tsx).
 Avoid magic numbers and strings. Extract them into named constants with clear intent (e.g., const MAX_RETRY_ATTEMPTS = 3).
 Dead code (unused variables, unreachable branches, commented-out blocks) must be removed before merging, not left for "later cleanup."
+Missing trailing newlines at end of files are not a review concern.
 Commit messages should follow Conventional Commits (feat:, fix:, refactor:, test:, docs:, chore:). PRs should have a clear description of what changed and why.
 Prefer early returns over deeply nested conditionals. Functions should have a clear "happy path" with guard clauses at the top.
