@@ -1,7 +1,6 @@
 export interface BaseApiResponse {
     ok: boolean;
     message: string;
-    timestamp: string;
 }
 
 export interface SuccessApiResponse<T> extends BaseApiResponse {

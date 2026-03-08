@@ -5,5 +5,5 @@ import type { ApiResponse } from "@/lib/apiResponses"
 import type { UserSession } from "@/features/auth/types/UserSession"
 
 export const loginService = async (req: LoginRequest): Promise<ApiResponse<UserSession>> => {
-    return await apiClient.post<ApiResponse<UserSession>>(ENDPOINTS_MAP.AUTH.LOGIN, req)
+    return await apiClient.post<UserSession>(ENDPOINTS_MAP.AUTH.LOGIN, req)
 }

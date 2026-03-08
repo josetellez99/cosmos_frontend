@@ -7,6 +7,7 @@ import { registerSchema } from "@/zodSchemas/auth/register-schema";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Loader2 } from "lucide-react";
+import { FormField } from "@/components/ui/form-field";
 
 import * as z from "zod"
 import {
@@ -67,7 +68,49 @@ export const RegisterForm = () => {
             </div>
             <FieldSet className="mb-8">
                 <FieldGroup>
-                    <Controller
+                    <FormField 
+                        name="name" 
+                        control={form.control} 
+                        label="Nombre" 
+                        placeholder="Maria" 
+                        type="text" 
+                    />
+                    <FormField 
+                        name="lastName" 
+                        control={form.control} 
+                        label="Apellido" 
+                        placeholder="Rodriguez" 
+                        type="text" 
+                    />
+                    <FormField 
+                        name="birthDate" 
+                        control={form.control} 
+                        label="Fecha de nacimiento" 
+                        placeholder="DD/MM/YYYY" 
+                        type="date" 
+                    />
+                    <FormField 
+                        name="email" 
+                        control={form.control} 
+                        label="Correo electrónico" 
+                        placeholder="micorreo@dominio.com" 
+                        type="email" 
+                    />
+                    <FormField 
+                        name="password" 
+                        control={form.control} 
+                        label="Contraseña" 
+                        placeholder="********" 
+                        type="password" 
+                    />
+                    <FormField 
+                        name="confirmPassword" 
+                        control={form.control} 
+                        label="Confirmar contraseña" 
+                        placeholder="********" 
+                        type="password" 
+                    />
+                    {/* <Controller
                         name="name"
                         control={form.control}
                         render={({ field, fieldState }) => (
@@ -92,9 +135,9 @@ export const RegisterForm = () => {
                                 )}
                             </Field>
                         )}
-                    />
+                    /> */}
                 </FieldGroup>
-                <Controller
+                {/* <Controller
                     name="birthDate"
                     control={form.control}
                     render={({ field, fieldState }) => (
@@ -145,7 +188,7 @@ export const RegisterForm = () => {
                             )}
                         </Field>
                     )}
-                />
+                /> */}
             </FieldSet>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
                 {isSubmitting && <Loader2 className="animate-spin" />}

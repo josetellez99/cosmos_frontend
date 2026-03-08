@@ -13,6 +13,7 @@ import {
     FieldError,
     FieldLabel,
 } from "@/components/ui/field";
+import { FormField } from "@/components/ui/form-field";
 
 export const LoginForm = () => {
     const { loginUser } = useAuth();
@@ -58,45 +59,19 @@ export const LoginForm = () => {
                 <Typography variant="p">Bienvenido de nuevo a Cosmos</Typography>
             </div>
             <FieldSet className="mb-8">
-                <Controller
-                    name="email"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor={field.name}>
-                                <Typography variant="p">Correo electrónico</Typography>
-                            </FieldLabel>
-                            <Input
-                                id={field.name}
-                                type="email"
-                                placeholder="micorreo@dominio.com"
-                                {...field}
-                            />
-                            {fieldState.invalid && (
-                                <FieldError>{fieldState.error?.message}</FieldError>
-                            )}
-                        </Field>
-                    )}
+                <FormField 
+                    name="email" 
+                    control={form.control} 
+                    label="Correo electrónico" 
+                    placeholder="micorreo@dominio.com" 
+                    type="email" 
                 />
-                <Controller
-                    name="password"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor={field.name}>
-                                <Typography variant="p">Contraseña</Typography>
-                            </FieldLabel>
-                            <Input
-                                id={field.name}
-                                type="password"
-                                placeholder="********"
-                                {...field}
-                            />
-                            {fieldState.invalid && (
-                                <FieldError>{fieldState.error?.message}</FieldError>
-                            )}
-                        </Field>
-                    )}
+                <FormField 
+                    name="password" 
+                    control={form.control} 
+                    label="Contraseña" 
+                    placeholder="********" 
+                    type="password" 
                 />
             </FieldSet>
             <Button type="submit" className="w-full" disabled={isSubmitting}>

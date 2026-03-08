@@ -1,6 +1,6 @@
 import { useSearchParams, useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { AuthLayout } from "@/components/layouts/auth-layout";
 import { Typography } from "@/components/ui/typography";
 import { Loader2, CircleCheck, CircleX } from "lucide-react";
@@ -42,7 +42,7 @@ export const VerifyEmailPage = () => {
             }
         };
         init();
-    }, [token, type]);
+    }, [token, type, verifyEmail]);
 
     useEffect(() => {
         if (status !== "success") return;
@@ -59,7 +59,7 @@ export const VerifyEmailPage = () => {
             clearInterval(interval);
             clearTimeout(timeout);
         };
-    }, [status, navigate]);
+    }, [status, navigate, verifyEmail]);
 
     return (
         <AuthLayout>

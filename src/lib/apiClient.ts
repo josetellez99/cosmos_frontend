@@ -1,5 +1,5 @@
 import type { HttpMethod } from "@/types/http";
-import { ApiError } from "@/lib/ApiError";
+import type { ApiResponse } from "@/lib/apiResponses";
 
 const DEFAULT_TIMEOUT = 10000;
 
@@ -19,7 +19,7 @@ interface ApiClientOptions<TBody = unknown> extends RequestOptions {
 async function request<TResponse, TBody = unknown>(
     endpoint: string,
     { method, body, headers = {}, timeout = DEFAULT_TIMEOUT, signal }: ApiClientOptions<TBody>
-): Promise<TResponse> {
+): Promise<ApiResponse<TResponse>> {
 
     // Timeout via AbortController
     const controller = new AbortController();
@@ -42,26 +42,43 @@ async function request<TResponse, TBody = unknown>(
 
         // Normalize fetch's silent error problem
         if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            throw new ApiError(
-                response.status,
-                errorData?.message ?? `HTTP Error ${response.status}`,
-                errorData
-            );
+            const errorResponse = await response.json().catch(() => null);
+            return {
+                ok: false,
+                message: errorResponse?.message ?? `HTTP Error ${response.status}`,
+                status: response.status,
+                error: errorResponse?.error ?? {
+                    code: 'UNKNOWN_ERROR',
+                    details: {}
+                }
+            };
         }
 
-        return response.json() as Promise<TResponse>;
+        const rawResponse = await response.json();
+        return {
+            ok: true,
+            message: rawResponse.message,
+            data: rawResponse.data
+        };
 
     } catch (error) {
         clearTimeout(timeoutId);
 
-        if (error instanceof ApiError) throw error;
-
-        if (error instanceof DOMException && error.name === 'AbortError') {
-            throw new ApiError(408, 'Request timeout');
+       if (error instanceof DOMException && error.name === 'AbortError') {
+            return {
+                ok: false,
+                message: 'Request timeout',
+                status: 408,
+                error: { code: 'REQUEST_TIMEOUT', details: {} }
+            }
         }
 
-        throw new ApiError(0, 'Network error — no connection');
+        return {
+            ok: false,
+            message: 'Network error — no connection',
+            status: 0,
+            error: { code: 'NETWORK_ERROR', details: {} }
+        }
     }
 }
 
