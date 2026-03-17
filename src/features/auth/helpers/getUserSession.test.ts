@@ -22,4 +22,25 @@ describe("getUserSession", () => {
         document.cookie = "cosmos_user_session=not-valid-json";
         expect(getUserSession()).toBeNull();
     });
+
+    it("finds the session cookie among multiple cookies", () => {
+        const session: UserSession = { name: "Maria", lastName: "Rodriguez", email: "maria@test.com" };
+        document.cookie = "other_cookie=abc";
+        document.cookie = `cosmos_user_session=${encodeURIComponent(JSON.stringify(session))}`;
+        document.cookie = "another_cookie=xyz";
+
+        expect(getUserSession()).toEqual(session);
+    });
+
+    it("handles special characters in user data", () => {
+        const session: UserSession = { name: "José", lastName: "O'Brien", email: "jose+test@dominio.com" };
+        document.cookie = `cosmos_user_session=${encodeURIComponent(JSON.stringify(session))}`;
+
+        expect(getUserSession()).toEqual(session);
+    });
+
+    it("returns null when cookie value is empty", () => {
+        document.cookie = "cosmos_user_session=";
+        expect(getUserSession()).toBeNull(); 
+    });
 })
