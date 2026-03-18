@@ -5,5 +5,5 @@ import type { RegisterResponse } from "@/features/auth/types/response/register"
 import type { ApiResponse } from "@/lib/apiResponses"
 
 export const registerUserService = async (req: RegisterRequest): Promise<ApiResponse<RegisterResponse>> => {
-    return await apiClient.post<ApiResponse<RegisterResponse>>(ENDPOINTS_MAP.AUTH.REGISTER, req)
+    return await apiClient.post<RegisterResponse>(ENDPOINTS_MAP.AUTH.REGISTER, req)
 }
