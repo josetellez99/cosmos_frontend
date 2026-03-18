@@ -10,11 +10,7 @@ This document defines the testing standards, structure, and guidelines for the C
 2. [Testing Stack](#2-testing-stack)
 3. [Project Setup](#3-project-setup)
 4. [File Structure & Naming](#4-file-structure--naming)
-5. [Unit Testing Guidelines](#5-unit-testing-guidelines)
-   - [Phase 1: Manual Mocks (`vi.mock`)](#phase-1-manual-mocks-vimock)
-   - [Phase 2: MSW (Mock Service Worker)](#phase-2-msw-mock-service-worker)
 6. [What to Test — Priority Map](#6-what-to-test--priority-map)
-7. [Detailed Test Specifications by Module](#7-detailed-test-specifications-by-module)
 8. [Coverage Goals](#8-coverage-goals)
 9. [Testing Patterns & Conventions](#9-testing-patterns--conventions)
 10. [Integration Testing](#10-integration-testing)
@@ -110,96 +106,19 @@ This document defines the testing standards, structure, and guidelines for the C
   | Describe blocks match the export name | `describe("loginService", ...)` |
   | Test names describe behavior | `it("returns error when credentials are invalid", ...)` |
 
-## 5. Unit Testing Guidelines
-
-  ### Phase 1: Manual Mocks (`vi.mock`)
-
-    This is your starting approach. You mock dependencies directly using Vitest's `vi.mock()`.
-
-    **How it works:** `vi.mock("@/lib/apiClient")` replaces the real `apiClient` module with a mock. You then control what `apiClient.post` returns per test.
-
-  ### Phase 2: MSW (Mock Service Worker)
-
-    After you're comfortable with Phase 1, migrate to MSW. Instead of mocking JavaScript modules, MSW intercepts actual `fetch()` calls at the network level.
-
-    **Why MSW is the professional standard:**
-    - Tests exercise the **real** `apiClient` code (serialization, headers, error handling).
-    - Mocks match what the backend actually sends — if the API changes, tests catch it.
-    - The same handlers work in unit tests, integration tests, and even in-browser development.
-
 ## 6. What to Test — Priority Map
 
-Modules are prioritized by **impact** (how much breaks if it's wrong) and **testability** (how easy it is to test). Start from Priority 1 and work your way down.
+### Unit testing
 
-### Priority 1 — Pure Logic (No dependencies, no DOM)
+1. Zod schemas
+2. Helpers and utils
+3. Abstractions (apiClient, etc)
+4. Service functions (that add something more than just call the apiClient)
+5. Hook functions
+6. Components (guards, forms, ui, etc)
 
-These are the fastest to test and give the most confidence per line of test code.
+### Integration test:
 
-| Module | File | What to Test |
-|--------|------|-------------|
-| Zod Schemas | `zodSchemas/auth/login-schema.ts` | Valid input passes, invalid input returns correct errors |
-| Zod Schemas | `zodSchemas/auth/register-schema.ts` | All validations including password match refine |
-| Helpers | `features/auth/helpers/getUserSession.ts` | Cookie parsing, missing cookie, malformed JSON |
-| Utilities | `lib/utils.ts` | `cn()` merges classes correctly |
-
-### Priority 2 — API Layer (Mock fetch or use MSW)
-
-| Module | File | What to Test |
-|--------|------|-------------|
-| API Client | `lib/apiClient.ts` | Success responses, HTTP errors, timeouts, network errors |
-| Services | `features/auth/services/login.ts` | Correct endpoint + body, success/error propagation |
-| Services | `features/auth/services/register.ts` | Same as login |
-| Services | `features/auth/services/verify-email-service.ts` | Same as login |
-
-### Priority 3 — Hooks (Require wrapper providers)
-
-| Module | File | What to Test |
-|--------|------|-------------|
-| useAuth | `features/auth/hooks/useAuth.ts` | Calls correct service, updates context on login, throws without provider |
-
-### Priority 4 — Components (Require DOM + user interactions)
-
-| Module | File | What to Test |
-|--------|------|-------------|
-| LoginForm | `features/auth/components/login-form.tsx` | Renders fields, validates on submit, shows errors, navigates on success |
-| RegisterForm | `features/auth/components/register-form.tsx` | Same + password match validation |
-| ProtectedRoute | `components/guards/protected-route.tsx` | Redirects when no user, renders outlet when authenticated |
-| GuestRoute | `components/guards/guest-route.tsx` | Redirects when user exists, renders outlet when guest |
-
-## 7. Detailed Test Specifications by Module
-
-### 7.1 Zod Schemas
-
-### 7.2 `getUserSession` Helper
-
-### 7.4 `apiClient`
-
-**File:** `src/lib/apiClient.test.ts`
-
-This is the most important unit to test thoroughly because every service depends on it.
-
-Test cases:
-- **Successful GET** — returns `{ ok: true, data }` from JSON response
-- **Successful POST** — sends JSON body, correct Content-Type header, credentials: include
-- **HTTP error (e.g. 401)** — returns `{ ok: false, status: 401, error }` with parsed error body
-- **HTTP error with unparseable body** — falls back to `"HTTP Error {status}"` message
-- **Network error** — fetch throws, returns `{ ok: false, status: 0, error: { code: "NETWORK_ERROR" } }`
-- **Timeout** — returns `{ ok: false, status: 408, error: { code: "REQUEST_TIMEOUT" } }`
-- **Custom headers** — caller's headers are merged with defaults
-
-> For `apiClient` tests, mock `fetch` globally with `vi.stubGlobal("fetch", vi.fn())` since this module calls `fetch` directly. In Phase 2 (MSW), these tests become even cleaner.
-
----
-
-### 7.5 Auth Services (`login`, `register`, `verify-email-service`)
-
-See the Phase 1 and Phase 2 examples in [Section 5](#5-unit-testing-guidelines). Each service is a thin wrapper around `apiClient`, so tests should verify:
-
-1. The correct endpoint is called
-2. The request body is forwarded
-3. The response is returned as-is (no transformation)
-
----
 
 ### 7.6 `useAuth` Hook
 
