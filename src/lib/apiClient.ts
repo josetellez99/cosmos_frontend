@@ -64,7 +64,7 @@ async function request<TResponse, TBody = unknown>(
     } catch (error) {
         clearTimeout(timeoutId);
 
-       if (error instanceof DOMException && error.name === 'AbortError') {
+       if ( error instanceof Error && error.name === 'AbortError') {
             return {
                 ok: false,
                 message: 'Request timeout',
@@ -100,3 +100,5 @@ export const apiClient = {
     delete: <TResponse>(endpoint: string, options?: RequestOptions) =>
         request<TResponse>(endpoint, { method: 'DELETE', ...options }),
 };
+
+console.log('madre mia')
