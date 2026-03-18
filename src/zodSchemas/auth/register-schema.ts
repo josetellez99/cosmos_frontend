@@ -4,7 +4,13 @@ export const registerSchema = z
     .object({
         name: z.string().min(1, "El nombre es obligatorio"),
         lastName: z.string().min(1, "El apellido es obligatorio"),
-        birthDate: z.string().min(1, "La fecha de nacimiento es obligatoria"),
+        birthDate: z.
+            string()
+            .min(1, "La fecha de nacimiento es obligatoria")
+            .refine((date) => !isNaN(new Date(date).getTime()), {
+                message: "La fecha de nacimiento no es válida",
+                path: ["birthDate"],
+            }),
         email: z
             .string()
             .min(1, "El correo electrónico es obligatorio")
