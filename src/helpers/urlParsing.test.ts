@@ -6,6 +6,10 @@ describe("parseObjectParamsToUrlQueryString", () => {
         expect(parseObjectParamsToUrlQueryString(object)).toBe("")
     })
 
+    it("should return an empty string when no params are passed (undefined)", () => {
+        expect(parseObjectParamsToUrlQueryString()).toBe("")
+    })
+
     it("should return a query string with a single param", () => {
         const object = { orderBy: "temporality" }
         expect(parseObjectParamsToUrlQueryString(object)).toBe("?orderBy=temporality")
