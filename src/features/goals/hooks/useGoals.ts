@@ -1,32 +1,28 @@
-import { useState } from "react";
+import { useQuery } from '@tanstack/react-query'
+import type { GetUserGoalsRequest } from '@/features/goals/types/request/get-user-goals'
+import type { GoalSummaryResponse } from '@/features/goals/types/response/user-goals'
+import { getUserGoalsService } from '@/features/goals/services/get-goals-service'
+import { goalQueryKeys } from '@/features/goals/helpers/queryKeys'
 
-import type { GetUserGoalsRequest } from "@/features/goals/types/request/get-user-goals"
-import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals"
-import type { ApiResponse } from "@/lib/apiResponses"
+export const useGoals = (filters?: GetUserGoalsRequest) => {
 
-import { getUserGoalsService } from "@/features/goals/services/get-goals-service"
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: goalQueryKeys.list(filters),
+    queryFn: () => getUserGoalsService(filters),
+  })
 
-export const useGoals = () => {
-    
-    const [goals, setGoals] = useState<GoalSummaryResponse[]>([])
-    const [goalsError, setGoalsError] = useState<string>()
+  let goals: GoalSummaryResponse[];
 
-    const getUserGoals = async (req?: GetUserGoalsRequest) => {
-        const response = await getUserGoalsService(req)
-        if(response.ok) {
-            setGoals(response.data)
-        } else {
-            setGoalsError(response.message)
-        }
-    }
+  if(data && data.ok) {
+    goals = data.data
+  } else {
+    goals = []
+  }
 
-    return {
-        goals,
-        goalsError,
-        getUserGoals
-    }
-};
-
-// TODO: get all goals by default (status active, temporality yearly)
-// TODO: egt archieved goals
-// TODO: get goals by temporality
+  return {
+    goals,
+    isLoading,
+    error,
+    refetch
+  }
+}
