@@ -6,6 +6,7 @@ import { ConfirmEmail } from '@/pages/confirm-email';
 import { VerifyEmailPage } from '@/pages/verify-email-page';
 import { ProtectedRoute } from '@/components/guards/protected-route';
 import { GuestRoute } from '@/components/guards/guest-route';
+import { GoalsPage } from '@/pages/goals-page';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
       {/** Protected routes **/}
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<p>Hello world</p>} />
+        <Route path="goals" element={<GoalsPage />} />
       </Route>
     </Routes>
   )
