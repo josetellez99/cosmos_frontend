@@ -1,4 +1,4 @@
-export const parseObjectParamsToUrlQueryString = <T extends Record<string, string>>(obj: T): string => {
+export const parseObjectParamsToUrlQueryString = <T extends Record<string, any>>(obj: T): string => {
     const queryString = "?" + new URLSearchParams(obj).toString();
     if(Object.entries(obj).length === 0) {
         return ""
