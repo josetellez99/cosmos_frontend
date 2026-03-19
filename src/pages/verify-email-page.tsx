@@ -1,6 +1,6 @@
 import { useSearchParams, useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { AuthLayout } from "@/components/layouts/auth-layout";
 import { Typography } from "@/components/ui/typography";
 import { Loader2, CircleCheck, CircleX } from "lucide-react";
