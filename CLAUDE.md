@@ -65,3 +65,7 @@ Database types are generated from Supabase. To regenerate: `npx supabase gen typ
 ### TypeScript
 
 Strict mode enabled with `noUnusedLocals` and `noUnusedParameters`. Target ES2022, bundler module resolution.
+
+### Conventions
+
+- Always use the absolute import strategy "@/features/auth/..."
