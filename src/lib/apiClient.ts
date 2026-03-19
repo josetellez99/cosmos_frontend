@@ -100,5 +100,3 @@ export const apiClient = {
     delete: <TResponse>(endpoint: string, options?: RequestOptions) =>
         request<TResponse>(endpoint, { method: 'DELETE', ...options }),
 };
-
-console.log('madre mia')
