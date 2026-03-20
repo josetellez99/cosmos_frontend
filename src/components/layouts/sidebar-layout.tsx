@@ -1,6 +1,15 @@
 import { RootLayout } from "@/components/layouts/root-layout";
+import type { ReactNode } from "react";
+import { useUiContext } from "@/hooks/useUiContext";
 
-export const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
+interface props {
+    children: ReactNode,
+}
+
+export const SidebarLayout = ({ children }: props) => {
+
+    const { isSidebarOpened } = useUiContext()
+
     return (
         <RootLayout>
             <div className="flex">
