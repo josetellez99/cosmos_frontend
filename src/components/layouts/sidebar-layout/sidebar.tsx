@@ -9,12 +9,12 @@ export const Sidebar = () => {
 
     return (
         <>
-            <div className="fixed top-0 left-0 h-screen w-[90%] bg-white z-[70] shadow-2xl rounded-tr-[40px] rounded-br-[40px] flex flex-col p-8 pt-12 animate-in slide-in-from-left duration-500 ease-out max-w-sm">
+            <div className="fixed top-0 left-0 h-screen w-[90%] bg-white z-[70] shadow-2xl rounded-tr-[20px] rounded-br-[20px] flex flex-col p-4 pt-4 animate-in slide-in-from-left duration-500 ease-out max-w-sm">
                 <div className="flex justify-end mb-4">
                     <CloseButton onClick={() => setIsSidebarOpened(false)} />
                 </div>
                 <div>
-                    {/* Sidebar content */}
+                    Hello world
                 </div>
             </div>
 
