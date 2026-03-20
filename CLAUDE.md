@@ -27,15 +27,50 @@ React 19 + TypeScript + Vite app with Tailwind CSS v4 and shadcn UI components.
 
 ### Path Alias
 
-`@/*` maps to `./src/*` (configured in tsconfig and vite).
+`@/*` maps to `./src/*` (always use this importing strategy).
 
 ### API Pattern
 
 Services call `apiClient` methods and return `ApiResponse<T>` — a discriminated union (`SuccessApiResponse<T> | ErrorApiResponse`). Check `response.ok` to narrow the type. API base URL comes from `VITE_API_URL` env var.
 
+### Data Flow Pattern (TanStack Query)
+
+**Standard flow for all async data:**
+```
+UI Component → Custom Hook (useQuery/useMutation) → Service Layer → apiClient
+```
+
+**For queries (fetching data):**
+1. Create query key factory in `src/features/<feature>/helpers/queryKeys.ts` with hierarchical structure (see `goalQueryKeys`)
+2. Create `useGet<Feature>()` hook in `src/features/<feature>/hooks/` that wraps `useQuery()`
+3. Hook calls service function from `src/features/<feature>/services/`
+4. Service calls `apiClient.get()` and returns `ApiResponse<T>`
+5. Hook extracts data via `response.ok` check, exposes `{ data, isLoading, error, refetch }`
+6. UI component renders based on states; no `useEffect` needed — query hook handles fetching on mount
+
+**For mutations (create/update/delete):**
+1. Create `useCreate<Feature>()`, `useUpdate<Feature>()`, `useDelete<Feature>()` hooks in `src/features/<feature>/hooks/`
+2. Hook wraps `useMutation()` with service function
+3. Implement `onMutate` for optimistic updates (snapshot current cache, update UI immediately)
+4. Implement `onError` for rollback (restore snapshot if mutation fails)
+5. Implement `onSuccess` for query invalidation (invalidate related list queries to refetch)
+6. Hook exposes `{ mutate, isPending, error, data }`
+
+**Query key hierarchy pattern:**
+- `all: ['<feature>']` — top-level scope
+- `lists: () => [... , 'list']` — all list queries
+- `list: (filters?) => [... , { filters }]` — specific list with filters
+- `details: () => [... , 'detail']` — all detail queries
+- `detail: (id) => [... , id]` — specific item detail
+
+This enables granular invalidation: invalidate `lists()` to refetch all filtered views, but `detail(id)` stays cached if only one item changes.
+
+**See implementation:** Goals feature (`src/features/goals/`) is the reference implementation.
+
 ### Form Pattern
 
 Forms use React Hook Form + Zod schema + `zodResolver`. Schemas live in `src/zodSchemas/`, form components in feature directories.
+We have a component @/components/ui/FormField which is the standard component to use in the forms as inputs of different types
 
 ### Styling
 
@@ -67,5 +102,3 @@ Database types are generated from Supabase. To regenerate: `npx supabase gen typ
 Strict mode enabled with `noUnusedLocals` and `noUnusedParameters`. Target ES2022, bundler module resolution.
 
 ### Conventions
-
-- Always use the absolute import strategy "@/features/auth/..."
