@@ -1,5 +1,6 @@
 import { useGoals } from "@/features/goals/hooks";
 import { SidebarLayout } from "@/components/layouts/sidebar-layout/sidebar-layout";
+import { GoalsList } from "@/features/goals/components/goals-list";
 
 export const GoalsPage = () => {
 
@@ -17,15 +18,7 @@ export const GoalsPage = () => {
         <SidebarLayout>
             <div>
                 <h1>Goals</h1>
-                {goals.length === 0 ? (
-                    <p>No goals found</p>
-                ) : (
-                    <ul>
-                        {goals.map((goal) => (
-                            <li key={goal.id}>{goal.name}</li>
-                        ))}
-                    </ul>
-                )}
+                <GoalsList goals={goals} />
             </div>
         </SidebarLayout>
     );
