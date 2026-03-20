@@ -1,6 +1,9 @@
 import { useGoals } from "@/features/goals/hooks";
+import { SidebarLayout } from "@/components/layouts/sidebar-layout";
+import { HambugerButton } from "@/components/ui/hamburger-button";
 
 export const GoalsPage = () => {
+
     const { goals, isLoading, error } = useGoals();
 
     if (isLoading) {
@@ -12,17 +15,22 @@ export const GoalsPage = () => {
     }
 
     return (
-        <div>
-            <h1>Goals</h1>
-            {goals.length === 0 ? (
-                <p>No goals found</p>
-            ) : (
-                <ul>
-                    {goals.map((goal) => (
-                        <li key={goal.id}>{goal.name}</li>
-                    ))}
-                </ul>
-            )}
-        </div>
+        <SidebarLayout>
+            <div>
+                <HambugerButton />
+            </div>
+            <div>
+                <h1>Goals</h1>
+                {goals.length === 0 ? (
+                    <p>No goals found</p>
+                ) : (
+                    <ul>
+                        {goals.map((goal) => (
+                            <li key={goal.id}>{goal.name}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        </SidebarLayout>
     );
 };
