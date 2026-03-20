@@ -8,6 +8,7 @@ import { AuthContextProvider } from "@/providers/AuthContextProvider";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBoundaryUI } from "@/components/ui/error-boundary-ui";
 import { queryClient } from '@/lib/queryClient'
+import { UiContextProvider } from '@/providers/UiContextProvider.tsx';
 
 window.addEventListener('unhandledrejection', (event) => {
   event.preventDefault()
@@ -19,9 +20,11 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthContextProvider>
-          <ErrorBoundary fallback={<ErrorBoundaryUI />}>
-            <App />
-          </ErrorBoundary>
+            <UiContextProvider>
+              <ErrorBoundary fallback={<ErrorBoundaryUI />}>
+                <App />
+              </ErrorBoundary>
+            </UiContextProvider>
         </AuthContextProvider>
       </BrowserRouter>
     </QueryClientProvider>
