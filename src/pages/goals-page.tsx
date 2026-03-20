@@ -1,6 +1,5 @@
 import { useGoals } from "@/features/goals/hooks";
-import { SidebarLayout } from "@/components/layouts/sidebar-layout";
-import { HambugerButton } from "@/components/ui/hamburger-button";
+import { SidebarLayout } from "@/components/layouts/sidebar-layout/sidebar-layout";
 
 export const GoalsPage = () => {
 
@@ -16,9 +15,6 @@ export const GoalsPage = () => {
 
     return (
         <SidebarLayout>
-            <div>
-                <HambugerButton />
-            </div>
             <div>
                 <h1>Goals</h1>
                 {goals.length === 0 ? (
