@@ -128,7 +128,17 @@
 }
 
 @layer utilities {
+
   .card-radius {
     border-radius: var(--card-radius);
   }
+
+}
+
+@layer components {
+
+  .mobile-page-padding {
+    padding: 16px 12px
+  }
+
 }
