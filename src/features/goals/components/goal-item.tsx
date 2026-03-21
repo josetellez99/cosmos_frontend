@@ -13,8 +13,8 @@ interface props {
 }
 
 export const GoalItem = ({ goal }: props) => {
-
-    const isYearly = goal.temporality === goalTemporality.YEAR;
+    
+  const isYearly = goal.temporality === goalTemporality.YEAR;
 
   const borderColor = isYearly ? strengthenColor(goal.color, 0.08) : undefined;
   const accentColor = isYearly ? strengthenColor(goal.color, 0.9) : undefined;
@@ -25,7 +25,7 @@ export const GoalItem = ({ goal }: props) => {
       <div
         className={cn(
           "p-4 default-card-rounded",
-          !isYearly && "bg-white border border-gray-300"
+          !isYearly && "bg-white border border-gray-300",
         )}
         style={
           isYearly
@@ -47,21 +47,21 @@ export const GoalItem = ({ goal }: props) => {
             </Typography>
           </div>
           <div className="flex items-center gap-3">
-              <span
-                style={{
-                  color: accentColor,
-                  backgroundColor: "white",
-                  borderRadius: "40%",
-                  paddingInline: "8px",
-                  paddingBlock: "4px",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                className={cn("text-xs font-semibold")}
-              >
-                {goal.progress}%
-              </span>
+            <span
+              style={{
+                color: accentColor,
+                backgroundColor: "white",
+                borderRadius: "40%",
+                paddingInline: "8px",
+                paddingBlock: "4px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              className={cn("text-xs font-semibold")}
+            >
+              {goal.progress}%
+            </span>
           </div>
         </div>
 
@@ -74,7 +74,9 @@ export const GoalItem = ({ goal }: props) => {
           }
         >
           <div
-            className={cn("h-full transition-all duration-1000 ease-out rounded-full")}
+            className={cn(
+              "h-full transition-all duration-1000 ease-out rounded-full",
+            )}
             style={{
               width: `${goal.progress}%`,
               backgroundColor: accentColor,
