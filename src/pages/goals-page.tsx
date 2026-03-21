@@ -1,6 +1,7 @@
 import { useGoals } from "@/features/goals/hooks";
 import { SidebarLayout } from "@/components/layouts/sidebar-layout/sidebar-layout";
 import { GoalsList } from "@/features/goals/components/goals-list";
+import { Typography } from "@/components/ui/typography";
 
 export const GoalsPage = () => {
 
@@ -17,7 +18,7 @@ export const GoalsPage = () => {
     return (
         <SidebarLayout>
             <div>
-                <h1>Goals</h1>
+                <Typography variant='h3'>Metas anuales</Typography>
                 <GoalsList goals={goals} />
             </div>
         </SidebarLayout>
