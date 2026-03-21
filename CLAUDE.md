@@ -102,3 +102,6 @@ Database types are generated from Supabase. To regenerate: `npx supabase gen typ
 Strict mode enabled with `noUnusedLocals` and `noUnusedParameters`. Target ES2022, bundler module resolution.
 
 ### Conventions
+
+Pages components assemble other components
+Lists of elements that can be rendered in the page component must to be to a generic list of components
