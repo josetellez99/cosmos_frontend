@@ -51,7 +51,7 @@
 
 :root {
   --radius: 0.75rem;
-  --background: #f7f8fd;
+  --background: #fbfbfb;
   --foreground: #363637;
 
   --primary: #32085C;
@@ -138,7 +138,15 @@
 @layer components {
 
   .mobile-page-padding {
-    padding: 16px 12px
+    padding: 16px 16px
+  }
+
+  .default-spacing-between-list-elements {
+    gap: 1rem
+  }
+
+  .default-card-rounded {
+    border-radius: 24px;
   }
 
 }
