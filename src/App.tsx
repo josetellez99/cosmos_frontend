@@ -7,6 +7,7 @@ import { VerifyEmailPage } from '@/pages/verify-email-page';
 import { ProtectedRoute } from '@/components/guards/protected-route';
 import { GuestRoute } from '@/components/guards/guest-route';
 import { GoalsPage } from '@/pages/goals-page';
+import { appRoutes } from '@/lib/constants/routes';
 
 function App() {
 
@@ -14,16 +15,16 @@ function App() {
     <Routes>
       {/** Guest-only routes (redirects to / if authenticated) **/}
       <Route element={<GuestRoute />}>
-        <Route path="register" element={<RegisterPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="confirm-email" element={<ConfirmEmail />} />
-        <Route path="verify-email" element={<VerifyEmailPage />} />
+        <Route path={appRoutes.REGISTER} element={<RegisterPage />} />
+        <Route path={appRoutes.LOGIN} element={<LoginPage />} />
+        <Route path={appRoutes.CONFIRM_EMAIL} element={<ConfirmEmail />} />
+        <Route path={appRoutes.VERIFY_EMAIL} element={<VerifyEmailPage />} />
       </Route>
 
       {/** Protected routes **/}
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<p>Hello world</p>} />
-        <Route path="goals" element={<GoalsPage />} />
+        <Route path={appRoutes.DASHBOARD} element={<p>Hello world</p>} />
+        <Route path={appRoutes.GOALS} element={<GoalsPage />} />
       </Route>
     </Routes>
   )
