@@ -12,7 +12,5 @@ export const goalTemporality = temporalityValues.reduce(
   {} as Record<string, typeof temporalityValues[number]>
 );
 
-console.log(goalTemporality)
-
 // Type-safe access
 export type GoalTemporalityKey = keyof typeof goalTemporality;
