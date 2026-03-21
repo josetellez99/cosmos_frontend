@@ -13,7 +13,7 @@ interface props {
 }
 
 export const GoalItem = ({ goal }: props) => {
-    
+
   const isYearly = goal.temporality === goalTemporality.YEAR;
 
   const borderColor = isYearly ? strengthenColor(goal.color, 0.08) : undefined;
@@ -25,7 +25,7 @@ export const GoalItem = ({ goal }: props) => {
       <div
         className={cn(
           "p-4 default-card-rounded",
-          !isYearly && "bg-white border border-gray-300",
+          !isYearly && "bg-white border border-gray-200",
         )}
         style={
           isYearly
@@ -49,7 +49,7 @@ export const GoalItem = ({ goal }: props) => {
           <div className="flex items-center gap-3">
             <span
               style={{
-                color: accentColor,
+                color: isYearly ? accentColor : "var(--primary)",
                 backgroundColor: "white",
                 borderRadius: "40%",
                 paddingInline: "8px",
@@ -79,7 +79,7 @@ export const GoalItem = ({ goal }: props) => {
             )}
             style={{
               width: `${goal.progress}%`,
-              backgroundColor: accentColor,
+              backgroundColor: isYearly ? accentColor : "var(--primary)",
             }}
           />
         </div>

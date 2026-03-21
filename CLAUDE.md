@@ -105,3 +105,4 @@ Strict mode enabled with `noUnusedLocals` and `noUnusedParameters`. Target ES202
 
 Pages components assemble other components
 Lists of elements that can be rendered in the page component must to be to a generic list of components
+No magic strings
