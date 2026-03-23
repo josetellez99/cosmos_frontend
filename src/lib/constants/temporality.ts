@@ -14,3 +14,22 @@ export const goalTemporality = temporalityValues.reduce(
 
 // Type-safe access
 export type GoalTemporalityKey = keyof typeof goalTemporality;
+
+// Derive a named type from the enum array
+export type GoalTemporalityType = typeof temporalityValues[number];
+
+// Spanish labels — Record ensures exhaustiveness at compile time
+export const TEMPORALITY_LABELS: Record<GoalTemporalityType, string> = {
+  'long_term': 'Largo plazo',
+  'year': 'Año',
+  'semester': 'Semestre',
+  'quarter': 'Trimestre',
+  'month': 'Mes',
+  'week': 'Semana',
+  'day': 'Día',
+};
+
+// Filter options — excludes 'year' (static section above) and 'day' (shown in dastboard)
+export const TEMPORALITY_FILTER_OPTIONS = temporalityValues
+  .filter(v => v !== goalTemporality.YEAR && v !== goalTemporality.DAY)
+  .map(v => ({ value: v, label: TEMPORALITY_LABELS[v] }));
