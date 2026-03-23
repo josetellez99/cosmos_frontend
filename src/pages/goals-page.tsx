@@ -5,14 +5,15 @@ import { GoalsList } from "@/features/goals/components/goals-list";
 import { Typography } from "@/components/ui/typography";
 import { GoalsTemporalityFilter } from "@/features/goals/components/goals-temporality-filter";
 import { GoalsListSkeleton } from "@/components/loaders/goals-list-skeleton";
-import type { GoalTemporalityType } from "@/lib/constants/temporality";
+import { goalTemporality, type GoalTemporalityType } from "@/lib/constants/temporality";
+import { defaultYearlyGoalReq, goalsPageDynamicFiltersReq } from '@/features/goals/constants/reqObjects';
 
 export const GoalsPage = () => {
 
-    const { goals, isLoading, error } = useGoals({temporality: 'year'});
+    const { goals, isLoading, error } = useGoals(defaultYearlyGoalReq);
 
-    const [selectedTemporality, setSelectedTemporality] = useState<GoalTemporalityType>('semester');
-    const { goals: filteredGoals, isLoading: isFilteredLoading } = useGoals({ temporality: selectedTemporality });
+    const [selectedTemporality, setSelectedTemporality] = useState<GoalTemporalityType>(goalTemporality.SEMESTER);
+    const { goals: filteredGoals, isLoading: isFilteredLoading } = useGoals(goalsPageDynamicFiltersReq);
 
     if (isLoading) {
         return <div>Loading goals...</div>;

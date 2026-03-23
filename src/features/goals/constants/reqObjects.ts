@@ -10,3 +10,12 @@ export const defaultYearlyGoalReq: GetUserGoalsRequest = {
     startDate: `${currentYear}-01-01`,
     endDate: `${currentYear}-12-31`
 }
+
+export const goalsPageDynamicFiltersReq: GetUserGoalsRequest = {
+    temporality: ['semester'],
+    status: ["not started", "in progress", "completed"],
+    orderBy: 'sort_order',
+    order: 'ASC',
+    startDate: `${currentYear}-01-01`,
+    endDate: `${currentYear}-12-31`
+}
