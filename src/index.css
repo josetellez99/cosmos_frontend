@@ -141,8 +141,16 @@
     padding: 16px 16px
   }
 
-  .default-spacing-between-list-elements {
+  .spacing-in-list-elements {
     gap: 1rem
+  }
+
+  .spacing-in-title-section {
+    margin-bottom: 1rem;
+  }
+
+  .spacing-in-sections {
+    margin-bottom: 2rem;
   }
 
   .default-card-rounded {

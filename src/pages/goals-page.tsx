@@ -24,14 +24,20 @@ export const GoalsPage = () => {
 
     return (
         <SidebarLayout>
-            <div>
-                <Typography variant='h3'>Metas anuales</Typography>
+            <div className='spacing-in-sections'>
+                <div className='spacing-in-title-section'>
+                    <Typography variant='h3'>Metas anuales</Typography>
+                </div>
                 <GoalsList goals={goals} />
             </div>
 
             <div>
-                <Typography variant='h3'>Otras metas</Typography>
-                <GoalsTemporalityFilter value={selectedTemporality} onChange={setSelectedTemporality} />
+                <div className='spacing-in-title-section'>
+                    <Typography variant='h3'>Otras metas</Typography>
+                </div>
+                <div className='spacing-in-title-section'>
+                    <GoalsTemporalityFilter value={selectedTemporality} onChange={setSelectedTemporality} />
+                </div>
                 {isFilteredLoading
                     ? <GoalsListSkeleton count={3} />
                     : <GoalsList goals={filteredGoals} />

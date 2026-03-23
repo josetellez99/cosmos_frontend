@@ -7,7 +7,7 @@ interface props {
 
 export const GoalsList = ({ goals } : props) => {
     return (
-        <ul className="flex flex-col default-spacing-between-list-elements">
+        <ul className="flex flex-col spacing-in-list-elements">
             {goals.map((goal) => (
                 <li key={goal.id}>
                     <GoalItem goal={goal} />
