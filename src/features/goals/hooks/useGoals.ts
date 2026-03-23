@@ -9,6 +9,7 @@ export const useGoals = (filters?: GetUserGoalsRequest) => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: goalQueryKeys.list(filters),
     queryFn: () => getUserGoalsService(filters),
+    staleTime: 10 * 60 * 1000,
   })
 
   let goals: GoalSummaryResponse[];
