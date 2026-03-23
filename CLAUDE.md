@@ -106,3 +106,5 @@ Strict mode enabled with `noUnusedLocals` and `noUnusedParameters`. Target ES202
 Pages components assemble other components
 Lists of elements that can be rendered in the page component must to be to a generic list of components
 No magic strings
+Wgen want reusable components and standarization in styles, things like margins or gaps, are not define in a unit element like a button or an element that will be use in a list. We delegate that responsability to the parent component that will set a <div> with className with styles that are the standard. (you can see the implementation of this in @/pages/goals-apge.tsx)
+In the file /index.css we define the global styles and always we look for standarization 
