@@ -19,6 +19,10 @@ describe("parseObjectParamsToUrlQueryString", () => {
         const object = { orderBy: "temporality", status: "active", page: "2" }
         expect(parseObjectParamsToUrlQueryString(object)).toBe("?orderBy=temporality&status=active&page=2")
     })
+    it("should return a query string with multiple values for the same key, passign an array", () => {
+        const object = { status: ['not started', 'completed']}
+        expect(parseObjectParamsToUrlQueryString(object)).toBe("?status=not+started%2Ccompleted")
+    })
 
     it("should encode special characters in values", () => {
         const object = { search: "hello world", filter: "a&b=c" }
