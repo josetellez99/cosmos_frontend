@@ -8,7 +8,7 @@ import {
 import {
   TEMPORALITY_FILTER_OPTIONS,
   type GoalTemporalityType,
-} from '@/lib/constants/temporality';
+} from '@/lib/constants/goals_temporalities';
 import type { GetUserGoalsRequest } from '@/features/goals/types/request/get-user-goals';
 import { getTemporalityDateRange } from '@/features/goals/helpers/temporalityDateRange';
 

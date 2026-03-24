@@ -3,7 +3,7 @@ import { useGoalsSuspense } from '@/features/goals/hooks'
 import { GoalsList } from '@/features/goals/components/goals-list'
 import { GoalsTemporalityFilter } from '@/features/goals/components/goals-temporality-filter'
 import { goalsPageDynamicFiltersReq } from '@/features/goals/constants/reqObjects'
-import { goalTemporality, type GoalTemporalityType } from '@/lib/constants/temporality'
+import { goalTemporality, type GoalTemporalityType } from '@/lib/constants/goals_temporalities'
 import type { GetUserGoalsRequest } from '@/features/goals/types/request/get-user-goals'
 
 export const FilteredGoalsSection = () => {

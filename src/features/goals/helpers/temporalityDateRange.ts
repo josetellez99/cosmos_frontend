@@ -1,4 +1,4 @@
-import type { GoalTemporalityType } from '@/lib/constants/temporality'
+import type { GoalTemporalityType } from '@/lib/constants/goals_temporalities'
 
 const formatDate = (date: Date): string => {
     const year = date.getFullYear()
