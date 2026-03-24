@@ -16,6 +16,10 @@ export const GoalsPage = () => {
     const { goals, isLoading, error } = useGoals(defaultYearlyGoalReq);
     const { goals: filteredGoals, isLoading: isFilteredLoading } = useGoals(filters);
 
+    const handleFilterChange = useCallback((updated: Partial<GetUserGoalsRequest>) => {
+        setFilters(prev => ({ ...prev, ...updated }))
+    }, [])
+
 
     if (isLoading) {
         return <div>Loading goals...</div>;
@@ -25,9 +29,7 @@ export const GoalsPage = () => {
         return <div>Error loading goals: {error?.message}</div>;
     }
 
-    const handleFilterChange = useCallback((updated: Partial<GetUserGoalsRequest>) => {
-        setFilters(prev => ({ ...prev, ...updated }))
-    }, [])
+   
 
     return (
         <SidebarLayout>
