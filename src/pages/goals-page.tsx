@@ -53,6 +53,7 @@ export const GoalsPage = () => {
                     : <GoalsList goals={filteredGoals} />
                 }
             </div>
+
         </SidebarLayout>
     );
 };
