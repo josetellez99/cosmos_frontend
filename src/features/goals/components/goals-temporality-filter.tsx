@@ -9,10 +9,12 @@ import {
   TEMPORALITY_FILTER_OPTIONS,
   type GoalTemporalityType,
 } from '@/lib/constants/temporality';
+import type { GetUserGoalsRequest } from '@/features/goals/types/request/get-user-goals';
+import { getTemporalityDateRange } from '@/features/goals/helpers/temporalityDateRange';
 
 interface GoalsTemporalityFilterProps {
   value: GoalTemporalityType;
-  onChange: (temporality: GoalTemporalityType) => void;
+  onChange: (updated: Pick<GetUserGoalsRequest, 'temporality' | 'startDate' | 'endDate'>) => void;
 }
 
 export const GoalsTemporalityFilter = ({
@@ -20,7 +22,13 @@ export const GoalsTemporalityFilter = ({
   onChange,
 }: GoalsTemporalityFilterProps) => {
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select
+      value={value}
+      onValueChange={(val) => {
+        const temporality = val as GoalTemporalityType;
+        onChange({ temporality: [temporality], ...getTemporalityDateRange(temporality) });
+      }}
+    >
       <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>
