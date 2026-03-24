@@ -40,7 +40,7 @@ export const GoalsPage = () => {
 
             <div>
                 <div className='spacing-in-title-section'>
-                    <Typography variant='h3'>Otras metas</Typography>
+                    <Typography variant='h3'>Todas tus metas</Typography>
                 </div>
                 <div className='spacing-in-title-section'>
                     <GoalsTemporalityFilter
