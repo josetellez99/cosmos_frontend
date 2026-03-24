@@ -3,8 +3,8 @@ import { SidebarLayout } from '@/components/layouts/sidebar-layout/sidebar-layou
 import { Typography } from '@/components/ui/typography'
 import { YearlyGoalsSection } from '@/features/goals/components/yearly-goals-section'
 import { FilteredGoalsSection } from '@/features/goals/components/filtered-goals-section'
-import { GoalsListSkeleton } from '@/components/loaders/goals-list-skeleton'
-import { FilteredGoalsSectionSkeleton } from '@/components/loaders/pages/goals-page/filtered-goals-section-skeleton'
+import { GoalsListSkeleton } from '@/components/ui/loaders/goals-list-skeleton'
+import { FilteredGoalsSectionSkeleton } from '@/features/goals/components/loaders/filtered-goals-section-skeleton'
 
 export const GoalsPage = () => (
     <SidebarLayout>
