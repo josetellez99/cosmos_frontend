@@ -9,5 +9,3 @@ export const parseObjectParamsToUrlQueryString = <T extends Record<string, any>>
         return queryString
     }
 }
-
-parseObjectParamsToUrlQueryString()

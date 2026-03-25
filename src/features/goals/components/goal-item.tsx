@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/helpers/cnTailwind";
 import { Link } from "react-router";
 import { Typography } from "@/components/ui/typography";
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals";

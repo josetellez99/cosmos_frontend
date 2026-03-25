@@ -1,7 +1,7 @@
 import { http, HttpResponse, delay } from "msw";
 import { server } from "@/tests/mocks/server";
 import { apiClient } from "./apiClient";
-import type { SuccessApiResponse } from "@/lib/apiResponses";
+import type { SuccessApiResponse } from "@/types/apiResponses";
 import type { UserSession } from "@/features/auth/types/UserSession";
 
 const TEST_URL = "http://localhost:8080/api/v1/test";

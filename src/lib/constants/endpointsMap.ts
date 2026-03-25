@@ -1,4 +1,4 @@
-import { API_URL } from "@/lib/constants"
+import { API_URL } from "@/lib/constants/global_constants"
 
 export const ENDPOINTS_MAP = {
     GOALS: {

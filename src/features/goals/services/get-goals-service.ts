@@ -1,7 +1,7 @@
 import { apiClient } from "@/lib/apiClient"
 import type { GetUserGoalsRequest } from "@/features/goals/types/request/get-user-goals"
-import { ENDPOINTS_MAP } from "@/lib/endpointsMap"
-import type { ApiResponse } from "@/lib/apiResponses"
+import { ENDPOINTS_MAP } from "@/lib/constants/endpointsMap"
+import type { ApiResponse } from "@/types/apiResponses"
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals"
 import { parseObjectParamsToUrlQueryString } from "@/helpers/urlParsing"
 

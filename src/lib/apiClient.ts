@@ -1,5 +1,5 @@
 import type { HttpMethod } from "@/types/http";
-import type { ApiResponse } from "@/lib/apiResponses";
+import type { ApiResponse } from "@/types/apiResponses";
 
 const DEFAULT_TIMEOUT = 10000;
 
