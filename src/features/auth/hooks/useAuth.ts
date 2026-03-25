@@ -1,6 +1,6 @@
 import type { RegisterRequest } from "@/features/auth/types/request/register";
 import type { LoginRequest } from "@/features/auth/types/request/login";
-import type { ApiResponse } from "@/types/apiResponses";
+import type { ApiResponse } from "@/types/api_responses";
 import type { RegisterResponse } from "@/features/auth/types/response/register";
 import type { UserSession } from "@/features/auth/types/UserSession";
 import type { VerifyEmailRequest } from "@/features/auth/types/request/verify-email";
