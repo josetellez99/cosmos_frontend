@@ -98,13 +98,15 @@ Page (pure layout, no hooks)
       └── SectionB  ← independent, renders independently
 ```
 
-**Filter state + Suspense:** when a section owns filter state, wrap `setFilters` in `startTransition` so React keeps the current data visible while the new query loads instead of re-suspending:
+**Filter state + Suspense:** when a section owns filter state, update it directly — this causes the component to re-suspend and show the skeleton while the new data loads, which is the desired UX:
 
 ```tsx
-const [, startTransition] = useTransition()
 const handleChange = useCallback((updated) => {
-  startTransition(() => setFilters(prev => ({ ...prev, ...updated })))
+  setFilters(prev => ({ ...prev, ...updated }))
 }, [])
+```
+
+Avoid wrapping filter updates in `startTransition` — that would suppress the skeleton and keep stale data visible until the new data arrives.
 
 ### Form Pattern
 

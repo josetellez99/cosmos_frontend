@@ -1,4 +1,4 @@
-import { useState, useCallback, useTransition } from 'react'
+import { useState, useCallback } from 'react'
 import { useGoalsSuspense } from '@/features/goals/hooks'
 import { GoalsList } from '@/features/goals/components/goals-list'
 import { GoalsTemporalityFilter } from '@/features/goals/components/goals-temporality-filter'
@@ -9,15 +9,11 @@ import type { GetUserGoalsRequest } from '@/features/goals/types/request/get-use
 export const FilteredGoalsSection = () => {
   
   const [filters, setFilters] = useState<GetUserGoalsRequest>(goalsPageDynamicFiltersReq)
-  const [, startTransition] = useTransition()
 
   const handleFilterChange = useCallback(
     (updated: Pick<GetUserGoalsRequest, 'temporality' | 'startDate' | 'endDate'>) => {
-      startTransition(() => {
-        setFilters(prev => ({ ...prev, ...updated }))
-      })
-    },
-    []
+      setFilters(prev => ({ ...prev, ...updated }))
+    }, []
   )
 
   const { goals } = useGoalsSuspense(filters)
