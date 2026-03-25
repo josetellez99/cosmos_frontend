@@ -4,7 +4,7 @@ import { cn } from "@/helpers/cn-tailwind";
 import { Link } from "react-router";
 import { Typography } from "@/components/ui/typography";
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals";
-import { strengthenColor } from "@/helpers/strings/hex-colors/get-strengthen-color";
+import { getStrengthenColor } from "@/helpers/strings/hex-colors/get-strengthen-color";
 import { appRoutes } from "@/lib/constants/routes";
 import { goalTemporality } from "@/lib/constants/goals_temporalities";
 import { getNaturalFormatDate } from "@/helpers/dates/get-natural-format-date"
@@ -20,9 +20,9 @@ export const GoalItem = ({ goal }: props) => {
   const isNotStarted = goal.status === goalStatus.NOT_STARTED;
   const isCompleted = goal.status === goalStatus.COMPLETED;
 
-  const borderColor = isYearly ? strengthenColor(goal.color, 0.08) : undefined;
-  const accentColor = isYearly ? strengthenColor(goal.color, 0.9) : undefined;
-  const textColor = isYearly ? strengthenColor(goal.color, 0.95) : undefined;
+  const borderColor = isYearly ? getStrengthenColor(goal.color, 0.08) : undefined;
+  const accentColor = isYearly ? getStrengthenColor(goal.color, 0.9) : undefined;
+  const textColor = isYearly ? getStrengthenColor(goal.color, 0.95) : undefined;
 
   return (
     <Link to={`/${appRoutes.GOALS}/${goal.id}`}>
