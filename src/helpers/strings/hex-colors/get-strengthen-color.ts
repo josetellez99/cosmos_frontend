@@ -4,7 +4,7 @@
  * @param intensity - Intensity factor from 0 to 1 (0 = original, 1 = maximum darkness)
  * @returns Stronger version of the color with adjusted saturation and lightness
  */
-export const strengthenColor = (hexColor: string, intensity: number): string => {
+export const getStrengthenColor = (hexColor: string, intensity: number): string => {
 
   if(hexColor === undefined || intensity === undefined) return 'Introduce valid params'
 
