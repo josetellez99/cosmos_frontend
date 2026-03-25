@@ -1,4 +1,5 @@
 export { useGoals } from './useGoals'
+export { useGoalsSuspense } from './useGoalsSuspense'
 export { useGoal } from './useGoal'
 export { useCreateGoal } from './useCreateGoal'
 export { useUpdateGoal } from './useUpdateGoal'
