@@ -4,5 +4,5 @@ import { defaultYearlyGoalReq } from '@/features/goals/constants/reqObjects'
 
 export const YearlyGoalsSection = () => {
   const { goals } = useGoalsSuspense(defaultYearlyGoalReq)
-  return <GoalsList goals={goals} fallbackMessage='Ups, no has creado ninguna meta por aquí todavía🎯.' />
+  return <GoalsList goals={goals} fallbackMessage='Ups, no has creado ninguna meta por aquí todavía🎯' />
 }

@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 import { useGoalsSuspense } from '@/features/goals/hooks'
 import { GoalsList } from '@/features/goals/components/goals-list'
 import { GoalsTemporalityFilter } from '@/features/goals/components/goals-temporality-filter'
-import { AsyncBoundary } from '@/components/async-boundary'
+import { AsyncErrorBoundary } from '@/components/async-boundary'
 import { GoalsListSkeleton } from '@/components/ui/loaders/goals-list-skeleton'
 import { goalsPageDynamicFiltersReq } from '@/features/goals/constants/reqObjects'
 import { goalTemporality, type GoalTemporalityType } from '@/lib/constants/goals_temporalities'
@@ -30,9 +30,9 @@ export const FilteredGoalsSection = () => {
           onChange={handleFilterChange}
         />
       </div>
-      <AsyncBoundary loadingFallback={<GoalsListSkeleton />}>
+      <AsyncErrorBoundary loadingFallback={<GoalsListSkeleton />}>
         <FilteredGoalsList filters={filters} />
-      </AsyncBoundary>
+      </AsyncErrorBoundary>
     </>
   )
 }

@@ -20,7 +20,7 @@ interface AsyncBoundaryProps {
     loadingFallback: ReactNode
 }
 
-export const AsyncBoundary = ({ children, loadingFallback }: AsyncBoundaryProps) => (
+export const AsyncErrorBoundary = ({ children, loadingFallback }: AsyncBoundaryProps) => (
     <QueryErrorResetBoundary>
         {({ reset }) => (
             <ErrorBoundary
