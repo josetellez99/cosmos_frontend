@@ -1,3 +1,5 @@
+import { isValidHexColorString } from "@/helpers/strings/hex-colors/is-valid-hex-color-string";
+
 /**
  * Generates a stronger color variant from a soft/light base color
  * @param hexColor - Hex color code (e.g., "#FFE5CC")
@@ -6,11 +8,8 @@
  */
 export const getStrengthenColor = (hexColor: string, intensity: number): string => {
 
-  if(hexColor === undefined || intensity === undefined) return 'Introduce valid params'
-
-  if(hexColor === '') {
-    return 'Introduce hexColor param'
-  } 
+    if(!isValidHexColorString(hexColor)) return 'Introduce a valid hexColor param';
+    if(intensity < 1) return 'Introduce a valid intensity param'
 
     // Parse hex to RGB
     const hex = hexColor.replace("#", "");
