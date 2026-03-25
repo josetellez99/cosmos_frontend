@@ -1,13 +1,13 @@
 "use client";
 
-import { cn } from "@/helpers/cnTailwind";
+import { cn } from "@/helpers/cn-tailwind";
 import { Link } from "react-router";
 import { Typography } from "@/components/ui/typography";
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals";
-import { strengthenColor } from "@/helpers/getStrengthenColor";
+import { strengthenColor } from "@/helpers/strings/hex-colors/get-strengthen-color";
 import { appRoutes } from "@/lib/constants/routes";
 import { goalTemporality } from "@/lib/constants/goals_temporalities";
-import { getNaturalFormatDate } from "@/helpers/dates"
+import { getNaturalFormatDate } from "@/helpers/dates/get-natural-format-date"
 import { goalStatus } from "@/lib/constants/goals_status";
 
 interface props {

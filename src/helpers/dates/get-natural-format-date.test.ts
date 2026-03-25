@@ -1,4 +1,4 @@
-import { getNaturalFormatDate } from "@/helpers/dates"
+import { getNaturalFormatDate } from "@/helpers/dates/get-natural-format-date"
 
 describe("parseObjectParamsToUrlQueryString", () => {
     it("should return the natural format with a valid string date", () => {

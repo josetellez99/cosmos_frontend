@@ -11,5 +11,3 @@ export const getNaturalFormatDate = (isoDate: string) => {
     })
     return naturalDate
 }
-
-getNaturalFormatDate('2026-03-26');

@@ -3,7 +3,7 @@ import type { GetUserGoalsRequest } from "@/features/goals/types/request/get-use
 import { ENDPOINTS_MAP } from "@/lib/constants/endpointsMap"
 import type { ApiResponse } from "@/types/apiResponses"
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals"
-import { parseObjectParamsToUrlQueryString } from "@/helpers/urlParsing"
+import { parseObjectParamsToUrlQueryString } from "@/helpers/urls/url-parsing"
 
 export const getUserGoalsService = async (req?: GetUserGoalsRequest): Promise<ApiResponse<GoalSummaryResponse[]>> => {
     const queryParamsString = parseObjectParamsToUrlQueryString(req)

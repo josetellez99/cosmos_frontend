@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { cn } from "@/helpers/cnTailwind";
+import { cn } from "@/helpers/cn-tailwind";
 
 interface CloseButtonProps {
   onClick: () => void;

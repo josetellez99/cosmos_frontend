@@ -5,6 +5,13 @@
  * @returns Stronger version of the color with adjusted saturation and lightness
  */
 export const strengthenColor = (hexColor: string, intensity: number): string => {
+
+  if(hexColor === undefined || intensity === undefined) return 'Introduce valid params'
+
+  if(hexColor === '') {
+    return 'Introduce hexColor param'
+  } 
+
     // Parse hex to RGB
     const hex = hexColor.replace("#", "");
     const r = parseInt(hex.substring(0, 2), 16) / 255;

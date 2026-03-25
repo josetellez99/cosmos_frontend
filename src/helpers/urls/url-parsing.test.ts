@@ -1,4 +1,4 @@
-import { parseObjectParamsToUrlQueryString } from "@/helpers/urlParsing"
+import { parseObjectParamsToUrlQueryString } from "@/helpers/urls/url-parsing"
 
 describe("parseObjectParamsToUrlQueryString", () => {
     it("should return an empty string if the object is empty", () => {
