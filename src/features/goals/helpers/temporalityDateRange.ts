@@ -1,11 +1,15 @@
 import type { GoalTemporalityType } from '@/lib/constants/goals_temporalities'
+import { getYYYYMMDDformat } from '@/helpers/dates/get-YYYY-MM-DD-format'
 
-const formatDate = (date: Date): string => {
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
-}
+/**
+ * Returns the start and end dates (YYYY-MM-DD) for the given temporality,
+ * relative to the current date.
+ * Useful for the goals-temporality-filter component which is a select that returns on each onChange event
+ * an object that is send as the req for the /goals GET endpoint
+ *
+ * @param temporality - The goal temporality type (e.g. 'year', 'month', 'week').
+ * @returns An object with `startDate` and `endDate` strings in YYYY-MM-DD format.
+ */
 
 export const getTemporalityDateRange = (temporality: GoalTemporalityType): { startDate: string; endDate: string } => {
     const now = new Date()
@@ -33,7 +37,7 @@ export const getTemporalityDateRange = (temporality: GoalTemporalityType): { sta
         case 'month': {
             const firstDay = new Date(year, month, 1)
             const lastDay = new Date(year, month + 1, 0)
-            return { startDate: formatDate(firstDay), endDate: formatDate(lastDay) }
+            return { startDate: getYYYYMMDDformat(firstDay.toISOString()), endDate: getYYYYMMDDformat(lastDay.toISOString()) }
         }
 
         case 'week': {
@@ -42,11 +46,11 @@ export const getTemporalityDateRange = (temporality: GoalTemporalityType): { sta
             startOfWeek.setDate(now.getDate() - dayOfWeek)
             const endOfWeek = new Date(now)
             endOfWeek.setDate(now.getDate() + (6 - dayOfWeek))
-            return { startDate: formatDate(startOfWeek), endDate: formatDate(endOfWeek) }
+            return { startDate: getYYYYMMDDformat(startOfWeek.toISOString()), endDate: getYYYYMMDDformat(endOfWeek.toISOString()) }
         }
 
         case 'day':
-            return { startDate: formatDate(now), endDate: formatDate(now) }
+            return { startDate: getYYYYMMDDformat(now.toISOString()), endDate: getYYYYMMDDformat(now.toISOString()) }
 
         case 'long_term':
         default:
