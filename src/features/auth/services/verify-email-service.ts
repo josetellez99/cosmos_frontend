@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/apiClient"
-import { ENDPOINTS_MAP } from "@/lib/constants/endpointsMap"
+import { ENDPOINTS_MAP } from "@/lib/constants/endpoints_map"
 import type { VerifyEmailRequest } from "@/features/auth/types/request/verify-email"
 import type { ApiResponse } from "@/types/apiResponses"
 

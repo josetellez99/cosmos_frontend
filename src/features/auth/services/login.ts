@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/apiClient"
-import { ENDPOINTS_MAP } from "@/lib/constants/endpointsMap"
+import { ENDPOINTS_MAP } from "@/lib/constants/endpoints_map"
 import type { LoginRequest } from "@/features/auth/types/request/login"
 import type { ApiResponse } from "@/types/apiResponses"
 import type { UserSession } from "@/features/auth/types/UserSession"
