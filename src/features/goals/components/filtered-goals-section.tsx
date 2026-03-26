@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { useGoalsSuspense } from '@/features/goals/hooks'
+import { useGoals } from '@/features/goals/hooks'
 import { GoalsList } from '@/features/goals/components/goals-list'
 import { GoalsTemporalityFilter } from '@/features/goals/components/goals-temporality-filter'
 import { AsyncErrorBoundary } from '@/components/async-boundary'
@@ -9,11 +9,12 @@ import { goalTemporality, type GoalTemporalityType } from '@/lib/constants/goals
 import type { GetUserGoalsRequest } from '@/features/goals/types/request/get-user-goals'
 
 const FilteredGoalsList = ({ filters }: { filters: GetUserGoalsRequest }) => {
-  const { goals } = useGoalsSuspense(filters)
+  const { goals } = useGoals(true, filters)
   return <GoalsList goals={goals} fallbackMessage='Ups, no has creado ninguna meta por aquí todavía🎯.' />
 }
 
 export const FilteredGoalsSection = () => {
+  
   const [filters, setFilters] = useState<GetUserGoalsRequest>(goalsPageDynamicFiltersReq)
 
   const handleFilterChange = useCallback(
