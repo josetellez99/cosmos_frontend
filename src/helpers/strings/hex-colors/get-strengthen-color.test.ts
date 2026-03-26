@@ -1,4 +1,5 @@
 import { getStrengthenColor } from "@/helpers/strings/hex-colors/get-strengthen-color"
+import { isValidHexColorString } from "@/helpers/strings/hex-colors/is-valid-hex-color-string";
 
 describe('strengthenColor', () => {
 
@@ -22,10 +23,10 @@ describe('strengthenColor', () => {
     })
 
     it('should return a mesagge when a < 0 intensity param is passed', () => {
-        expect(getStrengthenColor('#bcd5e0', 0.4)).toBe(errorMessageIntensity)
+        expect(getStrengthenColor('#bcd5e0', -0.4)).toBe(errorMessageIntensity)
     })
 
     it('should return a mesagge when a < 0 intensity param is passed', () => {
-        expect(getStrengthenColor('#bcd5e0', -0.4)).toBe(errorMessageIntensity)
+        expect(isValidHexColorString(getStrengthenColor('#bcd5e0', 0.4))).toBe(true)
     })
 })
