@@ -8,6 +8,7 @@ import { ProtectedRoute } from '@/components/guards/protected-route';
 import { GuestRoute } from '@/components/guards/guest-route';
 import { GoalsPage } from '@/pages/goals-page';
 import { appRoutes } from '@/lib/constants/routes';
+import { ProjectsPage } from '@/pages/projects-page'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path={appRoutes.DASHBOARD} element={<p>Hello world</p>} />
         <Route path={appRoutes.GOALS} element={<GoalsPage />} />
+        <Route path={appRoutes.PROJECTS} element={<ProjectsPage />} />
       </Route>
     </Routes>
   )
