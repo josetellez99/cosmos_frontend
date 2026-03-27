@@ -6,19 +6,19 @@ describe("getNaturalFormatDate", () => {
         expect(getNaturalFormatDate(date)).toBe("26 de marzo de 2026")
     })
 
-    it("should return an error message with a invalid string date", () => {
+    it("should throw with an invalid date string", () => {
         const date = '2026-3-asd26'
-        expect(getNaturalFormatDate(date)).toBe("Ingresa una fecha válida")
+        expect(() => getNaturalFormatDate(date)).toThrow("Ingresa una fecha válida")
     })
 
-    it("should return an error message with a data type", () => {
+    it("should throw when an array is passed instead of a string", () => {
         const date = [2025, 3, 26]
-        expect(getNaturalFormatDate(date as any)).toBe("Ingresa una fecha válida")
+        expect(() => getNaturalFormatDate(date as any)).toThrow("Ingresa una fecha válida")
     })
 
-    it("should return an error message with a data type", () => {
+    it("should throw when a boolean is passed instead of a string", () => {
         const date = false
-        expect(getNaturalFormatDate(date as any)).toBe("Ingresa una fecha válida")
+        expect(() => getNaturalFormatDate(date as any)).toThrow("Ingresa una fecha válida")
     })
 
     it("should return the date without the time", () => {
