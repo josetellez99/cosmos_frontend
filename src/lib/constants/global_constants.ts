@@ -1,1 +1,3 @@
 export const API_URL = import.meta.env.VITE_API_URL
+export const MILISECONS_AMOUNT_IN_10_MINUTES = 10 * 60 * 1000;
+export const DEFAULT_STALE_TIME = MILISECONS_AMOUNT_IN_10_MINUTES

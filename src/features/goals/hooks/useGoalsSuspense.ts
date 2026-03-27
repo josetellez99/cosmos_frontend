@@ -3,13 +3,14 @@ import type { GetUserGoalsRequest } from '@/features/goals/types/request/get-use
 import type { GoalSummaryResponse } from '@/features/goals/types/response/user-goals'
 import { getUserGoalsService } from '@/features/goals/services/get-goals-service'
 import { goalQueryKeys } from '@/features/goals/helpers/queryKeys'
+import { DEFAULT_STALE_TIME } from '@/lib/constants/global_constants'
 
 export const useGoalsSuspense = (filters?: GetUserGoalsRequest) => {
 
   const { data, isLoading, error, refetch } = useSuspenseQuery({
     queryKey: goalQueryKeys.list(filters),
     queryFn: () => getUserGoalsService(filters),
-    staleTime: 10 * 60 * 1000,
+    staleTime: DEFAULT_STALE_TIME,
   })
 
   let goals: GoalSummaryResponse[];
