@@ -1,4 +1,4 @@
-import { GoalItemSkeleton } from "@/components/ui/loaders/goal-item-skeleton";
+import { GoalItemSkeleton } from "@/features/goals/components/loaders/goal-item-skeleton";
 
 interface GoalsListSkeletonProps {
   count?: number;
