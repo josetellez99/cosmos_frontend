@@ -1,6 +1,7 @@
 export const appRoutes = {
     DASHBOARD: '/',
     GOALS: 'goals',
+    PROJECTS: 'projects',
     LOGIN: 'login',
     REGISTER: 'register',
     CONFIRM_EMAIL: 'confirm-email',

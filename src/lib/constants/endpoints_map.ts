@@ -4,6 +4,9 @@ export const ENDPOINTS_MAP = {
     GOALS: {
         GET_USER_GOALS: `${API_URL}/goals`,
     },
+    PROJECTS: {
+        GET_PROJECTS: `${API_URL}/projects`
+    },
     AUTH: {
         REGISTER: `${API_URL}/auth/register`,
         LOGIN: `${API_URL}/auth/login`,
