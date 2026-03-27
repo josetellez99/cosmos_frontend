@@ -1,22 +1,18 @@
-import { Constants } from "@/types/database.types";
+import type { Database } from "@/types/database.types";
 
-// Extract temporality values from the database enum definition
-const temporalityValues = Constants.public.Enums.goal_temporality_type;
+export type GoalTemporalityType = Database['public']['Enums']['goal_temporality_type'];
 
-// Create a mapped object from the enum values (no hardcoding)
-export const goalTemporality = temporalityValues.reduce(
-  (acc, value) => {
-    const key = value.toUpperCase().replace(/_/g, "_");
-    return { ...acc, [key]: value };
-  },
-  {} as Record<string, typeof temporalityValues[number]>
-);
+export const goalTemporality = {
+  LONG_TERM: 'long_term',
+  YEAR: 'year',
+  SEMESTER: 'semester',
+  QUARTER: 'quarter',
+  MONTH: 'month',
+  WEEK: 'week',
+  DAY: 'day',
+} as const satisfies Record<string, GoalTemporalityType>;
 
-// Type-safe access
 export type GoalTemporalityKey = keyof typeof goalTemporality;
-
-// Derive a named type from the enum array
-export type GoalTemporalityType = typeof temporalityValues[number];
 
 // Spanish labels — Record ensures exhaustiveness at compile time
 export const TEMPORALITY_LABELS: Record<GoalTemporalityType, string> = {
@@ -30,6 +26,6 @@ export const TEMPORALITY_LABELS: Record<GoalTemporalityType, string> = {
 };
 
 // Filter options — excludes 'year' (static section above) and 'day' (shown in dastboard)
-export const TEMPORALITY_FILTER_OPTIONS = temporalityValues
+export const TEMPORALITY_FILTER_OPTIONS = (Object.values(goalTemporality) as GoalTemporalityType[])
   .filter(v => v !== goalTemporality.YEAR && v !== goalTemporality.DAY)
   .map(v => ({ value: v, label: TEMPORALITY_LABELS[v] }));

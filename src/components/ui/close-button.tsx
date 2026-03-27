@@ -16,7 +16,7 @@ export const CloseButton = ({
     <button
       onClick={onClick}
       className={cn(
-        "p-2 hover:bg-primary/10 rounded-lg rounded-full transition-colors duration-200 cursor-pointer",
+        "p-2 hover:bg-primary/10 rounded-full transition-colors duration-200 cursor-pointer",
         className
       )}
       aria-label="Close"

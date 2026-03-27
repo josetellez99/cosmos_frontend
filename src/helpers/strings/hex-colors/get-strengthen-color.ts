@@ -8,8 +8,9 @@ import { isValidHexColorString } from "@/helpers/strings/hex-colors/is-valid-hex
  */
 export const getStrengthenColor = (hexColor: string, intensity: number): string => {
 
-    if(!isValidHexColorString(hexColor)) return 'Introduce a valid hexColor param';
-    if(intensity <= 0) return 'Introduce a valid intensity param'
+    if(!isValidHexColorString(hexColor) || intensity <= 0) {
+      throw new Error(`There's an error on the introduced params`)
+    } 
 
     // Parse hex to RGB
     const hex = hexColor.replace("#", "");

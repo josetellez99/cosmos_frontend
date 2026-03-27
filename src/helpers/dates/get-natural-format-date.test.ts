@@ -1,6 +1,6 @@
 import { getNaturalFormatDate } from "@/helpers/dates/get-natural-format-date"
 
-describe("parseObjectParamsToUrlQueryString", () => {
+describe("getNaturalFormatDate", () => {
     it("should return the natural format with a valid string date", () => {
         const date = '2026-3-26'
         expect(getNaturalFormatDate(date)).toBe("26 de marzo de 2026")

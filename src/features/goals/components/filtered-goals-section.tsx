@@ -1,15 +1,15 @@
 import { useState, useCallback } from 'react'
-import { useGoals } from '@/features/goals/hooks'
+import { useGoalsSuspense } from '@/features/goals/hooks'
 import { GoalsList } from '@/features/goals/components/goals-list'
 import { GoalsTemporalityFilter } from '@/features/goals/components/goals-temporality-filter'
 import { AsyncErrorBoundary } from '@/components/async-boundary'
-import { GoalsListSkeleton } from '@/components/ui/loaders/goals-list-skeleton'
+import { GoalsListSkeleton } from '@/features/goals/components/loaders/goals-list-skeleton'
 import { goalsPageDynamicFiltersReq } from '@/features/goals/constants/reqObjects'
 import { goalTemporality, type GoalTemporalityType } from '@/lib/constants/goals_temporalities'
 import type { GetUserGoalsRequest } from '@/features/goals/types/request/get-user-goals'
 
 const FilteredGoalsList = ({ filters }: { filters: GetUserGoalsRequest }) => {
-  const { goals } = useGoals(true, filters)
+  const { goals } = useGoalsSuspense(filters)
   return <GoalsList goals={goals} fallbackMessage='Ups, no has creado ninguna meta por aquí todavía🎯.' />
 }
 

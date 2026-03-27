@@ -1,13 +1,10 @@
-import { Constants } from '@/types/database.types'
+import type { Database } from '@/types/database.types'
 
-const statusValues = Constants.public.Enums.item_status_type
+export type GoalStatusType = Database['public']['Enums']['item_status_type']
 
-export const goalStatus = statusValues.reduce(
-  (acc, value) => {
-    const key = value.toUpperCase().replace(/[\s_]+/g, '_')
-    return { ...acc, [key]: value }
-  },
-  {} as Record<string, typeof statusValues[number]>
-)
-
-export type GoalStatusType = typeof statusValues[number]
+export const goalStatus = {
+  NOT_STARTED: 'not started',
+  IN_PROGRESS: 'in progress',
+  DISCARDED: 'discarded',
+  COMPLETED: 'completed',
+} as const satisfies Record<string, GoalStatusType>

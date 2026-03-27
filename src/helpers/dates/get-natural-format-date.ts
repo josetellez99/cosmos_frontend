@@ -1,8 +1,9 @@
 export const getNaturalFormatDate = (isoDate: string) => {
+    
+    if(typeof isoDate !== "string") throw new Error("Ingresa una fecha válida")
+        
     const date = new Date(isoDate);
-
-    if(typeof isoDate !== "string") return "Ingresa una fecha válida" 
-    if(isNaN(date.getTime())) return "Ingresa una fecha válida"
+    if(isNaN(date.getTime())) throw new Error("Ingresa una fecha válida")
 
     const naturalDate = date.toLocaleDateString('es-ES', {
         day: 'numeric',

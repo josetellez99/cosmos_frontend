@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/helpers/cn-tailwind";
 import { Link } from "react-router";
 import { Typography } from "@/components/ui/typography";
@@ -62,15 +60,8 @@ export const GoalItem = ({ goal }: props) => {
                 <span
                   style={{
                     color: isYearly ? accentColor : "var(--primary)",
-                    backgroundColor: "white",
-                    borderRadius: "40%",
-                    paddingInline: "8px",
-                    paddingBlock: "4px",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
                   }}
-                  className={cn("text-xs font-semibold")}
+                  className={cn("text-xs font-semibold bg-white rounded-[40%] px-2 py-1 inline-flex items-center justify-center")}
                 >
                   {goal.progress}%
                 </span>

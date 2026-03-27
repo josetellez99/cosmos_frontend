@@ -1,4 +1,4 @@
-import { GoalsListSkeleton } from '@/components/ui/loaders/goals-list-skeleton'
+import { GoalsListSkeleton } from '@/features/goals/components/loaders/goals-list-skeleton'
 import { InputSkeleton } from '@/components/ui/loaders/input-skeleton'
 
 export const FilteredGoalsSectionSkeleton = () => (
