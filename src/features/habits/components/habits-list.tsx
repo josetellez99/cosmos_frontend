@@ -23,7 +23,11 @@ export const HabitsList = ({ habits, fallbackMessage } : props) => {
         <ul className="flex flex-col spacing-in-list-elements">
             {habits.map((habit) => (
                 <li key={habit.id}>
-                    <HabitItem habit={habit} />
+                    <HabitItem 
+                        habit={habit} 
+                        allowCheck={false}
+                        isNested={false}
+                    />
                 </li>
             ))}
         </ul>

@@ -27,7 +27,6 @@ export function ProjectItem({ project }: ProjectCardProps) {
                     <Typography className="group-hover:text-primary">
                         {project.name}
                     </Typography>
-
                 </div>
                 <div className="text-right">
                     <span className={cn(
