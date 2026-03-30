@@ -61,7 +61,8 @@
     --color-destructive: #ff6467;
     --color-warning: #ffdf20;
     --color-success: #9ae600;
-    --color-completed: #00bcff;
+    --color-completed: #00bcff
+    ;
 }
 
 :root {

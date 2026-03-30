@@ -40,12 +40,12 @@ const mockProject: ProjectsSummary = {
 // ─── Rendering ───────────────────────────────────────────────────────────────
 
 describe('FilteredProjectsSection — rendering', () => {
-    it('renders the status filter select', async () => {
+    it('renders the filters trigger button', async () => {
         server.use(http.get(PROJECTS_URL, () => HttpResponse.json({ message: 'OK', data: [] })))
 
         render(<FilteredProjectsSection />, { wrapper: createWrapper() })
 
-        expect(screen.getByRole('combobox')).toBeInTheDocument()
+        expect(screen.getByText('Filtros')).toBeInTheDocument()
     })
 
     it('shows projects after the query resolves successfully', async () => {

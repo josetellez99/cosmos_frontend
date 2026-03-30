@@ -44,13 +44,12 @@ const mockGoal: GoalSummaryResponse = {
 // ─── Rendering ────────────────────────────────────────────────────────────────
 
 describe('FilteredGoalsSection — rendering', () => {
-    it('renders the temporality filter select', async () => {
+    it('renders the filters trigger button', async () => {
         server.use(http.get(GOALS_URL, () => HttpResponse.json({ message: 'OK', data: [] })))
 
         render(<FilteredGoalsSection />, { wrapper: createWrapper() })
 
-        // The select trigger is a combobox role (Radix Select)
-        expect(screen.getByRole('combobox')).toBeInTheDocument()
+        expect(screen.getByText('Filtros')).toBeInTheDocument()
     })
 
     it('shows goals after the query resolves successfully', async () => {
