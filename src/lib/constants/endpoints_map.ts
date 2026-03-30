@@ -7,6 +7,9 @@ export const ENDPOINTS_MAP = {
     PROJECTS: {
         GET_PROJECTS: `${API_URL}/projects`
     },
+    SYSTEMS: {
+        GET_SYSTEMS: `${API_URL}/systems`
+    },
     AUTH: {
         REGISTER: `${API_URL}/auth/register`,
         LOGIN: `${API_URL}/auth/login`,
