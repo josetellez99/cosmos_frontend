@@ -10,6 +10,7 @@ import { GoalsPage } from '@/pages/goals-page';
 import { appRoutes } from '@/lib/constants/routes';
 import { ProjectsPage } from '@/pages/projects-page'
 import { SystemsPage } from '@/pages/systems-page'
+import { HabitsPage } from '@/pages/habits-page'
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Route path={appRoutes.GOALS} element={<GoalsPage />} />
         <Route path={appRoutes.PROJECTS} element={<ProjectsPage />} />
         <Route path={appRoutes.SYSTEMS} element={<SystemsPage />} />
+        <Route path={appRoutes.HABITS} element={<HabitsPage />} />
       </Route>
     </Routes>
   )
