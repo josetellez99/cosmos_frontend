@@ -6,6 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+
   --font-poppins: "Poppins", sans-serif;
   --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", " Courier New", monospace;
 
@@ -16,6 +17,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -47,6 +49,19 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+    /* ----------------------- gray scale ----------------------- */
+
+    --color-thin-gray: rgb(246 243 244);
+    --color-soft-gray: #d1d5dc;
+    --color-medium-gray: #6a7282;
+  
+    /* ----------------------- globals ----------------------- */
+  
+    --color-destructive: #ff6467;
+    --color-warning: #ffdf20;
+    --color-success: #9ae600;
+    --color-completed: #00bcff;
 }
 
 :root {
@@ -129,17 +144,11 @@
 
 @layer utilities {
 
-  .card-radius {
-    border-radius: var(--card-radius);
-  }
-
 }
 
 @layer components {
 
-  .mobile-page-padding {
-    padding: 16px 16px
-  }
+  /* ----------------------- spacing ----------------------- */
 
   .spacing-in-list-elements {
     gap: 1rem
@@ -153,8 +162,34 @@
     margin-bottom: 2rem;
   }
 
+  /* ----------------------- padding ----------------------- */
+
+  .mobile-page-padding {
+    padding: 16px 16px
+  }
+
+  .default-card-padding {
+    padding: 1rem
+  }
+
+    /* ----------------------- global-defaults ----------------------- */
+
   .default-card-rounded {
     border-radius: 20px;
   }
+
+  .default-animation {
+    @apply transition-all duration-500
+  }
+
+    /* ----------------------- colors ----------------------- */
+
+    .gray-placeholder {
+      @apply bg-gray-300;
+    }
+
+    .soft-border {
+      @apply border-gray-300
+    }
 
 }
