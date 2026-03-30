@@ -10,6 +10,9 @@ export const ENDPOINTS_MAP = {
     SYSTEMS: {
         GET_SYSTEMS: `${API_URL}/systems`
     },
+    HABITS: {
+        GET_HABITS: `${API_URL}/habits`
+    },
     AUTH: {
         REGISTER: `${API_URL}/auth/register`,
         LOGIN: `${API_URL}/auth/login`,

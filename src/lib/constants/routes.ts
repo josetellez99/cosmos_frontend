@@ -3,6 +3,7 @@ export const appRoutes = {
     GOALS: 'goals',
     PROJECTS: 'projects',
     SYSTEMS: 'systems',
+    HABITS: 'habits',
     LOGIN: 'login',
     REGISTER: 'register',
     CONFIRM_EMAIL: 'confirm-email',
