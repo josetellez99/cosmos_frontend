@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { getTemporalityDateRange } from '@/features/goals/helpers/temporalityDateRange'
 
 // Helper: mock "now" to a specific local date at noon (avoids midnight UTC-edge issues)

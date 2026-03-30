@@ -45,11 +45,11 @@ describe('getprojectsService — URL construction', () => {
             })
         )
 
-        await getprojectsService({ startDate: '2026-01-01', endDate: '2026-12-31' })
+        await getprojectsService({ startDate: asISODateString('2026-01-01'), endDate: asISOTimestampString('2026-12-31T23:59:59.000Z') })
 
         const url = new URL(capturedUrl)
         expect(url.searchParams.get('startDate')).toBe('2026-01-01')
-        expect(url.searchParams.get('endDate')).toBe('2026-12-31')
+        expect(url.searchParams.get('endDate')).toBe('2026-12-31T23:59:59.000Z')
     })
 
     it('appends orderBy and order when provided', async () => {

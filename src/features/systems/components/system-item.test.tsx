@@ -18,6 +18,7 @@ const base: Omit<SystemSummaryResponse, 'id' | 'name'> = {
 	startingDate: asISODateString('2026-01-01'),
 	createdAt: asISOTimestampString('2026-01-01T10:00:00.000Z'),
 	modifiedAt: asISOTimestampString('2026-03-15T14:30:00.000Z'),
+	progress: 50,
 }
 
 const fitnessSystem: SystemSummaryResponse = {
