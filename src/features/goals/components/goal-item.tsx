@@ -2,7 +2,7 @@ import { cn } from "@/helpers/cn-tailwind";
 import { Link } from "react-router";
 import { Typography } from "@/components/ui/typography";
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals";
-import { getStrengthenColor } from "@/helpers/strings/hex-colors/get-strengthen-color";
+import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color";
 import { appRoutes } from "@/lib/constants/routes";
 import { goalTemporality } from "@/lib/constants/goals_temporalities";
 import { getNaturalFormatDate } from "@/helpers/dates/get-natural-format-date"
@@ -26,8 +26,8 @@ export const GoalItem = ({ goal }: props) => {
     <Link to={`/${appRoutes.GOALS}/${goal.id}`}>
       <div
         className={cn(
-          "p-4 default-card-rounded",
-          !isYearly && "bg-white border border-gray-200",
+          "default-card-padding default-card-rounded",
+          !isYearly && "bg-white border border-soft-gray",
           isNotStarted && "opacity-60",
         )}
         style={
@@ -41,7 +41,7 @@ export const GoalItem = ({ goal }: props) => {
         }
       >
         <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             <Typography
               className="font-semibold text-xs"
               style={isYearly ? { color: textColor } : undefined}
