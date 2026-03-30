@@ -108,6 +108,36 @@ const handleChange = useCallback((updated) => {
 
 Avoid wrapping filter updates in `startTransition` — that would suppress the skeleton and keep stale data visible until the new data arrives.
 
+### Filter System
+
+Shared filter components live in `src/components/filters/`. Filters appear as a single **"Filtros ▼"** dropdown button (top-right of the section) that lists the available filters for that section. The caller (section component) decides which filters to include.
+
+**Components:**
+
+- **`FilterContainer`** — The "Filtros ▼" trigger button + Popover. Manages open/close state and which filter is currently expanded. Accepts `onClearAll` prop — a callback to reset all filters to their default state (e.g. `defaultProjectsPageReq`). Shows a "Limpiar todo" button in the root filter list.
+- **`FilterItem`** — Each available filter inside the dropdown. Shows as `(icon) Label` in the list view. When clicked, replaces the list with that filter's content (back arrow header + children). Props: `id`, `icon` (LucideIcon), `label`, `isActive` (whether filter has a non-default value), `children` (the filter UI). Active filters show icon in `--primary` color and label in bold primary text.
+- **`FilterOptionList`** — Single-select radio list for categorical filters (status, temporality). Shows options with a checkmark for the selected value + "Limpiar" button. Closes the entire popover on selection.
+- **`FilterCalendar`** — Calendar-based filter supporting two modes via discriminated union: `mode: 'single'` (pick one date) or `mode: 'range'` (pick start + end). Uses a single-month calendar. In range mode, the popover stays open until both dates are selected. Includes a "Limpiar" button.
+
+**Shared context (`FilterContainerContext`):** provides `close()`, `activeFilter`, and `setActiveFilter()`. `FilterOptionList` and `FilterCalendar` consume `close()` to auto-close the popover after a selection is made.
+
+**Usage pattern** (see `src/features/projects/components/filtered-projects-section.tsx`):
+
+```tsx
+<FilterContainer onClearAll={handleClearAll}>
+  <FilterItem id="status" icon={CircleDot} label="Estatus" isActive={isStatusActive}>
+    <FilterOptionList options={STATUS_OPTIONS} value={...} onSelect={...} onClear={...} />
+  </FilterItem>
+  <FilterItem id="date" icon={CalendarIcon} label="Fecha limite" isActive={isDateActive}>
+    <FilterCalendar mode="range" from={...} to={...} onChange={...} onClear={...} />
+  </FilterItem>
+</FilterContainer>
+```
+
+**Filter state ownership:** The section component (e.g. `FilteredProjectsSection`, `FilteredGoalsSection`) owns all filter state via `useState`. It defines the handlers (`onSelect`, `onClear`, `onClearAll`) and passes them down. `onClearAll` should reset state to the feature's default request object.
+
+**Filter option constants:** Follow the pattern in `src/lib/constants/` — define a const enum, labels record, and filter options array (e.g. `PROJECT_STATUS_FILTER_OPTIONS`, `GOAL_STATUS_FILTER_OPTIONS`, `TEMPORALITY_FILTER_OPTIONS`).
+
 ### Form Pattern
 
 Forms use React Hook Form + Zod schema + `zodResolver`. Schemas live in `src/zodSchemas/`, form components in feature directories.
