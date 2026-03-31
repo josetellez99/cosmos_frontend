@@ -49,48 +49,11 @@ export const SystemItem = ({ system, children }: props) => {
 	const progress_bg_color = getColorByProgress(system.progress);
 	const progress_border_color = getStrengthenColor(progress_bg_color, 0.2);
 	const progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
-    // const getBulletColor = (c: string) => {
-    //     switch (c) {
-    //         case "blue": return "bg-blue-400"
-    //         case "orange": return "bg-orange-400"
-    //         case "emerald": return "bg-emerald-400"
-    //         case "violet": return "bg-violet-400"
-    //         case "rose": return "bg-rose-400"
-    //         case "amber": return "bg-amber-400"
-    //         default: return "bg-gray-400"
-    //     }
-    // }
-
-    // const getProgressStyles = (p: number) => {
-    //     if (p > 90) return "bg-blue-50 text-blue-700 border-blue-100"
-    //     if (p >= 70) return "bg-emerald-50 text-emerald-700 border-emerald-100"
-    //     if (p >= 50) return "bg-amber-50 text-amber-700 border-amber-100"
-    //     if (p >= 20) return "bg-rose-50 text-rose-700 border-rose-100"
-    //     return "bg-gray-50 text-gray-700 border-gray-100"
-    // }
-
-    // const IconComponent = () => {
-    //     const iconProps = { className: "w-4 h-4 text-gray-700" };
-    //     switch (sistema.icon) {
-    //         case "BookOpen": return <BookOpen {...iconProps} />
-    //         case "Focus": return <Target {...iconProps} />
-    //         case "RefreshCcw": return <RefreshCcw {...iconProps} />
-    //         case "Wallet": return <Wallet {...iconProps} />
-    //         case "Zap": return <Zap {...iconProps} />
-    //         case "Users": return <Users {...iconProps} />
-    //         case "Mail": return <Mail {...iconProps} />
-    //         case "Eye": return <Eye {...iconProps} />
-    //         case "Heart": return <Heart {...iconProps} />
-    //         case "ShoppingBag": return <ShoppingBag {...iconProps} />
-    //         case "TrendingUp": return <TrendingUp {...iconProps} />
-    //         default: return <Settings {...iconProps} />
-    //     }
-    // }
 
     return (
         <div
             className={cn(
-                "rounded-2xl border transition-all duration-300 bg-white overflow-hidden relative",
+                "rounded-2xl border transition-all duration-300 bg-white overflow-hidden relative cursor-pointer",
                 children ? "border-gray-100 shadow-sm" : "border-purple-200 p-5 group hover:border-purple-400"
             )}
         >
