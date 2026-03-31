@@ -5,7 +5,8 @@ export const ENDPOINTS_MAP = {
         GET_USER_GOALS: `${API_URL}/goals`,
     },
     PROJECTS: {
-        GET_PROJECTS: `${API_URL}/projects`
+        GET_PROJECTS: `${API_URL}/projects`,
+        POST_PROJECT: `${API_URL}/projects`
     },
     SYSTEMS: {
         GET_SYSTEMS: `${API_URL}/systems`
