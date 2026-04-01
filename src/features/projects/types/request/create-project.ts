@@ -7,6 +7,7 @@ import type { ProjectCodeString } from "@/features/projects/types/project-code-s
 
 export interface CreateProjectRequest {
     name: string;
+    description: string,
     code: ProjectCodeString;
     startingDate: ISODateString
     deadline: ISOTimestampString
