@@ -23,7 +23,7 @@ export const GoalItem = ({ goal }: props) => {
   const textColor = isYearly ? getStrengthenColor(goal.color, 0.95) : undefined;
 
   return (
-    <Link to={`/${appRoutes.GOALS}/${goal.id}`}>
+    <Link to={`/${appRoutes.GOALS.ROOT}/${goal.id}`}>
       <div
         className={cn(
           "default-card-padding default-card-rounded",
