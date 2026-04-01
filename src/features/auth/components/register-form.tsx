@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/zodSchemas/auth/register-schema";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { Loader2 } from "lucide-react";
 import { FormField } from "@/components/ui/form-field";
 
 import {
@@ -108,8 +107,7 @@ export const RegisterForm = () => {
                     />
                 </FieldGroup>
             </FieldSet>
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting && <Loader2 className="animate-spin" />}
+            <Button type="submit" className="w-full" disabled={isSubmitting} isLoading={isSubmitting}>
                 Registrarse
             </Button>
             {form.formState.errors.root && (

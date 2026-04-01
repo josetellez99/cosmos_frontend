@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from "@/zodSchemas/auth/login-schema";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { Loader2 } from "lucide-react";
 import {
     FieldSet,
 } from "@/components/ui/field";
@@ -70,8 +69,7 @@ export const LoginForm = () => {
                     type="password" 
                 />
             </FieldSet>
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting && <Loader2 className="animate-spin" />}
+            <Button type="submit" className="w-full" disabled={isSubmitting} isLoading={isSubmitting}>
                 Entrar
             </Button>
             {form.formState.errors.root && (
