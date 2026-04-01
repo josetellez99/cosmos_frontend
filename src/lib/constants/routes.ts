@@ -1,9 +1,18 @@
 export const appRoutes = {
     DASHBOARD: '/',
-    GOALS: 'goals',
-    PROJECTS: 'projects',
-    SYSTEMS: 'systems',
-    HABITS: 'habits',
+    GOALS: {
+        ROOT: 'goals',
+    },
+    PROJECTS: {
+        ROOT: 'projects',
+        CREATE: 'create',
+    },
+    SYSTEMS: {
+        ROOT: 'systems',
+    },
+    HABITS: {
+        ROOT: 'habits',
+    },
     LOGIN: 'login',
     REGISTER: 'register',
     CONFIRM_EMAIL: 'confirm-email',
