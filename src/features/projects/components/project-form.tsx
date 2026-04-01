@@ -1,14 +1,20 @@
 import { FormField } from "@/components/ui/form-field"
-import { useForm } from "react-hook-form"
+import { useFieldArray, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Typography } from "@/components/ui/typography"
 import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
 import { FieldSet, FieldGroup } from "@/components/ui/field"
 import type { CreateProjectRequest } from "@/features/projects/types/request/create-project"
-import { projectFormSchema, type ProjectFormSchema } from "@/features/projects/schemas/project-form-schema"
+import { projectFormSchema, type ProjectFormSchema, type StageFormValues, type TaskFormValues } from "@/features/projects/schemas/project-form-schema"
 import { asProjectCodeString } from "@/features/projects/types/project-code-string"
 import { asISODateString, asISOTimestampString } from "@/types/dates"
+import { StageFormModal } from "@/features/projects/components/stage-form-modal"
+import { TaskFormModal } from "@/features/projects/components/task-form-modal"
+import { GoalLinkModal } from "@/features/projects/components/goal-link-modal"
+import { z } from "zod"
+import { goalLinkProjectSchema } from "@/features/goals/schemas/goal-link-project-schema"
+
+type GoalLinkValues = z.infer<typeof goalLinkProjectSchema>
 
 interface props {
     isEditing: boolean
@@ -22,14 +28,19 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
         defaultValues: initialValues,
     })
 
+    const { fields: stageFields, append: appendStage, update: updateStage, remove: removeStage } = useFieldArray({ control: form.control, name: 'stages' })
+    const { fields: taskFields, append: appendTask, update: updateTask, remove: removeTask } = useFieldArray({ control: form.control, name: 'tasks' })
+    const { fields: goalLinkFields, append: appendGoalLink, remove: removeGoalLink } = useFieldArray({ control: form.control, name: 'goalLink' })
+
     const onSubmit = (data: ProjectFormSchema) => {
         const request: CreateProjectRequest = {
             ...data,
             code: asProjectCodeString(data.code),
             startingDate: asISODateString(data.startingDate),
-            // date input gives YYYY-MM-DD — append time and UTC offset to make a valid timestamp
             deadline: asISOTimestampString(`${data.deadline}T00:00:00.000Z`),
         }
+
+        console.log(request)
         // call mutate(request) here
     }
 
@@ -71,11 +82,34 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                         type="date"
                     />
                 </FieldGroup>
-                <Button type="submit" disabled={form.formState.isSubmitting}>
-                    {form.formState.isSubmitting && <Loader2 className="animate-spin" />}
-                    <Typography variant="p">
-                        {isEditing ? "Guardar cambios" : "Crear proyecto"}
-                    </Typography>
+                <div className="flex flex-col spacing-in-list-elements">
+                    <Typography variant="p">Etapas</Typography>
+                    <StageFormModal
+                        stages={stageFields as StageFormValues[]}
+                        onAdd={appendStage}
+                        onEdit={(i, d) => updateStage(i, d)}
+                        onRemove={removeStage}
+                    />
+                </div>
+                <div className="flex flex-col gap-2">
+                    <Typography variant="p">Tareas</Typography>
+                    <TaskFormModal
+                        tasks={taskFields as TaskFormValues[]}
+                        onAdd={appendTask}
+                        onEdit={(i, d) => updateTask(i, d)}
+                        onRemove={removeTask}
+                    />
+                </div>
+                <div className="flex flex-col gap-2">
+                    <Typography variant="p">Metas vinculadas</Typography>
+                    <GoalLinkModal
+                        goalLinks={goalLinkFields as GoalLinkValues[]}
+                        onAdd={appendGoalLink}
+                        onRemove={removeGoalLink}
+                    />
+                </div>
+                <Button type="submit" disabled={form.formState.isSubmitting} isLoading={form.formState.isSubmitting}>
+                    {isEditing ? "Guardar cambios" : "Crear proyecto"}
                 </Button>
             </FieldSet>
         </form>
