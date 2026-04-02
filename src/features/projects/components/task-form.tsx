@@ -5,25 +5,18 @@ import { Button } from "@/components/ui/button"
 import { Typography } from "@/components/ui/typography"
 import { FieldSet, FieldGroup, Field, FieldLabel, FieldError } from "@/components/ui/field"
 import { WeightInput } from "@/components/ui/weight-input"
-import { createTaskSchema, type TaskFormValues } from "@/features/projects/schemas/project-form-schema"
+import { createTaskSchema, type TaskFormSchema } from "@/features/projects/schemas/project-form-schema"
 
 interface TaskFormProps {
-    onSubmit: (data: TaskFormValues) => void
-    initialValues?: Partial<TaskFormValues>
+    onSubmit: (data: TaskFormSchema) => void
+    initialValues?: Partial<TaskFormSchema>
     isEditing: boolean
 }
 
 export function TaskForm({ onSubmit, initialValues, isEditing }: TaskFormProps) {
-    const form = useForm<TaskFormValues>({
+    const form = useForm<TaskFormSchema>({
         resolver: zodResolver(createTaskSchema),
         defaultValues: {
-            name: '',
-            description: null,
-            startingDate: '',
-            deadline: null,
-            status: null,
-            sortOrder: 0,
-            weight: 1,
             ...initialValues,
         },
     })
@@ -70,6 +63,7 @@ export function TaskForm({ onSubmit, initialValues, isEditing }: TaskFormProps) 
                         label="Orden"
                         placeholder="0"
                         type="number"
+                        transform={Number}
                     />
                     <Controller
                         name="weight"

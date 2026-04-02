@@ -9,13 +9,14 @@ import {
 } from "@/components/ui/dialog";
 import { Typography } from "@/components/ui/typography";
 import { StageForm } from "@/features/projects/components/stage-form";
-import type { StageFormValues } from "@/features/projects/schemas/project-form-schema";
+import type { StageFormSchema } from "@/features/projects/schemas/project-form-schema";
 import { StageCard } from "@/features/projects/components/stage-card";
+import { stageFormInitialValues } from "@/features/projects/constants/formsInitialValues";
 
 interface StageFormModalProps {
-  stages: StageFormValues[];
-  onAdd: (data: StageFormValues) => void;
-  onEdit: (index: number, data: StageFormValues) => void;
+  stages: StageFormSchema[];
+  onAdd: (data: StageFormSchema) => void;
+  onEdit: (index: number, data: StageFormSchema) => void;
   onRemove: (index: number) => void;
 }
 
@@ -38,7 +39,7 @@ export function StagesFormSection({
     setIsOpen(true);
   };
 
-  const handleSubmit = (data: StageFormValues) => {
+  const handleSubmit = (data: StageFormSchema) => {
     if (editingIndex !== null) {
       onEdit(editingIndex, data);
     } else {
@@ -82,7 +83,7 @@ export function StagesFormSection({
               key={editingIndex ?? "new"}
               isEditing={editingIndex !== null}
               initialValues={
-                editingIndex !== null ? stages[editingIndex] : undefined
+                editingIndex !== null ? stages[editingIndex] : stageFormInitialValues
               }
               onSubmit={handleSubmit}
             />

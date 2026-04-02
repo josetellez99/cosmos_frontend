@@ -4,16 +4,17 @@ import { Dialog, DialogContent, DialogHeader, DialogScrollArea, DialogTitle } fr
 import { Typography } from "@/components/ui/typography"
 import { TaskForm } from "@/features/projects/components/task-form"
 import { TaskCard } from "@/features/projects/components/task-card"
-import type { TaskFormValues } from "@/features/projects/schemas/project-form-schema"
+import type { TaskFormSchema } from "@/features/projects/schemas/project-form-schema"
+import { taskFormInitialValues } from "@/features/projects/constants/formsInitialValues"
 
 interface TaskFormModalProps {
-    tasks: TaskFormValues[]
-    onAdd: (data: TaskFormValues) => void
-    onEdit: (index: number, data: TaskFormValues) => void
+    tasks: TaskFormSchema[]
+    onAdd: (data: TaskFormSchema) => void
+    onEdit: (index: number, data: TaskFormSchema) => void
     onRemove: (index: number) => void
 }
 
-export function TaskFormModal({ tasks, onAdd, onEdit, onRemove }: TaskFormModalProps) {
+export function TaskFormSection({ tasks, onAdd, onEdit, onRemove }: TaskFormModalProps) {
     const [isOpen, setIsOpen] = useState(false)
     const [editingIndex, setEditingIndex] = useState<number | null>(null)
 
@@ -27,7 +28,7 @@ export function TaskFormModal({ tasks, onAdd, onEdit, onRemove }: TaskFormModalP
         setIsOpen(true)
     }
 
-    const handleSubmit = (data: TaskFormValues) => {
+    const handleSubmit = (data: TaskFormSchema) => {
         if (editingIndex !== null) {
             onEdit(editingIndex, data)
         } else {
@@ -64,7 +65,7 @@ export function TaskFormModal({ tasks, onAdd, onEdit, onRemove }: TaskFormModalP
                         <TaskForm
                             key={editingIndex ?? 'new'}
                             isEditing={editingIndex !== null}
-                            initialValues={editingIndex !== null ? tasks[editingIndex] : undefined}
+                            initialValues={editingIndex !== null ? tasks[editingIndex] : taskFormInitialValues}
                             onSubmit={handleSubmit}
                         />
                     </DialogScrollArea>

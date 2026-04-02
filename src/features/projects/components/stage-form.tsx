@@ -5,27 +5,19 @@ import { Button } from "@/components/ui/button"
 import { Typography } from "@/components/ui/typography"
 import { FieldSet, FieldGroup, Field, FieldLabel, FieldError } from "@/components/ui/field"
 import { WeightInput } from "@/components/ui/weight-input"
-import { createStageSchema, type StageFormValues } from "@/features/projects/schemas/project-form-schema"
-import { TaskFormModal } from "@/features/projects/components/task-form-modal"
+import { createStageSchema, type StageFormSchema } from "@/features/projects/schemas/project-form-schema"
+import { TaskFormSection } from "@/features/projects/components/task-form-section"
 
 interface StageFormProps {
-    onSubmit: (data: StageFormValues) => void
-    initialValues?: Partial<StageFormValues>
+    onSubmit: (data: StageFormSchema) => void
+    initialValues?: Partial<StageFormSchema>
     isEditing: boolean
 }
 
 export function StageForm({ onSubmit, initialValues, isEditing }: StageFormProps) {
-    const form = useForm<StageFormValues>({
+    const form = useForm<StageFormSchema>({
         resolver: zodResolver(createStageSchema),
         defaultValues: {
-            name: '',
-            description: null,
-            startingDate: '',
-            deadline: null,
-            status: null,
-            sortOrder: 0,
-            weight: 1,
-            tasks: [],
             ...initialValues,
         },
     })
@@ -77,6 +69,7 @@ export function StageForm({ onSubmit, initialValues, isEditing }: StageFormProps
                         label="Orden"
                         placeholder="0"
                         type="number"
+                        transform={Number}
                     />
                     <Controller
                         name="weight"
@@ -99,7 +92,7 @@ export function StageForm({ onSubmit, initialValues, isEditing }: StageFormProps
                 </FieldGroup>
                 <div className="flex flex-col gap-2">
                     <Typography variant="h3">Tareas</Typography>
-                    <TaskFormModal
+                    <TaskFormSection
                         tasks={fields}
                         onAdd={append}
                         onEdit={(i, d) => update(i, d)}

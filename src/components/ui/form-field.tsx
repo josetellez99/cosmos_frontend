@@ -15,10 +15,11 @@ interface props {
     placeholder: string;
     type: string;
     error?: string;
+    transform?: (value: string) => unknown;
 }
 
 
-export const FormField = ({name, control, label, placeholder, type} : props) => {
+export const FormField = ({name, control, label, placeholder, type, transform} : props) => {
     return (
         <Controller
             name={name}
@@ -34,6 +35,10 @@ export const FormField = ({name, control, label, placeholder, type} : props) => 
                         placeholder={placeholder}
                         {...field}
                         value={field.value ?? ''}
+                        onChange={transform
+                            ? (e) => field.onChange(transform(e.target.value))
+                            : field.onChange
+                        }
                     />
                     {fieldState.invalid && (
                         <FieldError>{fieldState.error?.message}</FieldError>

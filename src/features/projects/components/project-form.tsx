@@ -5,11 +5,11 @@ import { Typography } from "@/components/ui/typography"
 import { Button } from "@/components/ui/button"
 import { FieldSet, FieldGroup } from "@/components/ui/field"
 import type { CreateProjectRequest } from "@/features/projects/types/request/create-project"
-import { projectFormSchema, type ProjectFormSchema, type StageFormValues, type TaskFormValues } from "@/features/projects/schemas/project-form-schema"
+import { projectFormSchema, type ProjectFormSchema, type StageFormSchema, type TaskFormSchema } from "@/features/projects/schemas/project-form-schema"
 import { asProjectCodeString } from "@/features/projects/types/project-code-string"
 import { asISODateString, asISOTimestampString } from "@/types/dates"
 import { StagesFormSection } from "@/features/projects/components/stage-form-section"
-import { TaskFormModal } from "@/features/projects/components/task-form-modal"
+import { TaskFormSection } from "@/features/projects/components/task-form-section"
 import { GoalLinkModal } from "@/features/projects/components/goal-link-modal"
 import { z } from "zod"
 import { goalLinkProjectSchema } from "@/features/goals/schemas/goal-link-project-schema"
@@ -85,7 +85,7 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                 <div className="flex flex-col spacing-in-list-elements">
                     <Typography variant="p">Etapas</Typography>
                     <StagesFormSection
-                        stages={stageFields as StageFormValues[]}
+                        stages={stageFields as StageFormSchema[]}
                         onAdd={appendStage}
                         onEdit={(i, d) => updateStage(i, d)}
                         onRemove={removeStage}
@@ -93,8 +93,8 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                 </div>
                 <div className="flex flex-col gap-2">
                     <Typography variant="p">Tareas</Typography>
-                    <TaskFormModal
-                        tasks={taskFields as TaskFormValues[]}
+                    <TaskFormSection
+                        tasks={taskFields as TaskFormSchema[]}
                         onAdd={appendTask}
                         onEdit={(i, d) => updateTask(i, d)}
                         onRemove={removeTask}

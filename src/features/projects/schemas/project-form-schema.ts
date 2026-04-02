@@ -12,8 +12,8 @@ const createTaskSchema = z.object({
     startingDate: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha de inicio inválida"),
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida").nullable().optional(),
     status: itemStatusEnum.nullable().optional(),
-    sortOrder: z.coerce.number(),
-    weight: z.coerce.number(),
+    sortOrder: z.number(),
+    weight: z.number(),
 })
 
 const createStageSchema = z.object({
@@ -22,14 +22,14 @@ const createStageSchema = z.object({
     startingDate: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha de inicio inválida"),
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida").nullable().optional(),
     status: itemStatusEnum.nullable().optional(),
-    sortOrder: z.coerce.number(),
-    weight: z.coerce.number(),
+    sortOrder: z.number(),
+    weight: z.number(),
     tasks: z.array(createTaskSchema),
 })
 
 export { createTaskSchema, createStageSchema }
-export type TaskFormValues = z.infer<typeof createTaskSchema>
-export type StageFormValues = z.infer<typeof createStageSchema>
+export type TaskFormSchema = z.infer<typeof createTaskSchema>
+export type StageFormSchema = z.infer<typeof createStageSchema>
 
 export const projectFormSchema = z.object({
     name: z.string().min(1, "El nombre del proyecto es obligatorio"),
