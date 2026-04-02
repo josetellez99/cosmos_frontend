@@ -27,8 +27,13 @@ const createStageSchema = z.object({
     tasks: z.array(createTaskSchema),
 })
 
+export { createTaskSchema, createStageSchema }
+export type TaskFormValues = z.infer<typeof createTaskSchema>
+export type StageFormValues = z.infer<typeof createStageSchema>
+
 export const projectFormSchema = z.object({
     name: z.string().min(1, "El nombre del proyecto es obligatorio"),
+    description: z.string().optional(),
     code: z.string().regex(PROJECT_CODE_PATTERN, "El código debe tener el formato XX-NN (ej. AB-12)"),
     startingDate: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha de inicio inválida"),
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida"),
