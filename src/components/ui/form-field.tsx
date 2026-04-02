@@ -33,6 +33,7 @@ export const FormField = ({name, control, label, placeholder, type} : props) => 
                         type={type}
                         placeholder={placeholder}
                         {...field}
+                        value={field.value ?? ''}
                     />
                     {fieldState.invalid && (
                         <FieldError>{fieldState.error?.message}</FieldError>
