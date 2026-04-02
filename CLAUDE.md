@@ -174,6 +174,7 @@ Strict mode enabled with `noUnusedLocals` and `noUnusedParameters`. Target ES202
 
 ### Conventions
 
+- Abstraction is one of our most important principles. We don't like to repeat code, we don't want to define magic strings, we almost always want to create reusable components and behaviors to standarized the app
 - Pages components assemble other components
 - Lists of elements that can be rendered in the page component must to be to a generic list of components
 - No magic strings, try all the time to look for a way of abstracting strings to re use them.

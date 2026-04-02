@@ -12,8 +12,8 @@ const createTaskSchema = z.object({
     startingDate: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha de inicio inválida"),
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida").nullable().optional(),
     status: itemStatusEnum.nullable().optional(),
-    sortOrder: z.number(),
-    weight: z.number(),
+    sortOrder: z.coerce.number(),
+    weight: z.coerce.number(),
 })
 
 const createStageSchema = z.object({
@@ -22,8 +22,8 @@ const createStageSchema = z.object({
     startingDate: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha de inicio inválida"),
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida").nullable().optional(),
     status: itemStatusEnum.nullable().optional(),
-    sortOrder: z.number(),
-    weight: z.number(),
+    sortOrder: z.coerce.number(),
+    weight: z.coerce.number(),
     tasks: z.array(createTaskSchema),
 })
 

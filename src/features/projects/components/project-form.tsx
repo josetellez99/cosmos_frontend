@@ -8,7 +8,7 @@ import type { CreateProjectRequest } from "@/features/projects/types/request/cre
 import { projectFormSchema, type ProjectFormSchema, type StageFormValues, type TaskFormValues } from "@/features/projects/schemas/project-form-schema"
 import { asProjectCodeString } from "@/features/projects/types/project-code-string"
 import { asISODateString, asISOTimestampString } from "@/types/dates"
-import { StageFormModal } from "@/features/projects/components/stage-form-modal"
+import { StagesFormSection } from "@/features/projects/components/stage-form-section"
 import { TaskFormModal } from "@/features/projects/components/task-form-modal"
 import { GoalLinkModal } from "@/features/projects/components/goal-link-modal"
 import { z } from "zod"
@@ -84,7 +84,7 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                 </FieldGroup>
                 <div className="flex flex-col spacing-in-list-elements">
                     <Typography variant="p">Etapas</Typography>
-                    <StageFormModal
+                    <StagesFormSection
                         stages={stageFields as StageFormValues[]}
                         onAdd={appendStage}
                         onEdit={(i, d) => updateStage(i, d)}
