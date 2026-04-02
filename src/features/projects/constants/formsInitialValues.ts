@@ -8,7 +8,6 @@ export const projectFormInitialValues: ProjectFormSchema = {
   startingDate: "",
   deadline: "",
   stages: [],
-  tasks: [],
   goalLink: [],
 };
 
