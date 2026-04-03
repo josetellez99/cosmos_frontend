@@ -3,6 +3,7 @@ import { API_URL } from "@/lib/constants/global_constants"
 export const ENDPOINTS_MAP = {
     GOALS: {
         GET_USER_GOALS: `${API_URL}/goals`,
+        GET_GOAL: `${API_URL}/goals`,
     },
     PROJECTS: {
         GET_PROJECTS: `${API_URL}/projects`,

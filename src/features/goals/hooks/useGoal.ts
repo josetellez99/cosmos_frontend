@@ -1,22 +1,32 @@
 import { useQuery } from '@tanstack/react-query'
 import type { GoalSummaryResponse } from '@/features/goals/types/response/user-goals'
+import { getGoalService } from '@/features/goals/services/get-goal-service'
 import { goalQueryKeys } from '@/features/goals/helpers/queryKeys'
+import { DEFAULT_STALE_TIME } from '@/lib/constants/global_constants'
 
-// Service function for fetching a single goal - to be implemented in goals service
-const getGoalService = async (_id: number): Promise<GoalSummaryResponse> => {
-  // This will be implemented when the backend endpoint is ready
-  throw new Error('getGoalService not yet implemented')
+interface UseGoalOptions {
+  includeProgress?: boolean
 }
 
-export const useGoal = (id: number) => {
+export const useGoal = (id: number, options?: UseGoalOptions) => {
+
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: goalQueryKeys.detail(id),
-    queryFn: () => getGoalService(id),
-    enabled: !!id, // Only fetch if id is provided
+    queryFn: () => getGoalService(id, options),
+    staleTime: DEFAULT_STALE_TIME,
+    enabled: !!id,
   })
 
+  let goal: GoalSummaryResponse | null
+
+  if (data && data.ok) {
+    goal = data.data
+  } else {
+    goal = null
+  }
+
   return {
-    goal: data ?? null,
+    goal,
     isLoading,
     error,
     refetch,
