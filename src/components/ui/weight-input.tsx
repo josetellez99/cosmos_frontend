@@ -1,43 +1,49 @@
-import { Input } from "@/components/ui/input"
+import { Controller } from "react-hook-form"
+import { cn } from "@/helpers/cn-tailwind"
 import { Typography } from "@/components/ui/typography"
+import { Field, FieldLabel, FieldError } from "@/components/ui/field"
+import type { Control } from "react-hook-form"
 
-const WEIGHT_PRESETS = [10, 15, 20, 25, 30, 35, 40]
+const WEIGHT_PRESETS = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
 
 interface WeightInputProps {
-    value: number
-    onChange: (value: number) => void
-    id?: string
-    onBlur?: () => void
+    name: string
+    control: Control<any>
+    label: string
 }
 
-export function WeightInput({ value, onChange, id, onBlur }: WeightInputProps) {
+export function WeightInput({ name, control, label }: WeightInputProps) {
     return (
-        <div className="flex flex-col gap-2">
-            <div className="relative">
-                <Input
-                    id={id}
-                    type="number"
-                    className="pr-8"
-                    value={value ?? ''}
-                    onChange={e => onChange(e.target.valueAsNumber)}
-                    onBlur={onBlur}
-                />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-medium-gray pointer-events-none">
-                    %
-                </span>
-            </div>
-            <div className="flex flex-wrap gap-1">
-                {WEIGHT_PRESETS.map(preset => (
-                    <button
-                        key={preset}
-                        type="button"
-                        onClick={() => onChange(preset)}
-                        className="cursor-pointer px-2 py-0.5 rounded-md border border-soft-gray bg-primary/10 hover:border-primary hover:text-primary default-animation"
-                    >
-                        <Typography variant="p" className="text-xs">{preset}%</Typography>
-                    </button>
-                ))}
-            </div>
-        </div>
+        <Controller
+            name={name}
+            control={control}
+            render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>
+                        <Typography variant="p">{label}</Typography>
+                    </FieldLabel>
+                    <div id={field.name} className="flex flex-wrap gap-1">
+                        {WEIGHT_PRESETS.map(preset => (
+                            <button
+                                key={preset}
+                                type="button"
+                                onClick={() => field.onChange(preset)}
+                                className={cn(
+                                    "cursor-pointer px-2 py-0.5 rounded-md border default-animation",
+                                    preset === field.value
+                                        ? "bg-primary text-white border-primary"
+                                        : "border-soft-gray bg-primary/10 hover:border-primary hover:text-primary"
+                                )}
+                            >
+                                <Typography variant="p" className="text-xs">{preset}%</Typography>
+                            </button>
+                        ))}
+                    </div>
+                    {fieldState.invalid && (
+                        <FieldError>{fieldState.error?.message}</FieldError>
+                    )}
+                </Field>
+            )}
+        />
     )
 }
