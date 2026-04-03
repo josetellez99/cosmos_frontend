@@ -1,4 +1,4 @@
-import { FormProvider, useFieldArray, useForm } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormField } from "@/components/ui/form-field"
 import { Typography } from "@/components/ui/typography"
@@ -8,12 +8,8 @@ import type { CreateProjectRequest } from "@/features/projects/types/request/cre
 import { projectFormSchema, type ProjectFormSchema } from "@/features/projects/schemas/project-form-schema"
 import { asProjectCodeString } from "@/features/projects/types/project-code-string"
 import { asISODateString, asISOTimestampString } from "@/types/dates"
-import { StagesSection } from "@/features/projects/components/stage-form-section"
-import { GoalLinkModal } from "@/features/projects/components/goal-link-modal"
-import { z } from "zod"
-import { goalLinkProjectSchema } from "@/features/goals/schemas/goal-link-project-schema"
-
-type GoalLinkValues = z.infer<typeof goalLinkProjectSchema>
+import { StagesSection } from "@/features/projects/components/form/stage-form-section"
+import { GoalsLinkingSection } from "@/features/goals/components/form/goals-linking-section"
 
 interface props {
     isEditing: boolean
@@ -26,8 +22,6 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
         resolver: zodResolver(projectFormSchema),
         defaultValues: initialValues,
     })
-
-    const { fields: goalLinkFields, append: appendGoalLink, remove: removeGoalLink } = useFieldArray({ control: form.control, name: 'goalLink' })
 
     const onSubmit = (data: ProjectFormSchema) => {
         const request: CreateProjectRequest = {
@@ -86,11 +80,7 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                     </div>
                     <div className="flex flex-col gap-2">
                         <Typography variant="p">Metas vinculadas</Typography>
-                        <GoalLinkModal
-                            goalLinks={goalLinkFields as GoalLinkValues[]}
-                            onAdd={appendGoalLink}
-                            onRemove={removeGoalLink}
-                        />
+                        <GoalsLinkingSection />
                     </div>
                     <Button type="submit" disabled={form.formState.isSubmitting} isLoading={form.formState.isSubmitting}>
                         {isEditing ? "Guardar cambios" : "Crear proyecto"}
