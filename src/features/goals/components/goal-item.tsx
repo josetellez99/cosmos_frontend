@@ -1,18 +1,22 @@
 import { cn } from "@/helpers/cn-tailwind";
-import { Link } from "react-router";
+import { Pencil, Trash2 } from "lucide-react";
 import { Typography } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals";
 import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color";
-import { appRoutes } from "@/lib/constants/routes";
 import { goalTemporality } from "@/lib/constants/goals_temporalities";
 import { getNaturalFormatDate } from "@/helpers/dates/get-natural-format-date"
 import { goalStatus } from "@/lib/constants/goals_status";
 
 interface props {
   goal: GoalSummaryResponse;
+  showProgress?: boolean;
+  onClick?: () => void;
+  onEdit?: () => void;
+  onRemove?: () => void;
 }
 
-export const GoalItem = ({ goal }: props) => {
+export const GoalItem = ({ goal, showProgress = true, onClick, onEdit, onRemove }: props) => {
 
   const isYearly = goal.temporality === goalTemporality.YEAR;
   const isNotStarted = goal.status === goalStatus.NOT_STARTED;
@@ -22,35 +26,37 @@ export const GoalItem = ({ goal }: props) => {
   const accentColor = isYearly ? getStrengthenColor(goal.color, 0.9) : undefined;
   const textColor = isYearly ? getStrengthenColor(goal.color, 0.95) : undefined;
 
-  return (
-    <Link to={`/${appRoutes.GOALS.ROOT}/${goal.id}`}>
-      <div
-        className={cn(
-          "default-card-padding default-card-rounded",
-          !isYearly && "bg-white border border-soft-gray",
-          isNotStarted && "opacity-60",
-        )}
-        style={
-          isYearly
-            ? {
-                backgroundColor: goal.color,
-                borderColor: borderColor,
-                borderWidth: "1px",
-              }
-            : undefined
-        }
-      >
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-3">
-            <Typography
-              className="font-semibold text-xs"
-              style={isYearly ? { color: textColor } : undefined}
-            >
-              {goal.name}
-            </Typography>
-          </div>
+  const hasActions = onEdit || onRemove;
 
-          {!isNotStarted && (
+  const cardContent = (
+    <div
+      className={cn(
+        "default-card-padding default-card-rounded",
+        !isYearly && "bg-white border border-soft-gray",
+        isNotStarted && "opacity-60",
+      )}
+      style={
+        isYearly
+          ? {
+              backgroundColor: goal.color,
+              borderColor: borderColor,
+              borderWidth: "1px",
+            }
+          : undefined
+      }
+    >
+      <div className={cn("flex justify-between items-center", showProgress && "mb-3")}>
+        <div className="flex items-center gap-3">
+          <Typography
+            className="font-semibold text-xs"
+            style={isYearly ? { color: textColor } : undefined}
+          >
+            {goal.name}
+          </Typography>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {showProgress && !isNotStarted && (
             <div className="flex items-center gap-3">
               {isCompleted ? (
                 <span className="text-xs font-semibold text-green-600 flex items-center gap-1">
@@ -68,9 +74,36 @@ export const GoalItem = ({ goal }: props) => {
               )}
             </div>
           )}
-        </div>
 
-        {isNotStarted ? (
+          {hasActions && (
+            <div className="flex items-center gap-1">
+              {onEdit && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-xs"
+                  onClick={(e) => { e.stopPropagation(); onEdit(); }}
+                >
+                  <Pencil />
+                </Button>
+              )}
+              {onRemove && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-xs"
+                  onClick={(e) => { e.stopPropagation(); onRemove(); }}
+                >
+                  <Trash2 />
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {showProgress && (
+        isNotStarted ? (
           <p className="text-xs text-right">
             Empieza el {getNaturalFormatDate(goal.startingDate)}
           </p>
@@ -93,8 +126,22 @@ export const GoalItem = ({ goal }: props) => {
               }}
             />
           </div>
-        )}
-      </div>
-    </Link>
+        )
+      )}
+    </div>
+  );
+
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} className="w-full text-left cursor-pointer">
+        {cardContent}
+      </button>
+    );
+  }
+
+  return (
+    <div>
+      {cardContent}
+    </div>
   );
 };

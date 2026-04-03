@@ -24,7 +24,7 @@ export const GoalsList = ({ goals, fallbackMessage } : props) => {
             {goals.map((goal) => (
                 <li key={goal.id}>
                     <GoalItem goal={goal} />
-                </li>
+                </li> 
             ))}
         </ul>
     )
