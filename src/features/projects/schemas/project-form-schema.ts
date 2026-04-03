@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { PROJECT_CODE_PATTERN } from "@/features/projects/types/project-code-string"
 import { DATE_PATTERNS } from "@/types/dates"
-import { goalLinkProjectSchema } from "@/features/goals/schemas/goal-link-project-schema"
+import { goalLinkSchema } from "@/features/goals/schemas/goal-link-schema"
 import { goalStatus, type GoalStatusType } from "@/lib/constants/goals_status"
 
 const itemStatusEnum = z.enum(Object.values(goalStatus) as [GoalStatusType, ...GoalStatusType[]])
@@ -12,7 +12,6 @@ const createTaskSchema = z.object({
     startingDate: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha de inicio inválida"),
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida").nullable().optional(),
     status: itemStatusEnum.nullable().optional(),
-    sortOrder: z.number(),
     weight: z.number(),
 })
 
@@ -22,7 +21,6 @@ const createStageSchema = z.object({
     startingDate: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha de inicio inválida"),
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida").nullable().optional(),
     status: itemStatusEnum.nullable().optional(),
-    sortOrder: z.number(),
     weight: z.number(),
     tasks: z.array(createTaskSchema),
 })
@@ -39,7 +37,7 @@ export const projectFormSchema = z.object({
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida"),
     status: z.array(itemStatusEnum).optional(),
     stages: z.array(createStageSchema),
-    goalLink: z.array(goalLinkProjectSchema),
+    goalLink: z.array(goalLinkSchema),
 })
 
 export type ProjectFormSchema = z.infer<typeof projectFormSchema>

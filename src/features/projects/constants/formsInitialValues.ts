@@ -17,7 +17,6 @@ export const stageFormInitialValues: StageFormSchema = {
   startingDate: "",
   deadline: null,
   status: null,
-  sortOrder: 0,
   weight: 1,
   tasks: [],
 };
@@ -28,6 +27,5 @@ export const taskFormInitialValues: TaskFormSchema = {
   startingDate: "",
   deadline: null,
   status: null,
-  sortOrder: 0,
   weight: 1,
 };
