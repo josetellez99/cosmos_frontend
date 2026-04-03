@@ -27,5 +27,5 @@ export const TEMPORALITY_LABELS: Record<GoalTemporalityType, string> = {
 
 // Filter options — excludes 'year' (static section above) and 'day' (shown in dastboard)
 export const TEMPORALITY_FILTER_OPTIONS = (Object.values(goalTemporality) as GoalTemporalityType[])
-  .filter(v => v !== goalTemporality.YEAR && v !== goalTemporality.DAY)
+  .filter(v => v !== goalTemporality.DAY)
   .map(v => ({ value: v, label: TEMPORALITY_LABELS[v] }));
