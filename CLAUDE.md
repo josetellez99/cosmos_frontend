@@ -140,8 +140,7 @@ Shared filter components live in `src/components/filters/`. Filters appear as a 
 
 ### Form Pattern
 
-Forms use React Hook Form + Zod schema + `zodResolver`. Schemas live in `src/zodSchemas/`, form components in feature directories.
-We have a component @/components/ui/FormField which is the standard component to use in the forms as inputs of different types
+Forms use React Hook Form + Zod schema + `zodResolver`. See **[docs/context/form-instructions.md](docs/context/form-instructions.md)** for the complete guide on how to build forms: component hierarchy, file locations, naming conventions, sections with useFieldArray, draft forms in modals, linking sections, custom inputs, schema-to-API transformation, and reusable UI components. The project form (`src/features/projects/components/project-form.tsx`) is the reference implementation.
 
 ### Styling
 
