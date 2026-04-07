@@ -3,16 +3,13 @@ import type { GoalSummaryResponse } from '@/features/goals/types/response/user-g
 import { getGoalService } from '@/features/goals/services/get-goal-service'
 import { goalQueryKeys } from '@/features/goals/helpers/queryKeys'
 import { DEFAULT_STALE_TIME } from '@/lib/constants/global_constants'
+import type { GetGoalRequest } from '@/features/goals/types/request/get-goal'
 
-interface UseGoalOptions {
-  includeProgress?: boolean
-}
-
-export const useGoal = (id: number, options?: UseGoalOptions) => {
+export const useGoal = (id: number, req?: GetGoalRequest) => {
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: goalQueryKeys.detail(id),
-    queryFn: () => getGoalService(id, options),
+    queryFn: () => getGoalService(id, req),
     staleTime: DEFAULT_STALE_TIME,
     enabled: !!id,
   })
