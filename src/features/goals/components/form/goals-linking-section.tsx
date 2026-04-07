@@ -1,9 +1,9 @@
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 import { useFormContext } from "react-hook-form"
 import { FieldError } from "@/components/ui/field"
 import { GoalItem } from "@/features/goals/components/goal-item"
 import { GoalSelectionModal } from "@/features/goals/components/form/goal-selection-modal"
-import { GoalLinkConfigModal, type GoalLinkConfig } from "@/features/goals/components/form/goal-link-config-modal"
+import { GoalLinkConfigModal } from "@/features/goals/components/form/goal-link-config-modal"
 import type { GoalLinkValues } from "@/features/goals/schemas/goal-link-schema"
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals"
 
@@ -11,24 +11,31 @@ interface FormWithGoalLink {
     goalLink?: GoalLinkValues
 }
 
-export function GoalsLinkingSection() {
+interface GoalsLinkingSectionProps {
+    itemPreview: ReactNode
+}
+
+interface ConfigState {
+    goal: GoalSummaryResponse
+    isEditing: boolean
+}
+
+export function GoalsLinkingSection({ itemPreview }: GoalsLinkingSectionProps) {
     const { setValue, watch, formState } = useFormContext<FormWithGoalLink>()
 
     const goalLink = watch("goalLink")
     const error = formState.errors.goalLink?.message as string | undefined
 
-    const [configState, setConfigState] = useState<{ config: GoalLinkConfig } | null>(null)
+    const [configState, setConfigState] = useState<ConfigState | null>(null)
     const [linkedGoal, setLinkedGoal] = useState<GoalSummaryResponse | null>(null)
 
     const handleGoalSelect = (goal: GoalSummaryResponse) => {
-        setConfigState({ config: { goal, weight: 5, isEditing: false } })
+        setConfigState({ goal, isEditing: false })
     }
 
     const handleEditClick = () => {
-        if (!linkedGoal || !goalLink) return
-        setConfigState({
-            config: { goal: linkedGoal, weight: goalLink.subitemWeight, isEditing: true },
-        })
+        if (!linkedGoal) return
+        setConfigState({ goal: linkedGoal, isEditing: true })
     }
 
     const handleConfigConfirm = (weight: number) => {
@@ -36,13 +43,13 @@ export function GoalsLinkingSection() {
         setValue(
             "goalLink",
             {
-                goalId: configState.config.goal.id,
+                goalId: configState.goal.id,
                 subitemWeight: weight,
                 subitemOrder: 0,
             },
             { shouldValidate: true, shouldDirty: true }
         )
-        setLinkedGoal(configState.config.goal)
+        setLinkedGoal(configState.goal)
         setConfigState(null)
     }
 
@@ -70,7 +77,10 @@ export function GoalsLinkingSection() {
             )}
 
             <GoalLinkConfigModal
-                config={configState?.config ?? null}
+                goalId={configState?.goal.id ?? null}
+                initialWeight={configState?.isEditing ? (goalLink?.subitemWeight ?? 5) : 5}
+                isEditing={configState?.isEditing ?? false}
+                itemPreview={itemPreview}
                 onClose={() => setConfigState(null)}
                 onConfirm={handleConfigConfirm}
             />

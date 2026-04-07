@@ -1,20 +1,23 @@
-import { useEffect } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Typography } from "@/components/ui/typography"
 import { WeightInput } from "@/components/ui/weight-input"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogScrollArea, DialogTitle } from "@/components/ui/dialog"
+import { AsyncErrorBoundary } from "@/components/async-boundary"
 import { GoalItem } from "@/features/goals/components/goal-item"
-import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals"
-
-export interface GoalLinkConfig {
-    goal: GoalSummaryResponse
-    weight: number
-    isEditing: boolean
-}
+import { GoalSubitemCard } from "@/features/goals/components/form/goal-subitem-card"
+import { EditSubitemWeightModal } from "@/features/goals/components/form/edit-subitem-weight-modal"
+import { GoalDetailsSkeleton } from "@/features/goals/components/loaders/goal-details-skeleton"
+import { useGoalSuspense } from "@/features/goals/hooks/useGoalSuspense"
+import type { GoalDetailsSubitem } from "@/features/goals/types/response/goal-details"
+import { goalNoProgressRequest } from "@/features/goals/constants/request/goal/goal-no-progress"
 
 interface GoalLinkConfigModalProps {
-    config: GoalLinkConfig | null
+    goalId: number | null
+    initialWeight: number
+    isEditing: boolean
+    itemPreview: ReactNode
     onClose: () => void
     onConfirm: (weight: number) => void
 }
@@ -23,48 +26,118 @@ interface WeightFormValues {
     weight: number
 }
 
-export function GoalLinkConfigModal({ config, onClose, onConfirm }: GoalLinkConfigModalProps) {
+interface GoalLinkConfigBodyProps {
+    goalId: number
+    initialWeight: number
+    isEditing: boolean
+    itemPreview: ReactNode
+    onConfirm: (weight: number) => void
+}
+
+function GoalLinkConfigBody({ goalId, initialWeight, isEditing, itemPreview, onConfirm }: GoalLinkConfigBodyProps) {
+    const { goal } = useGoalSuspense(goalId, goalNoProgressRequest)
+
     const { control, watch, reset } = useForm<WeightFormValues>({
-        defaultValues: { weight: config?.weight ?? 5 },
+        defaultValues: { weight: initialWeight },
     })
 
     useEffect(() => {
-        if (config) {
-            reset({ weight: config.weight })
-        }
-    }, [config, reset])
+        reset({ weight: initialWeight })
+    }, [initialWeight, reset])
 
-    const handleOpenChange = (open: boolean) => {
-        if (!open) onClose()
-    }
+    const [editingSubitem, setEditingSubitem] = useState<GoalDetailsSubitem | null>(null)
 
     const handleConfirm = () => {
         onConfirm(watch("weight"))
     }
 
     return (
-        <Dialog open={config !== null} onOpenChange={handleOpenChange}>
-            <DialogContent className="sm:max-w-md">
+        <>
+            <DialogScrollArea>
+                <div className="flex flex-col gap-4">
+                    <GoalItem goal={goal} showProgress={false} />
+
+                    {goal.subitems.length > 0 && (
+                        <div className="flex flex-col gap-2">
+                            <Typography variant="p" className="text-xs text-medium-gray">
+                                Elementos vinculados
+                            </Typography>
+                            <div className="flex flex-col gap-3 pt-2">
+                                {goal.subitems.map((subitem) => (
+                                    <GoalSubitemCard
+                                        key={`${subitem.subitemOrder}-${subitem.project?.id ?? subitem.subgoal?.id ?? subitem.system?.id ?? subitem.habit?.id}`}
+                                        subitem={subitem}
+                                        onClick={setEditingSubitem}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="flex flex-col gap-2">
+                        <Typography variant="p" className="text-xs text-medium-gray">
+                            Nuevo elemento
+                        </Typography>
+                        <div className="pt-2">
+                            {itemPreview}
+                        </div>
+                        <WeightInput
+                            name="weight"
+                            control={control}
+                            label="Peso"
+                        />
+                    </div>
+                </div>
+            </DialogScrollArea>
+
+            <DialogFooter className="mt-4">
+                <Button type="button" onClick={handleConfirm}>
+                    {isEditing ? "Guardar" : "Vincular"}
+                </Button>
+            </DialogFooter>
+
+            <EditSubitemWeightModal
+                goal={goal}
+                subitem={editingSubitem}
+                onClose={() => setEditingSubitem(null)}
+            />
+        </>
+    )
+}
+
+export function GoalLinkConfigModal({
+    goalId,
+    initialWeight,
+    isEditing,
+    itemPreview,
+    onClose,
+    onConfirm,
+}: GoalLinkConfigModalProps) {
+    const handleOpenChange = (open: boolean) => {
+        if (!open) onClose()
+    }
+
+    return (
+        <Dialog open={goalId !== null} onOpenChange={handleOpenChange}>
+            <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
                     <DialogTitle>
                         <Typography variant="h3">
-                            {config?.isEditing ? "Editar vinculación" : "Configurar vinculación"}
+                            {isEditing ? "Editar vinculación" : "Configurar vinculación"}
                         </Typography>
                     </DialogTitle>
                 </DialogHeader>
-                {config?.goal && (
-                    <GoalItem goal={config.goal} showProgress={false} />
+                {goalId !== null && (
+                    <AsyncErrorBoundary loadingFallback={<GoalDetailsSkeleton />}>
+                        <GoalLinkConfigBody
+                            goalId={goalId}
+                            initialWeight={initialWeight}
+                            isEditing={isEditing}
+                            itemPreview={itemPreview}
+                            onConfirm={onConfirm}
+                        />
+                    </AsyncErrorBoundary>
                 )}
-                <WeightInput
-                    name="weight"
-                    control={control}
-                    label="Peso"
-                />
-                <DialogFooter className="mt-4">
-                    <Button type="button" onClick={handleConfirm}>
-                        {config?.isEditing ? "Guardar" : "Vincular"}
-                    </Button>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     )
