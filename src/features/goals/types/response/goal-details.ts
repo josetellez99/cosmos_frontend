@@ -1,5 +1,9 @@
 import type { Database } from "@/types/database.types"
 import type { ISODateString, ISOTimestampString } from "@/types/dates"
+import type { ProjectsSummary } from "@/features/projects/types/response/projects"
+import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals"
+import type { SystemSummaryResponse } from "@/features/systems/types/response/system-summary"
+import type { HabitSummaryResponse } from "@/features/habits/types/response/habits"
 
 export interface GoalDetailsResponse {
     id: number,
@@ -19,12 +23,13 @@ export interface GoalDetailsResponse {
 }
 
 export interface GoalDetailsSubitem {
+    id: number
     subitemOrder: number
     subitemWeight: number
-    habit: any,
-    system: any,
-    project: any,
-    subgoal: any
+    habit: HabitSummaryResponse | null,
+    system: SystemSummaryResponse | null,
+    project: ProjectsSummary | null,
+    subgoal: GoalSummaryResponse | null,
 }
 
 

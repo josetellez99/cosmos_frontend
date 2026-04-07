@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import type { GoalSummaryResponse } from '@/features/goals/types/response/user-goals'
+import type { GoalDetailsResponse } from '@/features/goals/types/response/goal-details'
 import { getGoalService } from '@/features/goals/services/get-goal-service'
 import { goalQueryKeys } from '@/features/goals/helpers/queryKeys'
 import { DEFAULT_STALE_TIME } from '@/lib/constants/global_constants'
@@ -14,7 +14,7 @@ export const useGoal = (id: number, req?: GetGoalRequest) => {
     enabled: !!id,
   })
 
-  let goal: GoalSummaryResponse | null
+  let goal: GoalDetailsResponse | null
 
   if (data && data.ok) {
     goal = data.data
