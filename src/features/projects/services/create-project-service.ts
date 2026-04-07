@@ -7,5 +7,5 @@ import { getCookie } from "@/helpers/cookies";
 import { CSRF_COOKIE_NAME, CSRF_HEADER_NAME } from "@/lib/constants/global_constants";
 
 export const CreateProjectService = (req: CreateProjectRequest): Promise<ApiResponse<CreateProjectResponse>> => {
-    return apiClient.post<CreateProjectResponse>(ENDPOINTS_MAP.PROJECTS.POST_PROJECT, req, { headers: { CSRF_HEADER_NAME: getCookie(CSRF_COOKIE_NAME) } })
+    return apiClient.post<CreateProjectResponse>(ENDPOINTS_MAP.PROJECTS.POST_PROJECT, req, { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } })
 }

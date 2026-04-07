@@ -1,17 +1,36 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { CreateProjectRequest } from '@/features/projects/types/request/create-project'
+import type { CreateProjectResponse } from '@/features/projects/types/response/create-project'
 import { CreateProjectService } from '@/features/projects/services/create-project-service'
 import { projectQueryKeys } from '@/features/projects/helpers/queryKeys'
 import type { ProjectsSummary } from '@/features/projects/types/response/projects'
-import type { ApiResponse } from '@/types/api_responses'
+import type { ApiResponse, ErrorApiResponse } from '@/types/api_responses'
+
+type CreateProjectContext = {
+  snapshots: Array<[readonly unknown[], ApiResponse<ProjectsSummary[]> | undefined]>
+}
 
 export const useCreateProject = () => {
-    
+
   const queryClient = useQueryClient()
 
-  const { mutate, isPending, error, data } = useMutation({
+  const { mutate, isPending, error, data } = useMutation<
+    CreateProjectResponse,
+    ErrorApiResponse,
+    CreateProjectRequest,
+    CreateProjectContext
+  >({
 
-    mutationFn: (project: CreateProjectRequest) => CreateProjectService(project),
+    mutationFn: async (project) => {
+      // Throw on !ok so TanStack Query routes the failure to onError instead of
+      // onSuccess. This is what makes optimistic-update rollback and form-level
+      // error feedback work for every mutation hook in the app.
+      const response = await CreateProjectService(project)
+      if (!response.ok) {
+        throw response
+      }
+      return response.data
+    },
 
     onMutate: async (newProject) => {
       // Stop any in-flight fetches for project lists — if they landed after our
