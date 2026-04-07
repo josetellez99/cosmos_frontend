@@ -2,6 +2,8 @@ export const API_URL = import.meta.env.VITE_API_URL
 export const MILISECONS_AMOUNT_IN_10_MINUTES = 10 * 60 * 1000;
 export const DEFAULT_STALE_TIME = MILISECONS_AMOUNT_IN_10_MINUTES
 
+export const CSRF_COOKIE_NAME = 'cosmos_csrf_token';
+
 /* colors */
 
 export const soft_destructive = "#ffe2e2"; // red-100
