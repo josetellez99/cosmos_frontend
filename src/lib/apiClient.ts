@@ -1,7 +1,5 @@
 import type { HttpMethod } from "@/types/http";
 import type { ApiResponse } from "@/types/api_responses";
-import { getCookie } from "@/helpers/cookies";
-import { CSRF_COOKIE_NAME } from "./constants/global_constants";
 
 const DEFAULT_TIMEOUT = 10000;
 
@@ -91,14 +89,14 @@ export const apiClient = {
         request<TResponse>(endpoint, { method: 'GET', ...options }),
 
     post: <TResponse, TBody = unknown>(endpoint: string, body: TBody, options?: RequestOptions) =>
-        request<TResponse, TBody>(endpoint, { method: 'POST', body, headers: { 'X-CSRF-Token': getCookie(CSRF_COOKIE_NAME) }, ...options }),
+        request<TResponse, TBody>(endpoint, { method: 'POST', body, ...options }),
 
     put: <TResponse, TBody = unknown>(endpoint: string, body: TBody, options?: RequestOptions) =>
-        request<TResponse, TBody>(endpoint, { method: 'PUT', body, headers: { 'X-CSRF-Token': getCookie(CSRF_COOKIE_NAME) }, ...options }),
+        request<TResponse, TBody>(endpoint, { method: 'PUT', body, ...options }),
 
     patch: <TResponse, TBody = unknown>(endpoint: string, body: TBody, options?: RequestOptions) =>
-        request<TResponse, TBody>(endpoint, { method: 'PATCH', body, headers: { 'X-CSRF-Token': getCookie(CSRF_COOKIE_NAME) }, ...options }),
+        request<TResponse, TBody>(endpoint, { method: 'PATCH', body, ...options }),
 
     delete: <TResponse>(endpoint: string, options?: RequestOptions) =>
-        request<TResponse>(endpoint, { method: 'DELETE', headers: { 'X-CSRF-Token': getCookie(CSRF_COOKIE_NAME) }, ...options }),
+        request<TResponse>(endpoint, { method: 'DELETE', ...options }),
 };
