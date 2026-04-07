@@ -35,7 +35,7 @@ export const projectFormSchema = z.object({
     code: z.string().regex(PROJECT_CODE_PATTERN, "El código debe tener el formato XX-NN (ej. AB-12)"),
     startingDate: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha de inicio inválida"),
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida"),
-    status: z.array(itemStatusEnum).optional(),
+    status: itemStatusEnum.nullable().optional(),
     stages: z.array(createStageSchema),
     goalLink: goalLinkSchema.optional(),
 })

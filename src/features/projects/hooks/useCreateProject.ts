@@ -51,7 +51,7 @@ export const useCreateProject = () => {
         code: newProject.code,
         startingDate: newProject.startingDate,
         deadline: newProject.deadline,
-        status: newProject.status?.[0] ?? 'not started',
+        status: newProject.status ?? 'not started',
         sortOrder: 0,             // placeholder — corrected after refetch
         progress: 0,              // new project has no progress yet
       }

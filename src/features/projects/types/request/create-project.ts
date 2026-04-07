@@ -10,7 +10,7 @@ export interface CreateProjectRequest {
     code: ProjectCodeString;
     startingDate: ISODateString
     deadline: ISOTimestampString
-    status?: Database["public"]["Enums"]["item_status_type"][];
+    status?: Database["public"]["Enums"]["item_status_type"] | null;
     stages?: CreateProjectStageRequest[];
     goalLink?: GoalSubitemConnection[]
 }
