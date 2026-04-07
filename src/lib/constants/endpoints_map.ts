@@ -15,6 +15,9 @@ export const ENDPOINTS_MAP = {
     HABITS: {
         GET_HABITS: `${API_URL}/habits`
     },
+    GOAL_LINK: {
+        PUT_GOAL_LINK: `${API_URL}/goalLink`
+    },
     AUTH: {
         REGISTER: `${API_URL}/auth/register`,
         LOGIN: `${API_URL}/auth/login`,
