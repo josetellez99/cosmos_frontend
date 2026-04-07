@@ -7,8 +7,7 @@ export const projectFormInitialValues: ProjectFormSchema = {
   code: "",
   startingDate: "",
   deadline: "",
-  stages: [],
-  goalLink: [],
+  stages: []
 };
 
 export const stageFormInitialValues: StageFormSchema = {

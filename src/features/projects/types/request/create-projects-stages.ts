@@ -8,5 +8,6 @@ export interface CreateProjectStageRequest {
     startingDate: string
     status?: Database["public"]["Enums"]["item_status_type"] | null
     weight: number
+    sortOrder: number
     tasks: CreateTasksProjectsRequest[]
 }

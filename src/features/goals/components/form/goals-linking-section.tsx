@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { useFieldArray, useFormContext } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
+import { FieldError } from "@/components/ui/field"
 import { GoalItem } from "@/features/goals/components/goal-item"
 import { GoalSelectionModal } from "@/features/goals/components/form/goal-selection-modal"
 import { GoalLinkConfigModal, type GoalLinkConfig } from "@/features/goals/components/form/goal-link-config-modal"
@@ -7,95 +8,74 @@ import type { GoalLinkValues } from "@/features/goals/schemas/goal-link-schema"
 import type { GoalSummaryResponse } from "@/features/goals/types/response/user-goals"
 
 interface FormWithGoalLink {
-    goalLink: GoalLinkValues[]
+    goalLink?: GoalLinkValues
 }
 
 export function GoalsLinkingSection() {
+    const { setValue, watch, formState } = useFormContext<FormWithGoalLink>()
 
-    const form = useFormContext<FormWithGoalLink>()
-    const { fields, append, update, remove } = useFieldArray({ control: form.control, name: "goalLink" })
+    const goalLink = watch("goalLink")
+    const error = formState.errors.goalLink?.message as string | undefined
 
-    const [configState, setConfigState] = useState<{ config: GoalLinkConfig; editingIndex: number | null } | null>(null)
-    const [goalsCache, setGoalsCache] = useState<Map<number, GoalSummaryResponse>>(new Map())
-
-    const linkedGoalIds = new Set(fields.map(field => field.goalId))
+    const [configState, setConfigState] = useState<{ config: GoalLinkConfig } | null>(null)
+    const [linkedGoal, setLinkedGoal] = useState<GoalSummaryResponse | null>(null)
 
     const handleGoalSelect = (goal: GoalSummaryResponse) => {
-        setConfigState({
-            config: { goal, weight: 5, isEditing: false },
-            editingIndex: null,
-        })
+        setConfigState({ config: { goal, weight: 5, isEditing: false } })
     }
 
-    const handleEditClick = (index: number) => {
-        const field = fields[index]
-        const goal = goalsCache.get(field.goalId)
-        if (!goal) return
+    const handleEditClick = () => {
+        if (!linkedGoal || !goalLink) return
         setConfigState({
-            config: { goal, weight: field.subitemWeight, isEditing: true },
-            editingIndex: index,
+            config: { goal: linkedGoal, weight: goalLink.subitemWeight, isEditing: true },
         })
     }
 
     const handleConfigConfirm = (weight: number) => {
         if (!configState) return
-
-        const values: GoalLinkValues = {
-            goalId: configState.config.goal.id,
-            subitemWeight: weight,
-        }
-
-        if (configState.editingIndex !== null) {
-            update(configState.editingIndex, values)
-        } else {
-            setGoalsCache(prev => new Map(prev).set(configState.config.goal.id, configState.config.goal))
-            append(values)
-        }
-
+        setValue(
+            "goalLink",
+            {
+                goalId: configState.config.goal.id,
+                subitemWeight: weight,
+                subitemOrder: 0,
+            },
+            { shouldValidate: true, shouldDirty: true }
+        )
+        setLinkedGoal(configState.config.goal)
         setConfigState(null)
     }
 
-    const handleRemove = (index: number) => {
-        const field = fields[index]
-        setGoalsCache(prev => {
-            const next = new Map(prev)
-            next.delete(field.goalId)
-            return next
-        })
-        remove(index)
+    const handleRemove = () => {
+        setValue("goalLink", undefined, { shouldValidate: true, shouldDirty: true })
+        setLinkedGoal(null)
     }
+
+    const excludeIds = linkedGoal ? new Set([linkedGoal.id]) : new Set<number>()
 
     return (
         <div className="flex flex-col gap-2">
-            {fields.length > 0 && (
-                <ul className="flex flex-col gap-2">
-                    {fields.map((field, index) => {
-                        const goal = goalsCache.get(field.goalId)
-                        if (!goal) return null
-                        return (
-                            <li key={field.goalId}>
-                                <GoalItem
-                                    goal={goal}
-                                    showProgress={true}
-                                    onEdit={() => handleEditClick(index)}
-                                    onRemove={() => handleRemove(index)}
-                                />
-                            </li>
-                        )
-                    })}
-                </ul>
+            {linkedGoal ? (
+                <GoalItem
+                    goal={linkedGoal}
+                    showProgress={true}
+                    onEdit={handleEditClick}
+                    onRemove={handleRemove}
+                />
+            ) : (
+                <GoalSelectionModal
+                    excludeIds={excludeIds}
+                    onGoalSelect={handleGoalSelect}
+                />
             )}
-
-            <GoalSelectionModal
-                excludeIds={linkedGoalIds}
-                onGoalSelect={handleGoalSelect}
-            />
 
             <GoalLinkConfigModal
                 config={configState?.config ?? null}
                 onClose={() => setConfigState(null)}
                 onConfirm={handleConfigConfirm}
             />
+
+            {error && <FieldError>{error}</FieldError>}
         </div>
     )
 }

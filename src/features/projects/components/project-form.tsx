@@ -1,15 +1,18 @@
-import { FormProvider, useForm } from "react-hook-form"
+import { useState } from "react"
+import { FormProvider, useForm, type FieldErrors } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormField } from "@/components/ui/form-field"
 import { Typography } from "@/components/ui/typography"
 import { Button } from "@/components/ui/button"
 import { FieldSet, FieldGroup } from "@/components/ui/field"
+import { FormStatus, type FormStatusState } from "@/components/ui/form-status"
 import type { CreateProjectRequest } from "@/features/projects/types/request/create-project"
 import { projectFormSchema, type ProjectFormSchema } from "@/features/projects/schemas/project-form-schema"
 import { asProjectCodeString } from "@/features/projects/types/project-code-string"
 import { asISODateString, asISOTimestampString } from "@/types/dates"
 import { StagesSection } from "@/features/projects/components/form/stage-form-section"
 import { GoalsLinkingSection } from "@/features/goals/components/form/goals-linking-section"
+import { useCreateProject } from "@/features/projects/hooks/useCreateProject"
 
 interface props {
     isEditing: boolean
@@ -18,12 +21,17 @@ interface props {
 
 export const ProjectForm = ({ isEditing, initialValues }: props) => {
 
+    const { mutate, isPending } = useCreateProject()
+    const [status, setStatus] = useState<FormStatusState>({ kind: "idle" })
+
     const form = useForm<ProjectFormSchema>({
         resolver: zodResolver(projectFormSchema),
         defaultValues: initialValues,
     })
 
-    const onSubmit = (data: ProjectFormSchema) => {
+    const onValid = (data: ProjectFormSchema) => {
+        setStatus({ kind: "idle" })
+
         const request: CreateProjectRequest = {
             ...data,
             code: asProjectCodeString(data.code),
@@ -31,13 +39,29 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
             deadline: asISOTimestampString(`${data.deadline}T00:00:00.000Z`),
         }
 
-        console.log(request)
-        // call mutate(request) here
+        mutate(request, {
+            onSuccess: (created) => {
+                console.log("[ProjectForm] success", created)
+                setStatus({ kind: "success", message: "Proyecto creado correctamente" })
+                if (!isEditing) form.reset(initialValues)
+            },
+            onError: (err) => {
+                console.log("[ProjectForm] api error", err)
+                setStatus({
+                    kind: "error",
+                    message: err.message ?? "No se pudo crear el proyecto",
+                })
+            },
+        })
+    }
+
+    const onInvalid = (errors: FieldErrors<ProjectFormSchema>) => {
+        console.log("[ProjectForm] validation errors", errors)
     }
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onValid, onInvalid)}>
                 <FieldSet>
                     <Typography variant="h3">
                         {isEditing ? "Editar proyecto" : "Crear proyecto"}
@@ -82,7 +106,8 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                         <Typography variant="p">Metas vinculadas</Typography>
                         <GoalsLinkingSection />
                     </div>
-                    <Button type="submit" disabled={form.formState.isSubmitting} isLoading={form.formState.isSubmitting}>
+                    <FormStatus state={status} />
+                    <Button type="submit" disabled={isPending} isLoading={isPending}>
                         {isEditing ? "Guardar cambios" : "Crear proyecto"}
                     </Button>
                 </FieldSet>

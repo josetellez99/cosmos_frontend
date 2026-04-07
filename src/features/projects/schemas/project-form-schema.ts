@@ -37,7 +37,7 @@ export const projectFormSchema = z.object({
     deadline: z.string().regex(DATE_PATTERNS.ISODateString, "Fecha límite inválida"),
     status: z.array(itemStatusEnum).optional(),
     stages: z.array(createStageSchema),
-    goalLink: z.array(goalLinkSchema),
+    goalLink: goalLinkSchema.optional(),
 })
 
 export type ProjectFormSchema = z.infer<typeof projectFormSchema>
