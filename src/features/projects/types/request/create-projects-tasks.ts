@@ -7,4 +7,5 @@ export interface CreateTasksProjectsRequest {
     startingDate: string
     status?: Database["public"]["Enums"]["item_status_type"] | null
     weight: number
+    sortOrder: number
 }
