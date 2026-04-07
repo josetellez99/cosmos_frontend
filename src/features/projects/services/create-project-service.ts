@@ -8,6 +8,6 @@ import { CSRF_COOKIE_NAME, CSRF_HEADER_NAME } from "@/lib/constants/global_const
 import { formatProjectRequest } from "@/features/projects/helpers/format-project-request"
 
 export const CreateProjectService = (req: CreateProjectRequest): Promise<ApiResponse<CreateProjectResponse>> => {
-    const formatted = formatProjectRequest(req)
-    return apiClient.post<CreateProjectResponse>(ENDPOINTS_MAP.PROJECTS.POST_PROJECT, formatted, { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } })
+    const formattedRequest = formatProjectRequest(req)
+    return apiClient.post<CreateProjectResponse>(ENDPOINTS_MAP.PROJECTS.POST_PROJECT, formattedRequest, { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } })
 }
