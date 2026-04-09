@@ -1,16 +1,16 @@
-import type { ProjectFormSchema } from "@/features/projects/schemas/project-form-schema";
-import { type StageFormSchema, type TaskFormSchema } from "@/features/projects/schemas/project-form-schema";
+import type { ProjectFormValues, StageFormValues, TaskFormValues } from "@/features/projects/types/form/project-form";
 
-export const projectFormInitialValues: ProjectFormSchema = {
+export const projectFormInitialValues: ProjectFormValues = {
   name: "",
   description: "",
   code: "",
   startingDate: "",
   deadline: "",
-  stages: []
+  stages: [],
+  goalLinks: [],
 };
 
-export const stageFormInitialValues: StageFormSchema = {
+export const stageFormInitialValues: StageFormValues = {
   name: "",
   description: null,
   startingDate: "",
@@ -20,7 +20,7 @@ export const stageFormInitialValues: StageFormSchema = {
   tasks: [],
 };
 
-export const taskFormInitialValues: TaskFormSchema = {
+export const taskFormInitialValues: TaskFormValues = {
   name: "",
   description: null,
   startingDate: "",

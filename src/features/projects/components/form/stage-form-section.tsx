@@ -6,16 +6,17 @@ import { Dialog, DialogContent, DialogHeader, DialogScrollArea, DialogTitle } fr
 import { Typography } from "@/components/ui/typography"
 import { StageCard } from "@/features/projects/components/stage-card"
 import { StageForm } from "@/features/projects/components/form/stage-form"
-import { createStageSchema, type ProjectFormSchema, type StageFormSchema } from "@/features/projects/schemas/project-form-schema"
+import { createStageSchema } from "@/features/projects/schemas/project-form-schema"
+import type { ProjectFormValues, StageFormValues } from "@/features/projects/types/form/project-form"
 import { stageFormInitialValues } from "@/features/projects/constants/formsInitialValues"
 
 export function StagesSection() {
-    const form = useFormContext<ProjectFormSchema>()
+    const form = useFormContext<ProjectFormValues>()
     const { fields: stages, append, update, remove } = useFieldArray({ control: form.control, name: "stages" })
     const [isOpen, setIsOpen] = useState(false)
     const [editingIndex, setEditingIndex] = useState<number | null>(null)
 
-    const draftForm = useForm<StageFormSchema>({
+    const draftForm = useForm<StageFormValues>({
         resolver: zodResolver(createStageSchema),
     })
 

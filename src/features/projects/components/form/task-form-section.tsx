@@ -6,16 +6,17 @@ import { Dialog, DialogContent, DialogHeader, DialogScrollArea, DialogTitle } fr
 import { Typography } from "@/components/ui/typography"
 import { TaskCard } from "@/features/projects/components/task-card"
 import { TaskForm } from "@/features/projects/components/form/task-form"
-import { createTaskSchema, type StageFormSchema, type TaskFormSchema } from "@/features/projects/schemas/project-form-schema"
+import { createTaskSchema } from "@/features/projects/schemas/project-form-schema"
+import type { StageFormValues, TaskFormValues } from "@/features/projects/types/form/project-form"
 import { taskFormInitialValues } from "@/features/projects/constants/formsInitialValues"
 
 export function TaskFormSection() {
-    const form = useFormContext<StageFormSchema>()
+    const form = useFormContext<StageFormValues>()
     const { fields: tasks, append, update, remove } = useFieldArray({ control: form.control, name: "tasks" })
     const [isOpen, setIsOpen] = useState(false)
     const [editingIndex, setEditingIndex] = useState<number | null>(null)
 
-    const draftForm = useForm<TaskFormSchema>({
+    const draftForm = useForm<TaskFormValues>({
         resolver: zodResolver(createTaskSchema),
     })
 

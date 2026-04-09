@@ -3,10 +3,10 @@ import { FormField } from "@/components/ui/form-field"
 import { Button } from "@/components/ui/button"
 import { WeightInput } from "@/components/ui/weight-input"
 import { FieldSet, FieldGroup } from "@/components/ui/field"
-import type { TaskFormSchema } from "@/features/projects/schemas/project-form-schema"
+import type { TaskFormValues } from "@/features/projects/types/form/project-form"
 
 interface TaskFormProps {
-    draftForm: UseFormReturn<TaskFormSchema>
+    draftForm: UseFormReturn<TaskFormValues>
     onSave: () => void
     isEditing: boolean
 }

@@ -1,10 +1,10 @@
 import { Pencil, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Typography } from "@/components/ui/typography"
-import type { StageFormSchema } from "@/features/projects/schemas/project-form-schema"
+import type { StageFormValues } from "@/features/projects/types/form/project-form"
 
 interface StageCardProps {
-    stage: StageFormSchema
+    stage: StageFormValues
     index: number
     onEdit: (index: number) => void
     onRemove: (index: number) => void

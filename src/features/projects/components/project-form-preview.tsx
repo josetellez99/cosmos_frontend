@@ -1,9 +1,9 @@
 import { useFormContext } from "react-hook-form"
 import { Typography } from "@/components/ui/typography"
-import type { ProjectFormSchema } from "@/features/projects/schemas/project-form-schema"
+import type { ProjectFormValues } from "@/features/projects/types/form/project-form"
 
 export function ProjectFormPreview() {
-    const { watch } = useFormContext<ProjectFormSchema>()
+    const { watch } = useFormContext<ProjectFormValues>()
     const name = watch("name")
     const code = watch("code")
 

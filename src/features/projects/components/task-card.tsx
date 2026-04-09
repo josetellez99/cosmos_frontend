@@ -1,10 +1,10 @@
 import { Pencil, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Typography } from "@/components/ui/typography"
-import type { TaskFormSchema } from "@/features/projects/schemas/project-form-schema"
+import type { TaskFormValues } from "@/features/projects/types/form/project-form"
 
 interface TaskCardProps {
-    task: TaskFormSchema
+    task: TaskFormValues
     index: number
     onEdit: (index: number) => void
     onRemove: (index: number) => void

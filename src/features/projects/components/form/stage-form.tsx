@@ -5,10 +5,10 @@ import { Typography } from "@/components/ui/typography"
 import { WeightInput } from "@/components/ui/weight-input"
 import { FieldSet, FieldGroup } from "@/components/ui/field"
 import { TaskFormSection } from "@/features/projects/components/form/task-form-section"
-import type { StageFormSchema } from "@/features/projects/schemas/project-form-schema"
+import type { StageFormValues } from "@/features/projects/types/form/project-form"
 
 interface StageFormProps {
-    draftForm: UseFormReturn<StageFormSchema>
+    draftForm: UseFormReturn<StageFormValues>
     onSave: () => void
     isEditing: boolean
 }
