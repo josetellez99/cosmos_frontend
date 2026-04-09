@@ -9,8 +9,6 @@ export const updateGoalLinkService = (
     id: number,
     body: UpdateGoalLinkRequest,
 ): Promise<ApiResponse<void>> => {
-    console.log("body", body)
-    console.log("id", id)
     return apiClient.put<void, UpdateGoalLinkRequest>(
         `${ENDPOINTS_MAP.GOAL_LINK.PUT_GOAL_LINK}/${id}`,
         body,

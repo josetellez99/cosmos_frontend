@@ -19,7 +19,7 @@ interface GoalLinkConfigModalProps {
     isEditing: boolean
     itemPreview: ReactNode
     onClose: () => void
-    onConfirm: (weight: number) => void
+    onConfirm: (weight: number, subitemOrder: number) => void
 }
 
 interface WeightFormValues {
@@ -31,7 +31,7 @@ interface GoalLinkConfigBodyProps {
     initialWeight: number
     isEditing: boolean
     itemPreview: ReactNode
-    onConfirm: (weight: number) => void
+    onConfirm: (weight: number, subitemOrder: number) => void
 }
 
 function GoalLinkConfigBody({ goalId, initialWeight, isEditing, itemPreview, onConfirm }: GoalLinkConfigBodyProps) {
@@ -47,8 +47,12 @@ function GoalLinkConfigBody({ goalId, initialWeight, isEditing, itemPreview, onC
 
     const [editingSubitem, setEditingSubitem] = useState<GoalDetailsSubitem | null>(null)
 
+    // The new subitem is appended at the end of the goal's existing subitems,
+    // so its order is the current length + 1. The body has direct access to
+    // goal.subitems via the suspense hook, which is why the order is computed
+    // here and passed up to onConfirm rather than in the parent section.
     const handleConfirm = () => {
-        onConfirm(watch("weight"))
+        onConfirm(watch("weight"), goal.subitems.length + 1)
     }
 
     return (

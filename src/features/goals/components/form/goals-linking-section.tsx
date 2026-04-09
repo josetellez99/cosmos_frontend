@@ -38,14 +38,14 @@ export function GoalsLinkingSection({ itemPreview }: GoalsLinkingSectionProps) {
         setConfigState({ goal: linkedGoal, isEditing: true })
     }
 
-    const handleConfigConfirm = (weight: number) => {
+    const handleConfigConfirm = (weight: number, subitemOrder: number) => {
         if (!configState) return
         setValue(
             "goalLink",
             {
                 goalId: configState.goal.id,
                 subitemWeight: weight,
-                subitemOrder: 0,
+                subitemOrder,
             },
             { shouldValidate: true, shouldDirty: true }
         )
