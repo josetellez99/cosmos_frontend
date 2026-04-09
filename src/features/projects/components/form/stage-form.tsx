@@ -46,7 +46,7 @@ export function StageForm({ draftForm, onSave, isEditing }: StageFormProps) {
                         control={draftForm.control}
                         label="Fecha límite"
                         placeholder=""
-                        type="date"
+                        type="datetime-local"
                     />
                 </FieldGroup>
                 <FieldGroup>

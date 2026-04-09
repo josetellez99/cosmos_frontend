@@ -44,7 +44,7 @@ export function TaskForm({ draftForm, onSave, isEditing }: TaskFormProps) {
                         control={draftForm.control}
                         label="Fecha límite"
                         placeholder=""
-                        type="date"
+                        type="datetime-local"
                     />
                 </FieldGroup>
                 <FieldGroup>

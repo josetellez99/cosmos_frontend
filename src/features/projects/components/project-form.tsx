@@ -37,7 +37,6 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
             ...data,
             code: asProjectCodeString(data.code),
             startingDate: asISODateString(data.startingDate),
-            deadline: asISOTimestampString(`${data.deadline}T00:00:00.000Z`),
         }
 
         mutate(request, {
@@ -96,7 +95,7 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                             control={form.control}
                             label="Fecha límite"
                             placeholder=""
-                            type="date"
+                            type="datetime-local"
                         />
                     </FieldGroup>
                     <div className="flex flex-col gap-2">
