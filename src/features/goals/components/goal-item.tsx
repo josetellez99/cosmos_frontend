@@ -9,7 +9,7 @@ import { getNaturalFormatDate } from "@/helpers/dates/get-natural-format-date"
 import { goalStatus } from "@/lib/constants/goals_status";
 
 interface props {
-  goal: GoalSummaryResponse;
+  goal: GoalSummaryResponse | null;
   showProgress?: boolean;
   onClick?: () => void;
   onEdit?: () => void;
@@ -17,6 +17,8 @@ interface props {
 }
 
 export const GoalItem = ({ goal, showProgress = true, onClick, onEdit, onRemove }: props) => {
+
+  if (!goal) return null;
 
   const isYearly = goal.temporality === goalTemporality.YEAR;
   const isNotStarted = goal.status === goalStatus.NOT_STARTED;

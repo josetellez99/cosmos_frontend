@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Typography } from "@/components/ui/typography"
@@ -12,17 +12,12 @@ import { GoalDetailsSkeleton } from "@/features/goals/components/loaders/goal-de
 import { useGoalSuspense } from "@/features/goals/hooks/useGoalSuspense"
 import type { GoalDetailsSubitem } from "@/features/goals/types/response/goal-details"
 import { goalNoProgressRequest } from "@/features/goals/constants/request/goal/goal-no-progress"
-import { ProjectFormPreview } from "@/features/projects/components/project-form-preview"
-import { useFormContext } from "react-hook-form"
-import type { GoalLinkValues } from "@/features/goals/schemas/goal-link-schema"
-
-interface FormWithGoalLink {
-    goalLink?: GoalLinkValues
-}
 
 interface GoalLinkConfigModalProps {
     goalId: number | null
     isEditing: boolean
+    existingWeight?: number
+    previewSlot?: ReactNode
     onClose: () => void
     onConfirm: (weight: number, subitemOrder: number) => void
 }
@@ -34,16 +29,15 @@ interface WeightFormValues {
 interface GoalLinkConfigBodyProps {
     goalId: number
     isEditing: boolean
+    existingWeight?: number
+    previewSlot?: ReactNode
     onConfirm: (weight: number, subitemOrder: number) => void
 }
 
-function GoalLinkConfigBody({ goalId, isEditing, onConfirm }: GoalLinkConfigBodyProps) {
+function GoalLinkConfigBody({ goalId, isEditing, existingWeight, previewSlot, onConfirm }: GoalLinkConfigBodyProps) {
     const { goal } = useGoalSuspense(goalId, goalNoProgressRequest)
 
-    const { watch: formWatch } = useFormContext<FormWithGoalLink>()
-
-    const goalLink = formWatch("goalLink")
-    const initialWeight = goalLink?.subitemWeight ?? 5
+    const initialWeight = existingWeight ?? 5
 
     const { control, watch, reset } = useForm<WeightFormValues>({
         defaultValues: { weight: initialWeight },
@@ -55,10 +49,6 @@ function GoalLinkConfigBody({ goalId, isEditing, onConfirm }: GoalLinkConfigBody
 
     const [editingSubitem, setEditingSubitem] = useState<GoalDetailsSubitem | null>(null)
 
-    // The new subitem is appended at the end of the goal's existing subitems,
-    // so its order is the current length + 1. The body has direct access to
-    // goal.subitems via the suspense hook, which is why the order is computed
-    // here and passed up to onConfirm rather than in the parent section.
     const handleConfirm = () => {
         onConfirm(watch("weight"), goal.subitems.length + 1)
     }
@@ -90,9 +80,7 @@ function GoalLinkConfigBody({ goalId, isEditing, onConfirm }: GoalLinkConfigBody
                         <Typography variant="p" className="text-xs text-medium-gray">
                             Nuevo elemento
                         </Typography>
-                        <div className="pt-2">
-                            <ProjectFormPreview />
-                        </div>
+                        {previewSlot && <div className="pt-2">{previewSlot}</div>}
                         <WeightInput
                             name="weight"
                             control={control}
@@ -120,6 +108,8 @@ function GoalLinkConfigBody({ goalId, isEditing, onConfirm }: GoalLinkConfigBody
 export function GoalLinkConfigModal({
     goalId,
     isEditing,
+    existingWeight,
+    previewSlot,
     onClose,
     onConfirm,
 }: GoalLinkConfigModalProps) {
@@ -142,6 +132,8 @@ export function GoalLinkConfigModal({
                         <GoalLinkConfigBody
                             goalId={goalId}
                             isEditing={isEditing}
+                            existingWeight={existingWeight}
+                            previewSlot={previewSlot}
                             onConfirm={onConfirm}
                         />
                     </AsyncErrorBoundary>
