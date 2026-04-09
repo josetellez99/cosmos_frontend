@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Typography } from "@/components/ui/typography"
@@ -13,11 +13,15 @@ import { useGoalSuspense } from "@/features/goals/hooks/useGoalSuspense"
 import type { GoalDetailsSubitem } from "@/features/goals/types/response/goal-details"
 import { goalNoProgressRequest } from "@/features/goals/constants/request/goal/goal-no-progress"
 import { ProjectFormPreview } from "@/features/projects/components/project-form-preview"
+import { useFormContext } from "react-hook-form"
+import type { GoalLinkValues } from "@/features/goals/schemas/goal-link-schema"
 
+interface FormWithGoalLink {
+    goalLink?: GoalLinkValues
+}
 
 interface GoalLinkConfigModalProps {
     goalId: number | null
-    initialWeight: number
     isEditing: boolean
     onClose: () => void
     onConfirm: (weight: number, subitemOrder: number) => void
@@ -29,13 +33,17 @@ interface WeightFormValues {
 
 interface GoalLinkConfigBodyProps {
     goalId: number
-    initialWeight: number
     isEditing: boolean
     onConfirm: (weight: number, subitemOrder: number) => void
 }
 
-function GoalLinkConfigBody({ goalId, initialWeight, isEditing, onConfirm }: GoalLinkConfigBodyProps) {
+function GoalLinkConfigBody({ goalId, isEditing, onConfirm }: GoalLinkConfigBodyProps) {
     const { goal } = useGoalSuspense(goalId, goalNoProgressRequest)
+
+    const { watch: formWatch } = useFormContext<FormWithGoalLink>()
+
+    const goalLink = formWatch("goalLink")
+    const initialWeight = goalLink?.subitemWeight ?? 5
 
     const { control, watch, reset } = useForm<WeightFormValues>({
         defaultValues: { weight: initialWeight },
@@ -111,7 +119,6 @@ function GoalLinkConfigBody({ goalId, initialWeight, isEditing, onConfirm }: Goa
 
 export function GoalLinkConfigModal({
     goalId,
-    initialWeight,
     isEditing,
     onClose,
     onConfirm,
@@ -134,7 +141,6 @@ export function GoalLinkConfigModal({
                     <AsyncErrorBoundary loadingFallback={<GoalDetailsSkeleton />}>
                         <GoalLinkConfigBody
                             goalId={goalId}
-                            initialWeight={initialWeight}
                             isEditing={isEditing}
                             onConfirm={onConfirm}
                         />

@@ -17,12 +17,13 @@ interface ConfigState {
 }
 
 export function GoalsLinkingSection() {
-    const { setValue, watch, formState } = useFormContext<FormWithGoalLink>()
+    const { setValue, formState } = useFormContext<FormWithGoalLink>()
 
-    const goalLink = watch("goalLink")
     const error = formState.errors.goalLink?.message as string | undefined
 
     const [configState, setConfigState] = useState<ConfigState | null>(null)
+
+    // Selected goal to link or edit subitems weight
     const [linkedGoal, setLinkedGoal] = useState<GoalSummaryResponse | null>(null)
 
     const handleGoalSelect = (goal: GoalSummaryResponse) => {
@@ -74,7 +75,6 @@ export function GoalsLinkingSection() {
 
             <GoalLinkConfigModal
                 goalId={configState?.goal.id ?? null}
-                initialWeight={configState?.isEditing ? (goalLink?.subitemWeight ?? 5) : 5}
                 isEditing={configState?.isEditing ?? false}
                 onClose={() => setConfigState(null)}
                 onConfirm={handleConfigConfirm}
