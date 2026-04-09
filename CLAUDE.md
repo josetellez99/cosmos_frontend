@@ -177,6 +177,10 @@ Two-cookie strategy — the backend sets both on login and token refresh, clears
 
 Database types are generated from Supabase. To regenerate: `npx supabase gen types --lang=typescript --project-id "$PROJECT_REF" --schema public > src/types/database.types.ts`
 
+### Database
+
+The database schema live in /docs/context/db_schema.sql, reference to it when you need understand the db structure
+
 ### TypeScript
 
 Strict mode enabled with `noUnusedLocals` and `noUnusedParameters`. Target ES2022, bundler module resolution.
