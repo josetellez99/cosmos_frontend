@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,32 +20,65 @@ interface props {
 }
 
 
+// Strips seconds + Z so an ISO-8601 timestamp like "2025-12-31T23:59:00Z"
+// can populate a native <input type="datetime-local"> (which expects "YYYY-MM-DDTHH:mm").
+const isoToDatetimeLocal = (value: unknown): string => {
+    if (typeof value !== 'string' || value.length < 16) return ''
+    return value.slice(0, 16)
+}
+
+// Appends ":00Z" so what the user picks ("YYYY-MM-DDTHH:mm") is stored as a
+// valid ISO-8601 timestamp with seconds defaulted to 00. Mirrors the existing
+// `${date}T00:00:00.000Z` convention used elsewhere — input is treated as UTC literal.
+const datetimeLocalToIso = (value: string): string => {
+    if (!value) return ''
+    return `${value}:00Z`
+}
+
 export const FormField = ({name, control, label, placeholder, type, transform} : props) => {
+    const isDatetimeLocal = type === 'datetime-local'
+
     return (
         <Controller
             name={name}
             control={control}
-            render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>
-                        <Typography variant="p">{label}</Typography>
-                    </FieldLabel>
-                    <Input
-                        id={field.name}
-                        type={type}
-                        placeholder={placeholder}
-                        {...field}
-                        value={field.value ?? ''}
-                        onChange={transform
-                            ? (e) => field.onChange(transform(e.target.value))
-                            : field.onChange
-                        }
-                    />
-                    {fieldState.invalid && (
-                        <FieldError>{fieldState.error?.message}</FieldError>
-                    )}
-                </Field>
-            )}
+            render={({ field, fieldState }) => {
+                const displayValue = isDatetimeLocal
+                    ? isoToDatetimeLocal(field.value)
+                    : field.value ?? ''
+
+                const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (isDatetimeLocal) {
+                        const iso = datetimeLocalToIso(e.target.value)
+                        field.onChange(transform ? transform(iso) : iso)
+                        return
+                    }
+                    if (transform) {
+                        field.onChange(transform(e.target.value))
+                        return
+                    }
+                    field.onChange(e)
+                }
+
+                return (
+                    <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>
+                            <Typography variant="p">{label}</Typography>
+                        </FieldLabel>
+                        <Input
+                            id={field.name}
+                            type={type}
+                            placeholder={placeholder}
+                            {...field}
+                            value={displayValue}
+                            onChange={handleChange}
+                        />
+                        {fieldState.invalid && (
+                            <FieldError>{fieldState.error?.message}</FieldError>
+                        )}
+                    </Field>
+                )
+            }}
         />
     )
 }
