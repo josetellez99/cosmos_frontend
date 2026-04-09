@@ -11,16 +11,12 @@ interface FormWithGoalLink {
     goalLink?: GoalLinkValues
 }
 
-interface GoalsLinkingSectionProps {
-    itemPreview: ReactNode
-}
-
 interface ConfigState {
     goal: GoalSummaryResponse
     isEditing: boolean
 }
 
-export function GoalsLinkingSection({ itemPreview }: GoalsLinkingSectionProps) {
+export function GoalsLinkingSection() {
     const { setValue, watch, formState } = useFormContext<FormWithGoalLink>()
 
     const goalLink = watch("goalLink")
@@ -80,7 +76,6 @@ export function GoalsLinkingSection({ itemPreview }: GoalsLinkingSectionProps) {
                 goalId={configState?.goal.id ?? null}
                 initialWeight={configState?.isEditing ? (goalLink?.subitemWeight ?? 5) : 5}
                 isEditing={configState?.isEditing ?? false}
-                itemPreview={itemPreview}
                 onClose={() => setConfigState(null)}
                 onConfirm={handleConfigConfirm}
             />

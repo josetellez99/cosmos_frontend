@@ -12,12 +12,13 @@ import { GoalDetailsSkeleton } from "@/features/goals/components/loaders/goal-de
 import { useGoalSuspense } from "@/features/goals/hooks/useGoalSuspense"
 import type { GoalDetailsSubitem } from "@/features/goals/types/response/goal-details"
 import { goalNoProgressRequest } from "@/features/goals/constants/request/goal/goal-no-progress"
+import { ProjectFormPreview } from "@/features/projects/components/project-form-preview"
+
 
 interface GoalLinkConfigModalProps {
     goalId: number | null
     initialWeight: number
     isEditing: boolean
-    itemPreview: ReactNode
     onClose: () => void
     onConfirm: (weight: number, subitemOrder: number) => void
 }
@@ -30,11 +31,10 @@ interface GoalLinkConfigBodyProps {
     goalId: number
     initialWeight: number
     isEditing: boolean
-    itemPreview: ReactNode
     onConfirm: (weight: number, subitemOrder: number) => void
 }
 
-function GoalLinkConfigBody({ goalId, initialWeight, isEditing, itemPreview, onConfirm }: GoalLinkConfigBodyProps) {
+function GoalLinkConfigBody({ goalId, initialWeight, isEditing, onConfirm }: GoalLinkConfigBodyProps) {
     const { goal } = useGoalSuspense(goalId, goalNoProgressRequest)
 
     const { control, watch, reset } = useForm<WeightFormValues>({
@@ -83,7 +83,7 @@ function GoalLinkConfigBody({ goalId, initialWeight, isEditing, itemPreview, onC
                             Nuevo elemento
                         </Typography>
                         <div className="pt-2">
-                            {itemPreview}
+                            <ProjectFormPreview />
                         </div>
                         <WeightInput
                             name="weight"
@@ -113,7 +113,6 @@ export function GoalLinkConfigModal({
     goalId,
     initialWeight,
     isEditing,
-    itemPreview,
     onClose,
     onConfirm,
 }: GoalLinkConfigModalProps) {
@@ -137,7 +136,6 @@ export function GoalLinkConfigModal({
                             goalId={goalId}
                             initialWeight={initialWeight}
                             isEditing={isEditing}
-                            itemPreview={itemPreview}
                             onConfirm={onConfirm}
                         />
                     </AsyncErrorBoundary>

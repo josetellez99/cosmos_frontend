@@ -12,7 +12,6 @@ import { asProjectCodeString } from "@/features/projects/types/project-code-stri
 import { asISODateString, asISOTimestampString } from "@/types/dates"
 import { StagesSection } from "@/features/projects/components/form/stage-form-section"
 import { GoalsLinkingSection } from "@/features/goals/components/form/goals-linking-section"
-import { ProjectFormPreview } from "@/features/projects/components/project-form-preview"
 import { useCreateProject } from "@/features/projects/hooks/useCreateProject"
 import { useNavigate } from "react-router";
 import { appRoutes } from "@/lib/constants/routes"
@@ -107,7 +106,7 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                     </div>
                     <div className="flex flex-col gap-2">
                         <Typography variant="p">Metas vinculadas</Typography>
-                        <GoalsLinkingSection itemPreview={<ProjectFormPreview />} />
+                        <GoalsLinkingSection />
                     </div>
                     <FormStatus state={status} />
                     <Button type="submit" disabled={isPending} isLoading={isPending}>
