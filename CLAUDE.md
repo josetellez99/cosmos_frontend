@@ -2,7 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Cosmos is the Frontend app that consumes an api rest. This app pretends to be a way to organize your life and track your goals.
+## Project overview
+
+Cosmos is a frontend app that consumes a rest api.
+The purpose is provide the user the ability to organize its life through tracking their goals.
+There are 4 entities that are independent: goals, systems, habits, projects.
+Goals are the main entity because the user can create them to start tracking.
+Goals can contain habits, systems, projects and other goals (as subgoals), the weighted progress of the subitems will be the progress of the goal
+A system is a set of habits
+A habit is an specific action that have to be repeated through a scheduling config
+A project is a set of stages that contains task
+With this basic structure, the user is able of setting all the
 
 ## Commands
 
@@ -31,7 +41,7 @@ React 19 + TypeScript + Vite app with Tailwind CSS v4 and shadcn UI components.
 
 ### API Pattern
 
-Services call `apiClient` methods and return `ApiResponse<T>` — a discriminated union (`SuccessApiResponse<T> | ErrorApiResponse`). Check `response.ok` to narrow the type. API base URL comes from `VITE_API_URL` env var.
+Services call `apiClient` methods and return `ApiResponse<T>` — a discriminated union (`SuccessApiResponse<T> | ErrorApiResponse`). Check `response.ok` to narrow the type.
 
 ### Data Flow Pattern (TanStack Query)
 
