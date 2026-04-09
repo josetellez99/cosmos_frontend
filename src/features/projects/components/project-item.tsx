@@ -10,9 +10,17 @@ interface ProjectCardProps {
 
 export function ProjectItem({ project }: ProjectCardProps) {
 
-    const progress_bg_color = getColorByProgress(project.progress)    
-    const progress_border_color = getStrengthenColor(progress_bg_color, 0.2)
-    const progress_accent_color = getStrengthenColor(progress_bg_color, 0.9)
+    const hasProgress = project.progress !== undefined
+
+    let progress_bg_color;
+    let progress_border_color;
+    let progress_accent_color;
+
+    if (hasProgress) {
+        progress_bg_color = getColorByProgress(project.progress);
+        progress_border_color = getStrengthenColor(progress_bg_color, 0.2);
+        progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
+    }
 
     return (
         <div
