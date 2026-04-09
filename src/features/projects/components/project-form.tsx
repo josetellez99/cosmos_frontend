@@ -14,6 +14,8 @@ import { StagesSection } from "@/features/projects/components/form/stage-form-se
 import { GoalsLinkingSection } from "@/features/goals/components/form/goals-linking-section"
 import { ProjectFormPreview } from "@/features/projects/components/project-form-preview"
 import { useCreateProject } from "@/features/projects/hooks/useCreateProject"
+import { useNavigate } from "react-router";
+import { appRoutes } from "@/lib/constants/routes"
 
 interface props {
     isEditing: boolean
@@ -24,6 +26,7 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
 
     const { mutate, isPending } = useCreateProject()
     const [status, setStatus] = useState<FormStatusState>({ kind: "idle" })
+    const navigate = useNavigate();
 
     const form = useForm<ProjectFormSchema>({
         resolver: zodResolver(projectFormSchema),
@@ -43,13 +46,13 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
             onSuccess: (created) => {
                 console.log("[ProjectForm] success", created)
                 setStatus({ kind: "success", message: "Proyecto creado correctamente" })
-                if (!isEditing) form.reset(initialValues)
+                navigate(`/${appRoutes.PROJECTS.ROOT}`);
             },
             onError: (err) => {
                 console.log("[ProjectForm] api error", err)
                 setStatus({
                     kind: "error",
-                    message: err.message ?? "No se pudo crear el proyecto",
+                    message: err.message ?? "No se pudo crear el proyecto, intenta de nuevo",
                 })
             },
         })

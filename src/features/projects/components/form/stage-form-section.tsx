@@ -11,7 +11,7 @@ import { stageFormInitialValues } from "@/features/projects/constants/formsIniti
 
 export function StagesSection() {
     const form = useFormContext<ProjectFormSchema>()
-    const { fields, append, update, remove } = useFieldArray({ control: form.control, name: "stages" })
+    const { fields: stages, append, update, remove } = useFieldArray({ control: form.control, name: "stages" })
     const [isOpen, setIsOpen] = useState(false)
     const [editingIndex, setEditingIndex] = useState<number | null>(null)
 
@@ -27,7 +27,7 @@ export function StagesSection() {
 
     const openEdit = (index: number) => {
         setEditingIndex(index)
-        draftForm.reset(fields[index])
+        draftForm.reset(stages[index])
         setIsOpen(true)
     }
 
@@ -43,8 +43,8 @@ export function StagesSection() {
     return (
         <div className="flex flex-col gap-2">
             <ul className="flex flex-col gap-2">
-                {fields.map((stage, index) => (
-                    <li key={stage.id}>
+                {stages.map((stage, index) => (
+                    <li key={`${stage.id}-${index}-${Date.now()}`}>
                         <StageCard
                             stage={stage}
                             index={index}

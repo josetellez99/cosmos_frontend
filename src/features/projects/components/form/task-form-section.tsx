@@ -11,7 +11,7 @@ import { taskFormInitialValues } from "@/features/projects/constants/formsInitia
 
 export function TaskFormSection() {
     const form = useFormContext<StageFormSchema>()
-    const { fields, append, update, remove } = useFieldArray({ control: form.control, name: "tasks" })
+    const { fields: tasks, append, update, remove } = useFieldArray({ control: form.control, name: "tasks" })
     const [isOpen, setIsOpen] = useState(false)
     const [editingIndex, setEditingIndex] = useState<number | null>(null)
 
@@ -27,7 +27,7 @@ export function TaskFormSection() {
 
     const openEdit = (index: number) => {
         setEditingIndex(index)
-        draftForm.reset(fields[index])
+        draftForm.reset(tasks[index])
         setIsOpen(true)
     }
 
@@ -43,8 +43,8 @@ export function TaskFormSection() {
     return (
         <div className="flex flex-col gap-2">
             <ul className="flex flex-col gap-2">
-                {fields.map((task, index) => (
-                    <li key={task.id}>
+                {tasks.map((task, index) => (
+                    <li key={`${task.id}-${index}-${Date.now()}`}>
                         <TaskCard
                             task={task}
                             index={index}
