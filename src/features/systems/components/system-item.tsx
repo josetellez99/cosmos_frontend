@@ -53,7 +53,6 @@ export const SystemItem = ({ system, children }: props) => {
     let progress_accent_color;
 
     if (hasProgress) {
-        console.log("hasProgress", system.progress)
         progress_bg_color = getColorByProgress(system.progress);
         progress_border_color = getStrengthenColor(progress_bg_color, 0.2);
         progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
