@@ -12,7 +12,7 @@ export interface CreateProjectRequest {
     deadline: ISOTimestampString
     status?: Database["public"]["Enums"]["item_status_type"] | null;
     stages?: CreateProjectStageRequest[];
-    goalLink?: GoalSubitemConnection[]
+    goalLinks?: GoalSubitemConnection[]
 }
 
 
