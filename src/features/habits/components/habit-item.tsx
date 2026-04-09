@@ -17,9 +17,17 @@ export const HabitItem = ({ habit, allowCheck, isNested }: props) => {
 
   const [isChecked, setIsChecked] = useState(false)
 
-  const progress_bg_color = getColorByProgress(habit.progress);
-  const progress_border_color = getStrengthenColor(progress_bg_color, 0.2);
-  const progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
+  const hasProgress = habit.progress !== undefined
+
+    let progress_bg_color;
+    let progress_border_color;
+    let progress_accent_color;
+
+    if (hasProgress) {
+        progress_bg_color = getColorByProgress(habit.progress);
+        progress_border_color = getStrengthenColor(progress_bg_color, 0.2);
+        progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
+    }
 
   const onToggle = () => {
     setIsChecked(prev => !prev)
@@ -49,16 +57,18 @@ export const HabitItem = ({ habit, allowCheck, isNested }: props) => {
               </Typography>
           </div>
             <div className="text-right">
-              <span
-                className={cn("text-xs font-bold px-2 py-1 rounded-md border")}
-                style={{
-                  backgroundColor: progress_bg_color,
-                  borderColor: progress_border_color,
-                  color: progress_accent_color,
-                }}
-              >
-                {habit.progress}%
-              </span>
+              {hasProgress && (
+                <span
+                  className={cn("text-xs font-bold px-2 py-1 rounded-md border")}
+                  style={{
+                    backgroundColor: progress_bg_color,
+                    borderColor: progress_border_color,
+                    color: progress_accent_color,
+                  }}
+                >
+                    {habit.progress}%
+                </span>
+              )}
             </div>
           </div>
         </div>

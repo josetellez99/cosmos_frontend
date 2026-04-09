@@ -46,9 +46,18 @@ interface props {
 // export function SystemCard({ sistema, children, showWeight, weight }: SystemCardProps) {
 export const SystemItem = ({ system, children }: props) => {
 
-	const progress_bg_color = getColorByProgress(system.progress);
-	const progress_border_color = getStrengthenColor(progress_bg_color, 0.2);
-	const progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
+    const hasProgress = system.progress !== undefined
+
+    let progress_bg_color;
+    let progress_border_color;
+    let progress_accent_color;
+
+    if (hasProgress) {
+        console.log("hasProgress", system.progress)
+        progress_bg_color = getColorByProgress(system.progress);
+        progress_border_color = getStrengthenColor(progress_bg_color, 0.2);
+        progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
+    }
 
     return (
         <div
@@ -66,17 +75,17 @@ export const SystemItem = ({ system, children }: props) => {
                         "rounded-xl flex items-center justify-center transition-colors",
                         children ? "w-8 h-8 bg-gray-50" : "w-10 h-10 bg-gray-50 group-hover:bg-purple-50"
                     )}>
-                        {/* <IconComponent /> */} icon component
+                        {/* <IconComponent /> */} 🆚
                     </div>
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                            {system.parentColors && system.parentColors.length > 0 && (
+                            {/* {system.parentColors && system.parentColors.length > 0 && (
                                 <div className="flex gap-1 items-center">
                                     {system.parentColors.map((pColor, i) => (
                                         <div key={i} className={cn("w-1.5 h-1.5 rounded-full")} />
                                     ))}
                                 </div>
-                            )}
+                            )} */}
 
                             {/* System Title as Link */}
                             <Link to={`/sistemas/${system.id}`} className="hover:opacity-70 transition-opacity truncate">
@@ -89,17 +98,19 @@ export const SystemItem = ({ system, children }: props) => {
                             </Link>
 
 							<div className="text-right">
-              <span
-                className={cn("text-xs font-bold px-2 py-1 rounded-md border")}
-                style={{
-                  backgroundColor: progress_bg_color,
-                  borderColor: progress_border_color,
-                  color: progress_accent_color,
-                }}
-              >
-                {system.progress}%
-              </span>
-            </div>
+                                {hasProgress && (
+                                    <span
+                                        className={cn("text-xs font-bold px-2 py-1 rounded-md border")}
+                                        style={{
+                                        backgroundColor: progress_bg_color,
+                                        borderColor: progress_border_color,
+                                        color: progress_accent_color,
+                                        }}
+                                    >
+                                        {system.progress}%
+                                    </span>
+                                )}
+                            </div>
                         </div>
                         {/* {!children && <p className="text-xs text-gray-400 mt-0.5">{system.desc}</p>} */}
                     </div>
