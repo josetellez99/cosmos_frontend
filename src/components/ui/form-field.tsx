@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
     Field,
     FieldError,
@@ -37,6 +38,7 @@ const datetimeLocalToIso = (value: string): string => {
 
 export const FormField = ({name, control, label, placeholder, type, transform} : props) => {
     const isDatetimeLocal = type === 'datetime-local'
+    const isTextarea = type === 'textarea'
 
     return (
         <Controller
@@ -47,7 +49,7 @@ export const FormField = ({name, control, label, placeholder, type, transform} :
                     ? isoToDatetimeLocal(field.value)
                     : field.value ?? ''
 
-                const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
                     if (isDatetimeLocal) {
                         const iso = datetimeLocalToIso(e.target.value)
                         field.onChange(transform ? transform(iso) : iso)
@@ -65,14 +67,24 @@ export const FormField = ({name, control, label, placeholder, type, transform} :
                         <FieldLabel htmlFor={field.name}>
                             <Typography variant="p">{label}</Typography>
                         </FieldLabel>
-                        <Input
-                            id={field.name}
-                            type={type}
-                            placeholder={placeholder}
-                            {...field}
-                            value={displayValue}
-                            onChange={handleChange}
-                        />
+                        {isTextarea ? (
+                            <Textarea
+                                id={field.name}
+                                placeholder={placeholder}
+                                {...field}
+                                value={displayValue}
+                                onChange={handleChange}
+                            />
+                        ) : (
+                            <Input
+                                id={field.name}
+                                type={type}
+                                placeholder={placeholder}
+                                {...field}
+                                value={displayValue}
+                                onChange={handleChange}
+                            />
+                        )}
                         {fieldState.invalid && (
                             <FieldError>{fieldState.error?.message}</FieldError>
                         )}
