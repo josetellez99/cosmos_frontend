@@ -10,10 +10,12 @@ export const ENDPOINTS_MAP = {
         POST_PROJECT: `${API_URL}/projects`
     },
     SYSTEMS: {
-        GET_SYSTEMS: `${API_URL}/systems`
+        GET_SYSTEMS: `${API_URL}/systems`,
+        GET_SYSTEM: `${API_URL}/systems`,
     },
     HABITS: {
-        GET_HABITS: `${API_URL}/habits`
+        GET_HABITS: `${API_URL}/habits`,
+        POST_HABIT: `${API_URL}/habits`,
     },
     GOAL_LINK: {
         PUT_GOAL_LINK: `${API_URL}/goal-links`

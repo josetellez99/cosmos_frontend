@@ -12,6 +12,7 @@ export const appRoutes = {
     },
     HABITS: {
         ROOT: 'habits',
+        CREATE: 'create',
     },
     LOGIN: 'login',
     REGISTER: 'register',
