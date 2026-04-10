@@ -12,6 +12,7 @@ import { ProjectsPage } from '@/pages/projects/projects-page'
 import { SystemsPage } from '@/pages/systems-page'
 import { HabitsPage } from '@/pages/habits-page'
 import { CreateProjectPage } from '@/pages/projects/create-project-page';
+import { CreateHabitPage } from '@/pages/habits/create-habit-page';
 import { SidebarLayoutRoute } from '@/components/layouts/sidebar-layout/sidebar-layout-route';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
 
           <Route path={appRoutes.HABITS.ROOT}>
             <Route index element={<HabitsPage />} />
+            <Route path={appRoutes.HABITS.CREATE} element={<CreateHabitPage />} />
           </Route>
         </Route>
       </Route>
