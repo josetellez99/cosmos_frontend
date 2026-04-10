@@ -98,6 +98,13 @@ export const ProjectForm = ({ isEditing, initialValues }: props) => {
                             type="text"
                         />
                     </FieldGroup>
+                    <FormField
+                        name="description"
+                        control={form.control}
+                        label="Descripción"
+                        placeholder="Describe el proyecto..."
+                        type="textarea"
+                    />
                     <FieldGroup>
                         <FormField
                             name="startingDate"
