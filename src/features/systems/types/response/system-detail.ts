@@ -1,4 +1,5 @@
 export interface SystemDetailHabit {
+    habitSystemId: number
     id: number
     name: string
     emoji: string
