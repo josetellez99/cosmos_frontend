@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Typography } from "@/components/ui/typography"
@@ -7,9 +7,12 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogScrollArea, Di
 import { AsyncErrorBoundary } from "@/components/async-boundary"
 import { SystemItem } from "@/features/systems/components/system-item"
 import { HabitItem } from "@/features/habits/components/habit-item"
+import { SubitemWeightTag } from "@/features/goals/components/form/subitem-weight-tag"
 import { SystemsListSkeleton } from "@/features/systems/components/loaders/systems-list-skeleton"
 import { useSystemDetailSuspense } from "@/features/systems/hooks"
+import { EditHabitSystemWeightModal } from "@/features/habits/components/form/edit-habit-system-weight-modal"
 import type { HabitSummaryResponse } from "@/features/habits/types/response/habits"
+import type { SystemDetailHabit } from "@/features/systems/types/response/system-detail"
 
 interface SystemLinkConfigModalProps {
     systemId: number | null
@@ -42,6 +45,8 @@ function SystemLinkConfigBody({ systemId, isEditing, existingWeight, onConfirm }
     useEffect(() => {
         reset({ weight: initialWeight })
     }, [initialWeight, reset])
+
+    const [editingHabit, setEditingHabit] = useState<SystemDetailHabit | null>(null)
 
     const handleConfirm = () => {
         onConfirm(watch("weight"), system.habits.length + 1)
@@ -81,20 +86,20 @@ function SystemLinkConfigBody({ systemId, isEditing, existingWeight, onConfirm }
                                 Habitos vinculados
                             </Typography>
                             <div className="flex flex-col gap-2 pt-2">
-                                {existingHabits.map((habit) => (
-                                    <div key={habit.id} className="flex items-center gap-2">
-                                        <div className="flex-1">
+                                {existingHabits.map((habit) => {
+                                    const rawHabit = system.habits.find(h => h.id === habit.id)
+                                    return (
+                                        <div key={habit.id} className="relative">
+                                            <SubitemWeightTag weight={rawHabit?.habitWeight ?? 0} />
                                             <HabitItem
                                                 habit={habit}
                                                 allowCheck={false}
-                                                isNested={true}
+                                                isNested={false}
+                                                onClick={rawHabit ? () => setEditingHabit(rawHabit) : undefined}
                                             />
                                         </div>
-                                        <span className="text-xs font-bold text-primary px-2 py-1 rounded-md border border-primary/20 bg-primary/10">
-                                            {system.habits.find(h => h.id === habit.id)?.habitWeight}%
-                                        </span>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                             </div>
                         </div>
                     )}
@@ -117,6 +122,12 @@ function SystemLinkConfigBody({ systemId, isEditing, existingWeight, onConfirm }
                     {isEditing ? "Guardar" : "Vincular"}
                 </Button>
             </DialogFooter>
+
+            <EditHabitSystemWeightModal
+                system={system}
+                habit={editingHabit}
+                onClose={() => setEditingHabit(null)}
+            />
         </>
     )
 }
