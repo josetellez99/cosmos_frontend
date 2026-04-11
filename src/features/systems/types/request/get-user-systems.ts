@@ -1,1 +1,3 @@
-export interface GetUserSystemsRequest {}
+export interface GetUserSystemsRequest {
+    includeProgress?: boolean
+}

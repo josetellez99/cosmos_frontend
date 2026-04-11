@@ -8,6 +8,7 @@ import { SystemsListSkeleton } from "@/features/systems/components/loaders/syste
 import { FallbackMessage } from "@/components/ui/messages/fallback-message"
 import { useSystemsSuspense } from "@/features/systems/hooks"
 import type { SystemSummaryResponse } from "@/features/systems/types/response/system-summary"
+import { systemNoProgressRequest } from "@/features/systems/constants/requests/system/system-no-progress"
 
 interface SystemSelectionListProps {
     excludeIds: Set<number>
@@ -15,7 +16,7 @@ interface SystemSelectionListProps {
 }
 
 function SystemSelectionList({ excludeIds, onSystemClick }: SystemSelectionListProps) {
-    const { systems } = useSystemsSuspense()
+    const { systems } = useSystemsSuspense(systemNoProgressRequest)
     const filteredSystems = systems.filter(system => !excludeIds.has(system.id))
 
     if (filteredSystems.length === 0) {
@@ -26,15 +27,11 @@ function SystemSelectionList({ excludeIds, onSystemClick }: SystemSelectionListP
         <ul className="flex flex-col gap-2">
             {filteredSystems.map(system => (
                 <li key={system.id}>
-                    <button
-                        type="button"
+                    <SystemItem
+                        system={system}
                         onClick={() => onSystemClick(system)}
-                        className="w-full text-left cursor-pointer"
-                    >
-                        <SystemItem system={system}>
-                            {null}
-                        </SystemItem>
-                    </button>
+                        showProgress={false}
+                    />
                 </li>
             ))}
         </ul>

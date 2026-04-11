@@ -9,10 +9,9 @@ import { CSRF_COOKIE_NAME, CSRF_HEADER_NAME } from "@/lib/constants/global_const
 export const CreateHabitService = (
     req: CreateHabitRequest
 ): Promise<ApiResponse<CreateHabitResponse>> => {
-    console.log("req", req)
-    // return apiClient.post<CreateHabitResponse>(
-    //     ENDPOINTS_MAP.HABITS.POST_HABIT,
-    //     req,
-    //     { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } }
-    // )
+    return apiClient.post<CreateHabitResponse>(
+        ENDPOINTS_MAP.HABITS.POST_HABIT,
+        req,
+        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } }
+    )
 }

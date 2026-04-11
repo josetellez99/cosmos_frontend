@@ -1,9 +1,7 @@
 import { useState, useMemo } from "react"
 import { useFieldArray, useFormContext } from "react-hook-form"
-import { Pencil, Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Typography } from "@/components/ui/typography"
 import { FieldError } from "@/components/ui/field"
+import { SystemItem } from "@/features/systems/components/system-item"
 import { SystemSelectionModal } from "@/features/habits/components/form/system-selection-modal"
 import { SystemLinkConfigModal } from "@/features/habits/components/form/system-link-config-modal"
 import type { SystemSummaryResponse } from "@/features/systems/types/response/system-summary"
@@ -16,7 +14,7 @@ interface ConfigTarget {
 
 export function SystemsLinkingSection() {
     const { control, formState } = useFormContext<HabitFormValues>()
-    const { fields, append, update, remove } = useFieldArray({ control, name: "systems" })
+    const { fields: systems, append, update, remove } = useFieldArray({ control, name: "systems" })
 
     const error = formState.errors.systems?.message as string | undefined
 
@@ -24,8 +22,8 @@ export function SystemsLinkingSection() {
     const [linkedSystems, setLinkedSystems] = useState<Map<number, SystemSummaryResponse>>(new Map())
 
     const excludeIds = useMemo(
-        () => new Set(fields.map(f => f.systemId)),
-        [fields],
+        () => new Set(systems.map(f => f.systemId)),
+        [systems],
     )
 
     const handleSystemSelected = (system: SystemSummaryResponse) => {
@@ -33,7 +31,7 @@ export function SystemsLinkingSection() {
     }
 
     const handleEditClick = (index: number) => {
-        const field = fields[index]
+        const field = systems[index]
         const system = linkedSystems.get(field.systemId)
         if (!system) return
         setConfigTarget({ system, fieldIndex: index })
@@ -59,7 +57,7 @@ export function SystemsLinkingSection() {
     }
 
     const handleRemove = (index: number) => {
-        const field = fields[index]
+        const field = systems[index]
         setLinkedSystems(prev => {
             const next = new Map(prev)
             next.delete(field.systemId)
@@ -71,36 +69,22 @@ export function SystemsLinkingSection() {
     return (
         <div className="flex flex-col gap-2">
             <ul className="flex flex-col gap-2">
-                {fields.map((field, index) => {
+                {systems.map((field, index) => {
                     const system = linkedSystems.get(field.systemId)
+                    if (!system) return null
                     return (
                         <li key={field.id}>
-                            <div className="default-card-rounded default-card-padding bg-white border border-soft-gray flex items-center justify-between gap-2">
-                                <Typography variant="p">
-                                    {system?.name ?? `Sistema #${field.systemId}`}
-                                </Typography>
-                                <div className="flex items-center gap-1">
+                            <SystemItem
+                                system={system}
+                                showProgress={false}
+                                onEditClick={() => handleEditClick(index)}
+                                onRemoveClick={() => handleRemove(index)}
+                                badge={
                                     <span className="text-xs font-bold text-primary px-2 py-1 rounded-md border border-primary/20 bg-primary/10">
                                         {field.habitWeight}%
                                     </span>
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon-xs"
-                                        onClick={() => handleEditClick(index)}
-                                    >
-                                        <Pencil />
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon-xs"
-                                        onClick={() => handleRemove(index)}
-                                    >
-                                        <Trash2 />
-                                    </Button>
-                                </div>
-                            </div>
+                                }
+                            />
                         </li>
                     )
                 })}
@@ -116,7 +100,7 @@ export function SystemsLinkingSection() {
                 isEditing={configTarget?.fieldIndex !== null}
                 existingWeight={
                     configTarget !== null && configTarget.fieldIndex !== null
-                        ? fields[configTarget.fieldIndex]?.habitWeight
+                        ? systems[configTarget.fieldIndex]?.habitWeight
                         : undefined
                 }
                 onClose={() => setConfigTarget(null)}

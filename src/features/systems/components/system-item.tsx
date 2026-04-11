@@ -1,67 +1,50 @@
-import { Typography } from "@/components/ui/typography"
 import type { SystemSummaryResponse } from "@/features/systems/types/response/system-summary"
-import { Link } from "react-router";
-import { cn } from "@/helpers/cn-tailwind";
-import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color";
-import { getColorByProgress } from "@/helpers/strings/colors/get-color-by-progress";
+import { cn } from "@/helpers/cn-tailwind"
+import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color"
+import { getColorByProgress } from "@/helpers/strings/colors/get-color-by-progress"
+import { Button } from "@/components/ui/button"
 import type { ReactNode } from "react"
-import {
-    Play,
-    Settings,
-    BookOpen,
-    Target,
-    RefreshCcw,
-    Wallet,
-    Zap,
-    Users,
-    Mail,
-    Eye,
-    Heart,
-    ShoppingBag,
-    TrendingUp
-} from "lucide-react"
+import { Pencil, Play, Trash2 } from "lucide-react"
 
-
-interface props {
-	system: SystemSummaryResponse
-	children: ReactNode
+interface SystemItemProps {
+    system: SystemSummaryResponse
+    children?: ReactNode
+    onClick?: () => void
+    showProgress?: boolean
+    onEditClick?: () => void
+    onRemoveClick?: () => void
+    badge?: ReactNode
 }
 
+export const SystemItem = ({
+    system,
+    children,
+    onClick,
+    showProgress = true,
+    onEditClick,
+    onRemoveClick,
+    badge,
+}: SystemItemProps) => {
+    const hasProgress = showProgress && system.progress !== undefined
 
-// interface SystemCardProps {
-//     sistema: {
-//         id: number
-//         title: string
-//         desc: string
-//         active: boolean
-//         icon?: string
-//         parentColors?: string[]
-//         progress?: number
-//     }
-//     children?: React.ReactNode
-//     showWeight?: boolean
-//     weight?: number
-// }
-
-// export function SystemCard({ sistema, children, showWeight, weight }: SystemCardProps) {
-export const SystemItem = ({ system, children }: props) => {
-
-    const hasProgress = system.progress !== undefined
-
-    let progress_bg_color;
-    let progress_border_color;
-    let progress_accent_color;
+    let progress_bg_color: string | undefined
+    let progress_border_color: string | undefined
+    let progress_accent_color: string | undefined
 
     if (hasProgress) {
-        progress_bg_color = getColorByProgress(system.progress);
-        progress_border_color = getStrengthenColor(progress_bg_color, 0.2);
-        progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
+        progress_bg_color = getColorByProgress(system.progress)
+        progress_border_color = getStrengthenColor(progress_bg_color, 0.2)
+        progress_accent_color = getStrengthenColor(progress_bg_color, 0.9)
     }
+
+    const hasActions = onEditClick !== undefined || onRemoveClick !== undefined
 
     return (
         <div
+            onClick={onClick}
             className={cn(
-                "rounded-2xl border transition-all duration-300 bg-white overflow-hidden relative cursor-pointer",
+                "rounded-2xl border transition-all duration-300 bg-white overflow-hidden relative",
+                onClick && "cursor-pointer",
                 children ? "border-gray-100 shadow-sm" : "border-purple-200 p-5 group hover:border-purple-400"
             )}
         >
@@ -74,52 +57,64 @@ export const SystemItem = ({ system, children }: props) => {
                         "rounded-xl flex items-center justify-center transition-colors",
                         children ? "w-8 h-8 bg-gray-50" : "w-10 h-10 bg-gray-50 group-hover:bg-purple-50"
                     )}>
-                        {/* <IconComponent /> */} 🆚
+                        🆚
                     </div>
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                            {/* {system.parentColors && system.parentColors.length > 0 && (
-                                <div className="flex gap-1 items-center">
-                                    {system.parentColors.map((pColor, i) => (
-                                        <div key={i} className={cn("w-1.5 h-1.5 rounded-full")} />
-                                    ))}
-                                </div>
-                            )} */}
+                            <h3 className={cn(
+                                "text-gray-800 tracking-tight transition-colors truncate",
+                                children ? "text-[13px] font-semibold" : "text-sm group-hover:text-purple-900"
+                            )}>
+                                {system.name}
+                            </h3>
 
-                            {/* System Title as Link */}
-                            <Link to={`/sistemas/${system.id}`} className="hover:opacity-70 transition-opacity truncate">
-                                <h3 className={cn(
-                                    "text-gray-800 tracking-tight transition-colors",
-                                    children ? "text-[13px] font-semibold" : "text-sm group-hover:text-purple-900"
-                                )}>
-                                    {system.name}
-                                </h3>
-                            </Link>
-
-							<div className="text-right">
-                                {hasProgress && (
-                                    <span
-                                        className={cn("text-xs font-bold px-2 py-1 rounded-md border")}
-                                        style={{
+                            {showProgress && (
+                                <span
+                                    className="text-xs font-bold px-2 py-1 rounded-md border"
+                                    style={{
                                         backgroundColor: progress_bg_color,
                                         borderColor: progress_border_color,
                                         color: progress_accent_color,
-                                        }}
-                                    >
-                                        {system.progress}%
-                                    </span>
-                                )}
-                            </div>
+                                    }}
+                                >
+                                    {system.progress}%
+                                </span>
+                            )}
                         </div>
-                        {/* {!children && <p className="text-xs text-gray-400 mt-0.5">{system.desc}</p>} */}
                     </div>
                 </div>
 
-                {!children && (
-                    <button className="w-10 h-10 rounded-2xl flex items-center justify-center transition-all cursor-pointer bg-purple-100 text-purple-600">
-                        <Play className="w-4 h-4 fill-current ml-0.5" />
-                    </button>
-                )}
+                <div className="flex items-center gap-1">
+                    {badge}
+                    {hasActions ? (
+                        <>
+                            {onEditClick && (
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon-xs"
+                                    onClick={(e) => { e.stopPropagation(); onEditClick() }}
+                                >
+                                    <Pencil />
+                                </Button>
+                            )}
+                            {onRemoveClick && (
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon-xs"
+                                    onClick={(e) => { e.stopPropagation(); onRemoveClick() }}
+                                >
+                                    <Trash2 />
+                                </Button>
+                            )}
+                        </>
+                    ) : !children && (
+                        <button className="w-10 h-10 rounded-2xl flex items-center justify-center transition-all cursor-pointer bg-purple-100 text-purple-600">
+                            <Play className="w-4 h-4 fill-current ml-0.5" />
+                        </button>
+                    )}
+                </div>
             </div>
 
             {children && (
