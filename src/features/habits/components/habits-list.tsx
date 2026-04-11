@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router"
 import { HabitItem } from "@/features/habits/components/habit-item"
 import type { HabitSummaryResponse } from "@/features/habits/types/response/habits"
 import { FallbackMessage } from "@/components/ui/messages/fallback-message"
@@ -8,6 +9,8 @@ interface props {
 }
 
 export const HabitsList = ({ habits, fallbackMessage } : props) => {
+
+    const navigate = useNavigate()
 
     if (habits.length === 0) {
         return (
@@ -23,10 +26,11 @@ export const HabitsList = ({ habits, fallbackMessage } : props) => {
         <ul className="flex flex-col spacing-in-list-elements">
             {habits.map((habit) => (
                 <li key={habit.id}>
-                    <HabitItem 
-                        habit={habit} 
+                    <HabitItem
+                        habit={habit}
                         allowCheck={false}
                         isNested={false}
+                        onClick={() => navigate(`/habitos/${habit.id}`)}
                     />
                 </li>
             ))}
