@@ -181,6 +181,10 @@ Database types are generated from Supabase. To regenerate: `npx supabase gen typ
 
 The database schema live in /docs/context/db_schema.sql, reference to it when you need understand the db structure
 
+### Task Tracking
+
+Project tasks are tracked in a Notion database (`cosmos_tasks`). See **[docs/context/tasks_db.md](docs/context/tasks_db.md)** for the database identifiers, schema, and how to query it via Notion MCP tools.
+
 ### TypeScript
 
 Strict mode enabled with `noUnusedLocals` and `noUnusedParameters`. Target ES2022, bundler module resolution.
