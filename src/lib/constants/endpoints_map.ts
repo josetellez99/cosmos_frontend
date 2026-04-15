@@ -12,6 +12,7 @@ export const ENDPOINTS_MAP = {
     SYSTEMS: {
         GET_SYSTEMS: `${API_URL}/systems`,
         GET_SYSTEM: `${API_URL}/systems`,
+        POST_SYSTEM: `${API_URL}/systems`,
     },
     HABITS: {
         GET_HABITS: `${API_URL}/habits`,

@@ -1,4 +1,7 @@
+import type { ReactNode } from "react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Typography } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
 import type { HabitSummaryResponse } from "@/features/habits/types/response/habits";
 import { cn } from "@/helpers/cn-tailwind";
 import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color";
@@ -9,9 +12,12 @@ interface props {
   allowCheck: boolean;
   isNested: boolean;
   onClick?: () => void;
+  onEditClick?: () => void;
+  onRemoveClick?: () => void;
+  badge?: ReactNode;
 }
 
-export const HabitItem = ({ habit, isNested, onClick }: props) => {
+export const HabitItem = ({ habit, isNested, onClick, onEditClick, onRemoveClick, badge }: props) => {
 
   const hasProgress = habit.progress !== undefined
 
@@ -25,6 +31,8 @@ export const HabitItem = ({ habit, isNested, onClick }: props) => {
         progress_accent_color = getStrengthenColor(progress_bg_color, 0.9);
     }
 
+    const hasActions = onEditClick !== undefined || onRemoveClick !== undefined
+
   return (
     <div
       onClick={onClick}
@@ -37,24 +45,50 @@ export const HabitItem = ({ habit, isNested, onClick }: props) => {
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <span className="text-xl flex-shrink-0">{habit.emoji}</span>
         <div className="flex flex-col flex-1 min-w-0">
-          <div className="flex items-center justify-between gap-2 pr-4">
+          <div className="flex items-center justify-between gap-2">
             <div className="flex-1 min-w-0">
-              <Typography className="group-hover:text-primary truncate">
+              <Typography className="group-hover:text-primary break-words">
                 {habit.name}
               </Typography>
             </div>
-            <div className="text-right">
-              {hasProgress && (
-                <span
-                  className={cn("text-xs font-bold px-2 py-1 rounded-md border")}
-                  style={{
-                    backgroundColor: progress_bg_color,
-                    borderColor: progress_border_color,
-                    color: progress_accent_color,
-                  }}
-                >
-                  {habit.progress}%
-                </span>
+            <div className="flex items-center gap-1">
+              {badge}
+              {hasActions ? (
+                <>
+                  {onEditClick && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon-xs"
+                      onClick={(e) => { e.stopPropagation(); onEditClick() }}
+                    >
+                      <Pencil />
+                    </Button>
+                  )}
+                  {onRemoveClick && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon-xs"
+                      onClick={(e) => { e.stopPropagation(); onRemoveClick() }}
+                    >
+                      <Trash2 />
+                    </Button>
+                  )}
+                </>
+              ) : (
+                hasProgress && (
+                  <span
+                    className={cn("text-xs font-bold px-2 py-1 rounded-md border")}
+                    style={{
+                      backgroundColor: progress_bg_color,
+                      borderColor: progress_border_color,
+                      color: progress_accent_color,
+                    }}
+                  >
+                    {habit.progress}%
+                  </span>
+                )
               )}
             </div>
           </div>

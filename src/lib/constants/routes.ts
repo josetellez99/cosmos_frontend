@@ -9,6 +9,7 @@ export const appRoutes = {
     },
     SYSTEMS: {
         ROOT: 'systems',
+        CREATE: 'create',
     },
     HABITS: {
         ROOT: 'habits',

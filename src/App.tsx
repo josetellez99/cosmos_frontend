@@ -9,10 +9,11 @@ import { GuestRoute } from '@/components/guards/guest-route';
 import { GoalsPage } from '@/pages/goals-page';
 import { appRoutes } from '@/lib/constants/routes';
 import { ProjectsPage } from '@/pages/projects/projects-page'
-import { SystemsPage } from '@/pages/systems-page'
+import { SystemsPage } from '@/pages/systems/systems-page'
 import { HabitsPage } from '@/pages/habits/habits-page'
 import { CreateProjectPage } from '@/pages/projects/create-project-page';
 import { CreateHabitPage } from '@/pages/habits/create-habit-page';
+import { CreateSystemPage } from '@/pages/systems/create-system-page';
 import { SidebarLayoutRoute } from '@/components/layouts/sidebar-layout/sidebar-layout-route';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
 
           <Route path={appRoutes.SYSTEMS.ROOT}>
             <Route index element={<SystemsPage />} />
+            <Route path={appRoutes.SYSTEMS.CREATE} element={<CreateSystemPage />} />
           </Route>
 
           <Route path={appRoutes.HABITS.ROOT}>
