@@ -9,10 +9,9 @@ import { CSRF_COOKIE_NAME, CSRF_HEADER_NAME } from "@/lib/constants/global_const
 export const CreateSystemService = (
     req: CreateSystemRequest
 ): Promise<ApiResponse<CreateSystemResponse>> => {
-    console.log(req)
-    // return apiClient.post<CreateSystemResponse>(
-    //     ENDPOINTS_MAP.SYSTEMS.POST_SYSTEM,
-    //     req,
-    //     { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } }
-    // )
+    return apiClient.post<CreateSystemResponse>(
+        ENDPOINTS_MAP.SYSTEMS.POST_SYSTEM,
+        req,
+        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } }
+    )
 }
