@@ -15,6 +15,7 @@ import { CreateProjectPage } from '@/pages/projects/create-project-page';
 import { CreateHabitPage } from '@/pages/habits/create-habit-page';
 import { CreateSystemPage } from '@/pages/systems/create-system-page';
 import { SidebarLayoutRoute } from '@/components/layouts/sidebar-layout/sidebar-layout-route';
+import { DashboardPage } from '@/pages/dashboard-page';
 
 function App() {
 
@@ -31,7 +32,7 @@ function App() {
       {/** Protected routes **/}
       <Route element={<ProtectedRoute />}>
         <Route element={<SidebarLayoutRoute />}>
-          <Route path={appRoutes.DASHBOARD} element={<p>Hello world</p>} />
+          <Route path={appRoutes.DASHBOARD} element={<DashboardPage />} />
 
           <Route path={appRoutes.GOALS.ROOT}>
             <Route index element={<GoalsPage />} />
