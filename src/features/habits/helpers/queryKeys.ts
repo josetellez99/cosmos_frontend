@@ -5,4 +5,5 @@ export const habitQueryKeys = {
     [...habitQueryKeys.lists()] as const,
   details: () => [...habitQueryKeys.all, 'detail'] as const,
   detail: (id: number) => [...habitQueryKeys.details(), id] as const,
+  byDate: (date: string) => [...habitQueryKeys.all, 'byDate', date] as const,
 }
