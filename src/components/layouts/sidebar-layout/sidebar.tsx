@@ -6,6 +6,7 @@ import { useUiContext } from "@/hooks/useUiContext";
 import { appRoutes } from "@/lib/constants/routes";
 
 const NAV_LINKS = [
+    { to: `/${appRoutes.DASHBOARD}`, label: 'Dashboard' },
     { to: `/${appRoutes.PROJECTS.ROOT}`, label: 'Proyectos' },
     { to: `/${appRoutes.HABITS.ROOT}`, label: 'Hábitos' },
     { to: `/${appRoutes.GOALS.ROOT}`, label: 'Metas' },
@@ -32,7 +33,7 @@ export const Sidebar = () => {
                             onClick={() => setIsSidebarOpened(false)}
                             className="flex items-center justify-between py-3 px-2 cursor-pointer text-primary hover:opacity-70 transition-opacity"
                         >
-                            <Typography className="font-medium">{label}</Typography>
+                            <Typography variant={"h3"} className="font-medium">{label}</Typography>
                             <ChevronRight className="size-4" />
                         </Link>
                     ))}
