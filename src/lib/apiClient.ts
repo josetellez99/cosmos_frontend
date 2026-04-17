@@ -97,6 +97,6 @@ export const apiClient = {
     patch: <TResponse, TBody = unknown>(endpoint: string, body: TBody, options?: RequestOptions) =>
         request<TResponse, TBody>(endpoint, { method: 'PATCH', body, ...options }),
 
-    delete: <TResponse>(endpoint: string, options?: RequestOptions) =>
-        request<TResponse>(endpoint, { method: 'DELETE', ...options }),
+    delete: <TResponse, TBody = unknown>(endpoint: string, body?: TBody, options?: RequestOptions) =>
+        request<TResponse, TBody>(endpoint, { method: 'DELETE', body, ...options }),
 };
