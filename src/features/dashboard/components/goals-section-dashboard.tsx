@@ -5,7 +5,7 @@ import { GoalsList } from '@/features/goals/components/goals-list'
 import { FilterContainer, FilterItem, FilterOptionList } from '@/components/filters'
 import { AsyncErrorBoundary } from '@/components/async-boundary'
 import { GoalsListSkeleton } from '@/features/goals/components/loaders/goals-list-skeleton'
-import { goalsPageDynamicFiltersReq } from '@/features/goals/constants/reqObjects'
+import { defaultYearlyGoalReq } from '@/features/goals/constants/reqObjects'
 import { TEMPORALITY_FILTER_OPTIONS, type GoalTemporalityType } from '@/lib/constants/goals_temporalities'
 import { GOAL_STATUS_FILTER_OPTIONS, type GoalStatusType } from '@/lib/constants/goals_status'
 import { getTemporalityDateRange } from '@/features/goals/helpers/temporalityDateRange'
@@ -18,7 +18,7 @@ const DashboardGoalsList = ({ filters }: { filters: GetUserGoalsRequest }) => {
 
 export const GoalsSectionDashboard = () => {
 
-  const [filters, setFilters] = useState<GetUserGoalsRequest>(goalsPageDynamicFiltersReq)
+  const [filters, setFilters] = useState<GetUserGoalsRequest>(defaultYearlyGoalReq)
 
   const handleTemporalitySelect = useCallback((val: string) => {
     const temporality = val as GoalTemporalityType
@@ -47,7 +47,7 @@ export const GoalsSectionDashboard = () => {
   }, [])
 
   const handleClearAll = useCallback(() => {
-    setFilters(goalsPageDynamicFiltersReq)
+    setFilters(defaultYearlyGoalReq)
   }, [])
 
   const isTemporalityActive = !!filters.temporality?.length
