@@ -21,6 +21,8 @@ describe('HambugerButton', () => {
     const contextValue: UiContextType = {
       isSidebarOpened: false,
       setIsSidebarOpened: vi.fn(),
+      dashboardDate: 'date',
+      setDashboardDate: () => {}
     }
     renderWithUiContext(contextValue)
     expect(screen.getByRole('button')).toBeDefined()
@@ -32,6 +34,8 @@ describe('HambugerButton', () => {
     const contextValue: UiContextType = {
       isSidebarOpened: false,
       setIsSidebarOpened,
+      dashboardDate: 'date',
+      setDashboardDate: () => {}
     }
     renderWithUiContext(contextValue)
     await user.click(screen.getByRole('button'))
