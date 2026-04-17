@@ -6,9 +6,11 @@ import type { ApiResponse } from "@/types/api_responses"
 
 export const deleteHabitRecordService = (
     habitId: number,
+    date: string,
 ): Promise<ApiResponse<null>> => {
     return apiClient.delete<null>(
-        `${ENDPOINTS_MAP.HABIT_RECORDS.DELETE_HABIT_RECORD}/${habitId}/records`,
+        ENDPOINTS_MAP.HABIT_RECORDS.DELETE_HABIT_RECORD(habitId, date),
+        undefined,
         { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } },
     )
 }
