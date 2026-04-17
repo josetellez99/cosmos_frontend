@@ -20,9 +20,10 @@ export const ENDPOINTS_MAP = {
         POST_HABIT: `${API_URL}/habits`,
     },
     HABIT_RECORDS: {
+        POST_HABIT_RECORD: `${API_URL}/habits`,
         DELETE_HABIT_RECORD: (habitId: number, date: string) => {
             return `${API_URL}/habits/${habitId}/records/${date}`
-        } ,
+        },
     },
     GOAL_LINK: {
         PUT_GOAL_LINK: `${API_URL}/goal-links`
