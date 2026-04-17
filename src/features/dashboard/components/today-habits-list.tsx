@@ -13,7 +13,7 @@ export const TodayHabitsList = ({ habits, date }: props) => {
 
     const navigate = useNavigate()
     const { mutate: createRecord } = useCreateHabitRecord({ date })
-    const { mutate: deleteRecord } = useDeleteHabitRecord({ date })
+    const { mutate: deleteRecord } = useDeleteHabitRecord()
 
     if (habits.length === 0) {
         return (
@@ -35,7 +35,7 @@ export const TodayHabitsList = ({ habits, date }: props) => {
                             if (next) {
                                 createRecord({ habitId: habit.id })
                             } else {
-                                deleteRecord({ habitId: habit.id })
+                                deleteRecord({ habitId: habit.id, date })
                             }
                         }}
                         isNested={false}

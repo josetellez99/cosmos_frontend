@@ -1,10 +1,9 @@
-import { useMemo } from "react"
 import { useHabitsByDateSuspense } from "@/features/habits/hooks"
-import { formatDateForApi } from "@/features/habits/helpers/format-date-for-api"
+import { useUiContext } from "@/hooks/useUiContext"
 import { TodayHabitsList } from "@/features/dashboard/components/today-habits-list"
 
 export const TodayHabitsSection = () => {
-    const today = useMemo(() => formatDateForApi(new Date()), [])
-    const { habits } = useHabitsByDateSuspense(today)
-    return <TodayHabitsList habits={habits} date={today} />
+    const { dashboardDate } = useUiContext()
+    const { habits } = useHabitsByDateSuspense(dashboardDate)
+    return <TodayHabitsList habits={habits} date={dashboardDate} />
 }
