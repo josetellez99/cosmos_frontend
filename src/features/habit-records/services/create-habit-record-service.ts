@@ -10,20 +10,6 @@ export const createHabitRecordService  = async (
     habitId: number,
     body: CreateHabitRecordRequest,
 ): Promise<ApiResponse<HabitRecordResponse>> => {
-    console.log('csrf cookie value')
-    console.log(getCookie(CSRF_COOKIE_NAME))
-
-    console.log('headers')
-    console.log({ headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } })
-    
-    const res = await apiClient.post<HabitRecordResponse, CreateHabitRecordRequest>(
-        `${ENDPOINTS_MAP.HABIT_RECORDS.POST_HABIT_RECORD}/${habitId}/records`,
-        body,
-        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } },
-    )
-    console.log('This is the res of apiClient(/ENDPOINTS_MAP.HABIT_RECORDS.POST_HABIT_RECORD)')
-    console.log(res)
-
     return apiClient.post<HabitRecordResponse, CreateHabitRecordRequest>(
         `${ENDPOINTS_MAP.HABIT_RECORDS.POST_HABIT_RECORD}/${habitId}/records`,
         body,
