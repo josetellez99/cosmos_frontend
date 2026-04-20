@@ -8,4 +8,5 @@ export interface GetUserGoalsRequest {
     order?: 'ASC' | 'DESC'
     startDate?: string
     endDate?: string
+    includeProgress?: boolean
 }

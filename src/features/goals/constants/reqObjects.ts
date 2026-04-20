@@ -8,7 +8,8 @@ export const defaultYearlyGoalReq: GetUserGoalsRequest = {
     orderBy: 'sort_order',
     order: 'ASC',
     startDate: `${currentYear}-01-01`,
-    endDate: `${currentYear}-12-31`
+    endDate: `${currentYear}-12-31`,
+    includeProgress: true
 }
 
 export const goalsPageDynamicFiltersReq: GetUserGoalsRequest = {
@@ -17,5 +18,6 @@ export const goalsPageDynamicFiltersReq: GetUserGoalsRequest = {
     orderBy: 'sort_order',
     order: 'ASC',
     startDate: `${currentYear}-01-01`,
-    endDate: `${currentYear}-12-31`
+    endDate: `${currentYear}-12-31`,
+    includeProgress: true
 }
