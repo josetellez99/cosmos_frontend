@@ -58,6 +58,8 @@ export const useCreateHabitRecord = ({ date }: Args) => {
     },
 
     onError: (_err, _vars, context) => {
+      console.log(_err)
+      console.log(_vars)
       console.log(context)
       if (context?.snapshot) {
         queryClient.setQueryData(queryKey, context.snapshot)
