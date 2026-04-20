@@ -6,10 +6,16 @@ import type { ApiResponse } from "@/types/api_responses"
 import type { CreateHabitRecordRequest } from "@/features/habit-records/types/request/create-habit-record"
 import type { HabitRecordResponse } from "@/features/habit-records/types/response/habit-record"
 
-export const createHabitRecordService = (
+export const createHabitRecordService  = async (
     habitId: number,
     body: CreateHabitRecordRequest,
 ): Promise<ApiResponse<HabitRecordResponse>> => {
+    const res = await apiClient.post<HabitRecordResponse, CreateHabitRecordRequest>(
+        `${ENDPOINTS_MAP.HABIT_RECORDS.POST_HABIT_RECORD}/${habitId}/records`,
+        body,
+        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } },
+    )
+    console.log(res)
     return apiClient.post<HabitRecordResponse, CreateHabitRecordRequest>(
         `${ENDPOINTS_MAP.HABIT_RECORDS.POST_HABIT_RECORD}/${habitId}/records`,
         body,

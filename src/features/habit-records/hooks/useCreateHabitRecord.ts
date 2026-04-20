@@ -19,6 +19,8 @@ type Context = {
 
 export const useCreateHabitRecord = ({ date }: Args) => {
 
+  console.log('Here I am')
+
   const queryClient = useQueryClient()
   const queryKey = habitQueryKeys.byDate(date)
 
@@ -56,6 +58,7 @@ export const useCreateHabitRecord = ({ date }: Args) => {
     },
 
     onError: (_err, _vars, context) => {
+      console.log(context)
       if (context?.snapshot) {
         queryClient.setQueryData(queryKey, context.snapshot)
       }
