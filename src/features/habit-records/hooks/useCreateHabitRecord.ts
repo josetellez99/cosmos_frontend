@@ -19,8 +19,6 @@ type Context = {
 
 export const useCreateHabitRecord = ({ date }: Args) => {
 
-  console.log('Here I am')
-
   const queryClient = useQueryClient()
   const queryKey = habitQueryKeys.byDate(date)
 
