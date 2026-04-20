@@ -12,6 +12,6 @@ export const updateGoalLinkService = (
     return apiClient.put<void, UpdateGoalLinkRequest>(
         `${ENDPOINTS_MAP.GOAL_LINK.PUT_GOAL_LINK}/${id}`,
         body,
-        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } },
+        { headers: { [CSRF_HEADER_NAME]: (getCookie(CSRF_COOKIE_NAME) ?? "") } },
     )
 }

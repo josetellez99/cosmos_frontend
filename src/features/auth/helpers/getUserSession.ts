@@ -1,13 +1,13 @@
 import type { UserSession } from "@/features/auth/types/UserSession";
-
-const COOKIE_NAME = "cosmos_user_session";
+import { getCookie } from "@/helpers/cookies";
+import { USER_SESSION_COOKIE } from "@/lib/constants/global_constants";
 
 export function getUserSession(): UserSession | null {
-    const match = document.cookie.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`));
-    if (!match) return null;
+    const raw = getCookie(USER_SESSION_COOKIE);
+    if (!raw) return null;
 
     try {
-        return JSON.parse(decodeURIComponent(match[1])) as UserSession;
+        return JSON.parse(raw) as UserSession;
     } catch {
         return null;
     }

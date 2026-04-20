@@ -12,6 +12,6 @@ export const updateHabitSystemService = (
     return apiClient.put<void, UpdateHabitSystemRequest>(
         `${ENDPOINTS_MAP.HABIT_SYSTEM.PUT_HABIT_SYSTEM}/${id}`,
         body,
-        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } },
+        { headers: { [CSRF_HEADER_NAME]: (getCookie(CSRF_COOKIE_NAME) ?? "") } },
     )
 }

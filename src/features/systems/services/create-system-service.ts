@@ -12,6 +12,6 @@ export const CreateSystemService = (
     return apiClient.post<CreateSystemResponse>(
         ENDPOINTS_MAP.SYSTEMS.POST_SYSTEM,
         req,
-        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } }
+        { headers: { [CSRF_HEADER_NAME]: (getCookie(CSRF_COOKIE_NAME) ?? "") } }
     )
 }

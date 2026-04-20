@@ -12,6 +12,6 @@ export const CreateHabitService = (
     return apiClient.post<CreateHabitResponse>(
         ENDPOINTS_MAP.HABITS.POST_HABIT,
         req,
-        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } }
+        { headers: { [CSRF_HEADER_NAME]: (getCookie(CSRF_COOKIE_NAME) ?? "") } }
     )
 }

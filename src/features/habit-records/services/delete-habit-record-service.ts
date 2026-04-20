@@ -11,6 +11,6 @@ export const deleteHabitRecordService = (
     return apiClient.delete<null>(
         ENDPOINTS_MAP.HABIT_RECORDS.DELETE_HABIT_RECORD(habitId, date),
         undefined,
-        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } },
+        { headers: { [CSRF_HEADER_NAME]: (getCookie(CSRF_COOKIE_NAME) ?? "") } },
     )
 }

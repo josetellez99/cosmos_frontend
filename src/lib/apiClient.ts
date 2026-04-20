@@ -1,5 +1,9 @@
 import type { HttpMethod } from "@/types/http";
 import type { ApiResponse } from "@/types/api_responses";
+import { removeCookies } from "@/helpers/cookies";
+import { CSRF_COOKIE_NAME, USER_SESSION_COOKIE } from "@/lib/constants/global_constants";
+
+const AUTH_COOKIES = [CSRF_COOKIE_NAME, USER_SESSION_COOKIE];
 
 const DEFAULT_TIMEOUT = 10000;
 
@@ -42,6 +46,9 @@ async function request<TResponse, TBody = unknown>(
 
         // Normalize fetch's silent error problem
         if (!response.ok) {
+            if (response.status === 401) {
+                removeCookies(AUTH_COOKIES);
+            }
             const errorResponse = await response.json().catch(() => null);
             return {
                 ok: false,

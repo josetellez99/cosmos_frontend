@@ -3,6 +3,7 @@ export const MILISECONS_AMOUNT_IN_10_MINUTES = 10 * 60 * 1000;
 export const DEFAULT_STALE_TIME = MILISECONS_AMOUNT_IN_10_MINUTES
 
 export const CSRF_COOKIE_NAME = 'cosmos_csrf_token';
+export const USER_SESSION_COOKIE = "cosmos_user_session";
 
 export const CSRF_HEADER_NAME = 'X-CSRF-Token';
 

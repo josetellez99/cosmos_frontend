@@ -13,6 +13,6 @@ export const createHabitRecordService  = async (
     return apiClient.post<HabitRecordResponse, CreateHabitRecordRequest>(
         `${ENDPOINTS_MAP.HABIT_RECORDS.POST_HABIT_RECORD}/${habitId}/records`,
         body,
-        { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } },
+        { headers: { [CSRF_HEADER_NAME]: (getCookie(CSRF_COOKIE_NAME) ?? "") } },
     )
 }
