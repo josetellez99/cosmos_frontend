@@ -31,8 +31,6 @@ export const useCreateHabitRecord = ({ date }: Args) => {
 
     mutationFn: async ({ habitId }) => {
       const response = await createHabitRecordService(habitId, { isCompleted: true })
-      console.log('this is the response')
-      console.log(response)
       if (!response.ok) {
         throw response
       }
@@ -56,9 +54,6 @@ export const useCreateHabitRecord = ({ date }: Args) => {
     },
 
     onError: (_err, _vars, context) => {
-      console.log(_err)
-      console.log(_vars)
-      console.log(context)
       if (context?.snapshot) {
         queryClient.setQueryData(queryKey, context.snapshot)
       }
