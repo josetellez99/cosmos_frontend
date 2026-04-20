@@ -9,6 +9,5 @@ import { formatProjectRequest } from "@/features/projects/helpers/format-project
 
 export const CreateProjectService = (req: CreateProjectRequest): Promise<ApiResponse<CreateProjectResponse>> => {
     const formattedRequest = formatProjectRequest(req)
-    console.log(formattedRequest)
     return apiClient.post<CreateProjectResponse>(ENDPOINTS_MAP.PROJECTS.POST_PROJECT, formattedRequest, { headers: { [CSRF_HEADER_NAME]: getCookie(CSRF_COOKIE_NAME) } })
 }

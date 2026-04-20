@@ -4,7 +4,6 @@ const COOKIE_NAME = "cosmos_user_session";
 
 export function getUserSession(): UserSession | null {
     const match = document.cookie.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`));
-    console.log(match)
     if (!match) return null;
 
     try {

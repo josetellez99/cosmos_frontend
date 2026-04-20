@@ -31,6 +31,8 @@ export const useCreateHabitRecord = ({ date }: Args) => {
 
     mutationFn: async ({ habitId }) => {
       const response = await createHabitRecordService(habitId, { isCompleted: true })
+      console.log('this is the response')
+      console.log(response)
       if (!response.ok) {
         throw response
       }

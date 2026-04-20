@@ -21,8 +21,6 @@ export const FilteredProjectsSection = () => {
   const [filters, setFilters] = useState<GetProjectsRequest>(defaultProjectsPageReq)
   const [dateRange, setDateRange] = useState<{ from?: Date; to?: Date }>({})
 
-  console.log(filters)
-
   const handleStatusChange = useCallback(
     (val: string) => {
       setFilters(prev => ({ ...prev, status: [val as ProjectStatusType] }))

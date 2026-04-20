@@ -11,7 +11,6 @@ interface AuthContextProviderProps {
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     const sessionFromCookie = getUserSession();
-    console.log(sessionFromCookie)
     const [user, setUser] = useState<UserSession | null>(sessionFromCookie);
 
     const value = useMemo(() => ({ user, setUser}), [user])
