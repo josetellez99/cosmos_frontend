@@ -48,6 +48,7 @@ async function request<TResponse, TBody = unknown>(
         if (!response.ok) {
             if (response.status === 401) {
                 removeCookies(AUTH_COOKIES);
+                window.location.href = '/login'
             }
             const errorResponse = await response.json().catch(() => null);
             return {
