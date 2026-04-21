@@ -10,3 +10,8 @@ export interface HabitSummaryResponse {
     starting_date: string,
     progress: number
 }
+
+export interface HabitCompletionField {
+    targetAmount: number
+    completions: number
+}

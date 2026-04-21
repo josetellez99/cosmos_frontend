@@ -1,6 +1,6 @@
 import { useHabitsByDateSuspense } from "@/features/habits/hooks"
 import { useUiContext } from "@/hooks/useUiContext"
-import { TodayHabitsList } from "@/features/dashboard/components/today-habits-list"
+import { DashboardHabitsList } from "@/features/dashboard/components/today-habits-list"
 import { Typography } from "@/components/ui/typography"
 
 export const WeeklyHabitsSection = () => {
@@ -9,7 +9,7 @@ export const WeeklyHabitsSection = () => {
     return (
         <div className="spacing-in-sections">
             <Typography variant="h3" className="spacing-in-title-section">{"Hábitos de esta semana"}</Typography>
-            <TodayHabitsList habits={habits} date={dashboardDate} />
+            <DashboardHabitsList habits={habits} date={dashboardDate} dateType='weekly' />
         </div>
     ) 
 }

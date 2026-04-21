@@ -4,6 +4,7 @@ import type { HabitForDateResponse } from '@/features/habits/types/response/habi
 import type { HabitRecordResponse } from '@/features/habit-records/types/response/habit-record'
 import { createHabitRecordService } from '@/features/habit-records/services/create-habit-record-service'
 import { habitQueryKeys } from '@/features/habits/helpers/queryKeys'
+import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
 
 interface Variables {
   habitId: number
@@ -11,16 +12,17 @@ interface Variables {
 
 interface Args {
   date: string
+  dateType: DateTypeHabit
 }
 
 type Context = {
   snapshot: ApiResponse<HabitForDateResponse[]> | undefined
 }
 
-export const useCreateHabitRecord = ({ date }: Args) => {
+export const useCreateHabitRecord = ({ date, dateType }: Args) => {
 
   const queryClient = useQueryClient()
-  const queryKey = habitQueryKeys.byDate(date)
+  const queryKey = habitQueryKeys.byDate(date, dateType)
 
   const { mutate, isPending, error, data } = useMutation<
     HabitRecordResponse,

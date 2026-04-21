@@ -3,17 +3,19 @@ import { HabitItem } from "@/features/habits/components/habit-item"
 import { FallbackMessage } from "@/components/ui/messages/fallback-message"
 import { useCreateHabitRecord, useDeleteHabitRecord } from "@/features/habit-records/hooks"
 import type { HabitForDateResponse } from "@/features/habits/types/response/habit-for-date"
+import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
 
 interface props {
     habits: HabitForDateResponse[]
     date: string
+    dateType: DateTypeHabit
 }
 
-export const TodayHabitsList = ({ habits, date }: props) => {
+export const DashboardHabitsList = ({ habits, date, dateType }: props) => {
 
     const navigate = useNavigate()
-    const { mutate: createRecord } = useCreateHabitRecord({ date })
-    const { mutate: deleteRecord } = useDeleteHabitRecord()
+    const { mutate: createRecord } = useCreateHabitRecord({ date, dateType })
+    const { mutate: deleteRecord } = useDeleteHabitRecord(dateType)
 
     if (habits.length === 0) {
         return (
@@ -31,6 +33,7 @@ export const TodayHabitsList = ({ habits, date }: props) => {
                         habit={habit}
                         allowCheck
                         isChecked={habit.isChecked}
+                        completion={habit.completion}
                         onToggleCheck={(next) => {
                             if (next) {
                                 createRecord({ habitId: habit.id })

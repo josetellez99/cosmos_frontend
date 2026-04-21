@@ -3,6 +3,7 @@ import type { ApiResponse, ErrorApiResponse } from '@/types/api_responses'
 import type { HabitForDateResponse } from '@/features/habits/types/response/habit-for-date'
 import { deleteHabitRecordService } from '@/features/habit-records/services/delete-habit-record-service'
 import { habitQueryKeys } from '@/features/habits/helpers/queryKeys'
+import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
 
 interface Variables {
   habitId: number
@@ -13,7 +14,7 @@ type Context = {
   snapshot: ApiResponse<HabitForDateResponse[]> | undefined
 }
 
-export const useDeleteHabitRecord = () => {
+export const useDeleteHabitRecord = (dateType: DateTypeHabit) => {
 
   const queryClient = useQueryClient()
 
@@ -33,7 +34,7 @@ export const useDeleteHabitRecord = () => {
     },
 
     onMutate: async ({ habitId, date }) => {
-      const queryKey = habitQueryKeys.byDate(date)
+      const queryKey = habitQueryKeys.byDate(date, dateType)
       await queryClient.cancelQueries({ queryKey })
 
       const snapshot = queryClient.getQueryData<ApiResponse<HabitForDateResponse[]>>(queryKey)
@@ -51,12 +52,12 @@ export const useDeleteHabitRecord = () => {
 
     onError: (_err, { date }, context) => {
       if (context?.snapshot) {
-        queryClient.setQueryData(habitQueryKeys.byDate(date), context.snapshot)
+        queryClient.setQueryData(habitQueryKeys.byDate(date, dateType), context.snapshot)
       }
     },
 
     onSuccess: (_data, { date }) => {
-      queryClient.invalidateQueries({ queryKey: habitQueryKeys.byDate(date) })
+      queryClient.invalidateQueries({ queryKey: habitQueryKeys.byDate(date, dateType) })
     },
   })
 

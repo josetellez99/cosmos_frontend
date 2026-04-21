@@ -6,6 +6,7 @@ import type { HabitSummaryResponse } from "@/features/habits/types/response/habi
 import { cn } from "@/helpers/cn-tailwind";
 import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color";
 import { getColorByProgress } from "@/helpers/strings/colors/get-color-by-progress";
+import type { HabitCompletionField } from "@/features/habits/types/response/habits";
 
 interface props {
   habit: HabitSummaryResponse;
@@ -17,9 +18,10 @@ interface props {
   onEditClick?: () => void;
   onRemoveClick?: () => void;
   badge?: ReactNode;
+  completion?: HabitCompletionField
 }
 
-export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge }: props) => {
+export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, completion }: props) => {
 
   const hasProgress = habit.progress !== undefined
 
@@ -113,6 +115,15 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
               )}
             </div>
           </div>
+          {
+            completion && (
+              <span className="text-sm">
+                <span>{completion.completions}</span>
+                <span> de </span>
+                <span>{completion.targetAmount}</span>
+              </span>
+            )
+          }
         </div>
       </div>
     </div>
