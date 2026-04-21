@@ -18,7 +18,7 @@ const buttonClass = (selected: boolean) =>
     )
 
 export const HabitsVsTasksToggle = ({ view, onChange }: props) => (
-    <div className="flex gap-2">
+    <div className="flex gap-2 w-full justify-end">
         <Button
             type="button"
             size="sm"

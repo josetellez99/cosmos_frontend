@@ -16,7 +16,9 @@ export const ENDPOINTS_MAP = {
     },
     HABITS: {
         GET_HABITS: `${API_URL}/habits`,
-        GET_HABITS_BY_DATE: `${API_URL}/habits/day`,
+        GET_HABITS_FOR_DAY: `${API_URL}/habits/day`,
+        GET_HABITS_FOR_WEEK: `${API_URL}/habits/week`,
+        GET_HABITS_FOR_MONTH: `${API_URL}/habits/month`,
         POST_HABIT: `${API_URL}/habits`,
     },
     HABIT_RECORDS: {

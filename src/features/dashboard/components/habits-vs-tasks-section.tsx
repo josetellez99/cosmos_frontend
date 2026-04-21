@@ -6,6 +6,7 @@ import { TodayHabitsSection } from "@/features/dashboard/components/today-habits
 import { TasksComingSoon } from "@/features/dashboard/components/tasks-coming-soon"
 import { TodayHabitsSkeleton } from "@/features/dashboard/components/loaders/today-habits-skeleton"
 import type { HabitsVsTasksView } from "@/features/dashboard/types/habits-vs-tasks-view"
+import { WeeklyHabitsSection } from "@/features/dashboard/components/weekly-habits-section"
 
 export const HabitsVsTasksSection = () => {
 
@@ -15,7 +16,7 @@ export const HabitsVsTasksSection = () => {
     return (
         <>
             <div className="spacing-in-title-section flex items-center justify-between">
-                <Typography variant="h3">{isHabits ? "Hábitos de hoy" : "Tareas"}</Typography>
+                {/* <Typography variant="h3">{isHabits ? "Hábitos de hoy" : "Tareas"}</Typography> */}
                 <HabitsVsTasksToggle view={view} onChange={setView} />
             </div>
 
@@ -27,6 +28,7 @@ export const HabitsVsTasksSection = () => {
                     <div className="w-full flex-shrink-0">
                         <AsyncErrorBoundary loadingFallback={<TodayHabitsSkeleton />}>
                             <TodayHabitsSection />
+                            <WeeklyHabitsSection />
                         </AsyncErrorBoundary>
                     </div>
                     <div className="w-full flex-shrink-0">
