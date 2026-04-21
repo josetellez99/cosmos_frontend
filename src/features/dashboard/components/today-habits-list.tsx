@@ -4,6 +4,7 @@ import { FallbackMessage } from "@/components/ui/messages/fallback-message"
 import { useCreateHabitRecord, useDeleteHabitRecord } from "@/features/habit-records/hooks"
 import type { HabitForDateResponse } from "@/features/habits/types/response/habit-for-date"
 import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
+import { dateIsToday } from "@/helpers/dates/date-is-today"
 
 interface props {
     habits: HabitForDateResponse[]
@@ -43,6 +44,7 @@ export const DashboardHabitsList = ({ habits, date, dateType }: props) => {
                         }}
                         isNested={false}
                         onClick={() => navigate(`/habitos/${habit.id}`)}
+                        isToday={dateIsToday(date)}
                     />
                 </li>
             ))}

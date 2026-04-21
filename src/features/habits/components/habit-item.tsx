@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Check, Pencil, Trash2 } from "lucide-react";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import type { HabitSummaryResponse } from "@/features/habits/types/response/habits";
 import { cn } from "@/helpers/cn-tailwind";
 import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color";
@@ -19,9 +20,12 @@ interface props {
   onRemoveClick?: () => void;
   badge?: ReactNode;
   completion?: HabitCompletionField
+  isToday?: boolean
 }
 
-export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, completion }: props) => {
+export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, completion, isToday }: props) => {
+
+  const [tooltipOpen, setTooltipOpen] = useState(false)
 
   const hasProgress = habit.progress !== undefined
 
@@ -37,9 +41,18 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
 
     const hasActions = onEditClick !== undefined || onRemoveClick !== undefined
 
+  const handleCardClick = () => {
+    if (isToday === false) {
+      setTooltipOpen(true)
+      setTimeout(() => setTooltipOpen(false), 2000)
+      return
+    }
+    onClick?.()
+  }
+
   return (
     <div
-      onClick={onClick}
+      onClick={handleCardClick}
       className={cn(
         "flex default-card-rounded items-center default-card-padding justify-between default-animation",
         onClick && "cursor-pointer hover:opacity-70 transition-opacity",
@@ -48,23 +61,36 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         {allowCheck && (
-          <button
-            type="button"
-            aria-label={isChecked ? "Desmarcar hábito" : "Marcar hábito"}
-            aria-pressed={!!isChecked}
-            onClick={(e) => {
-              e.stopPropagation()
-              onToggleCheck?.(!isChecked)
-            }}
-            className={cn(
-              "flex-shrink-0 size-5 rounded-md border flex items-center justify-center cursor-pointer default-animation",
-              isChecked
-                ? "bg-primary border-primary text-primary-foreground"
-                : "bg-white border-soft-gray hover:border-primary",
-            )}
-          >
-            {isChecked && <Check className="size-3" />}
-          </button>
+          isToday === false ? (
+            <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
+              <TooltipTrigger asChild>
+                <span className="flex-shrink-0 size-5 rounded-md border flex items-center justify-center bg-primary/50 border-primary/50 cursor-not-allowed">
+                  {isChecked && <Check className="size-3 text-primary-foreground" />}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                Solo puedes completar los hábitos del día de hoy
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <button
+              type="button"
+              aria-label={isChecked ? "Desmarcar hábito" : "Marcar hábito"}
+              aria-pressed={!!isChecked}
+              onClick={(e) => {
+                e.stopPropagation()
+                onToggleCheck?.(!isChecked)
+              }}
+              className={cn(
+                "flex-shrink-0 size-5 rounded-md border flex items-center justify-center cursor-pointer default-animation",
+                isChecked
+                  ? "bg-primary border-primary text-primary-foreground"
+                  : "bg-white border-soft-gray hover:border-primary",
+              )}
+            >
+              {isChecked && <Check className="size-3" />}
+            </button>
+          )
         )}
         <span className="text-xl flex-shrink-0">{habit.emoji}</span>
         <div className="flex flex-col flex-1 min-w-0">
