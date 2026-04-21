@@ -8,8 +8,8 @@ export const WeeklyHabitsSection = () => {
     const { habits } = useHabitsByDateSuspense(dashboardDate, 'weekly')
     return (
         <div className="spacing-in-sections">
-            <Typography variant="h3" className="spacing-in-title-section">{"Hábitos de esta semana"}</Typography>
-            <DashboardHabitsList habits={habits} date={dashboardDate} dateType='weekly' />
+            <Typography variant="h3" className="spacing-in-title-section">{"Hábitos para esta semana"}</Typography>
+            <DashboardHabitsList habits={habits} dashboardDate={dashboardDate} dateType='weekly' />
         </div>
     ) 
 }

@@ -1,0 +1,1 @@
+export type DateTypesForAmountRangeHabit = 'dayly' | 'weekly' | 'monthly'; 

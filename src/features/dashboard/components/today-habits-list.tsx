@@ -3,19 +3,19 @@ import { HabitItem } from "@/features/habits/components/habit-item"
 import { FallbackMessage } from "@/components/ui/messages/fallback-message"
 import { useCreateHabitRecord, useDeleteHabitRecord } from "@/features/habit-records/hooks"
 import type { HabitForDateResponse } from "@/features/habits/types/response/habit-for-date"
-import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
+import type { DateTypesForAmountRangeHabit } from '@/features/habits/types/date-type-amount-range-habits'
 import { dateIsToday } from "@/helpers/dates/date-is-today"
 
 interface props {
     habits: HabitForDateResponse[]
-    date: string
-    dateType: DateTypeHabit
+    dashboardDate: string
+    dateType: DateTypesForAmountRangeHabit
 }
 
-export const DashboardHabitsList = ({ habits, date, dateType }: props) => {
+export const DashboardHabitsList = ({ habits, dashboardDate, dateType }: props) => {
 
     const navigate = useNavigate()
-    const { mutate: createRecord } = useCreateHabitRecord({ date, dateType })
+    const { mutate: createRecord } = useCreateHabitRecord({ date: dashboardDate, dateType })
     const { mutate: deleteRecord } = useDeleteHabitRecord(dateType)
 
     if (habits.length === 0) {
@@ -34,17 +34,17 @@ export const DashboardHabitsList = ({ habits, date, dateType }: props) => {
                         habit={habit}
                         allowCheck
                         isChecked={habit.isChecked}
-                        completion={habit.completion}
+                        amountRangeHabitCompletion={habit.completion}
                         onToggleCheck={(next) => {
                             if (next) {
                                 createRecord({ habitId: habit.id })
                             } else {
-                                deleteRecord({ habitId: habit.id, date })
+                                deleteRecord({ habitId: habit.id, date: dashboardDate })
                             }
                         }}
                         isNested={false}
                         onClick={() => navigate(`/habitos/${habit.id}`)}
-                        isToday={dateIsToday(date)}
+                        isShowedToday={dateIsToday(dashboardDate)}
                     />
                 </li>
             ))}

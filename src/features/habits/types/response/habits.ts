@@ -14,4 +14,5 @@ export interface HabitSummaryResponse {
 export interface HabitCompletionField {
     targetAmount: number
     completions: number
+    records: string[]
 }

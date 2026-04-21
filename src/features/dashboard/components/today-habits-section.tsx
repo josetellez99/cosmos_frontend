@@ -9,7 +9,7 @@ export const TodayHabitsSection = () => {
     return (
         <div className="spacing-in-sections">
             <Typography variant="h3" className="spacing-in-title-section">{"Hábitos de hoy"}</Typography>
-            <DashboardHabitsList  habits={habits} date={dashboardDate} dateType="dayly" />
+            <DashboardHabitsList  habits={habits} dashboardDate={dashboardDate} dateType="dayly" />
         </div>
     );
 }

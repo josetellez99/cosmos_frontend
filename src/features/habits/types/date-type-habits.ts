@@ -1,1 +1,0 @@
-export type DateTypeHabit = 'dayly' | 'weekly' | 'monthly'; 

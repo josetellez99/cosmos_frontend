@@ -19,11 +19,11 @@ interface props {
   onEditClick?: () => void;
   onRemoveClick?: () => void;
   badge?: ReactNode;
-  completion?: HabitCompletionField
-  isToday?: boolean
+  amountRangeHabitCompletion?: HabitCompletionField
+  isShowedToday?: boolean
 }
 
-export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, completion, isToday }: props) => {
+export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, amountRangeHabitCompletion, isShowedToday }: props) => {
 
   const [tooltipOpen, setTooltipOpen] = useState(false)
 
@@ -42,7 +42,7 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
     const hasActions = onEditClick !== undefined || onRemoveClick !== undefined
 
   const handleCardClick = () => {
-    if (isToday === false) {
+    if (isShowedToday === false) {
       setTooltipOpen(true)
       setTimeout(() => setTooltipOpen(false), 2000)
       return
@@ -61,7 +61,7 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         {allowCheck && (
-          isToday === false ? (
+          isShowedToday === false ? (
             <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
               <TooltipTrigger asChild>
                 <span className="flex-shrink-0 size-5 rounded-md border flex items-center justify-center bg-primary/50 border-primary/50 cursor-not-allowed">
@@ -142,11 +142,11 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
             </div>
           </div>
           {
-            completion && (
+            amountRangeHabitCompletion && (
               <span className="text-sm">
-                <span>{completion.completions}</span>
+                <span>{amountRangeHabitCompletion.completions}</span>
                 <span> de </span>
-                <span>{completion.targetAmount}</span>
+                <span>{amountRangeHabitCompletion.targetAmount}</span>
               </span>
             )
           }

@@ -3,9 +3,9 @@ import type { HabitForDateResponse } from '@/features/habits/types/response/habi
 import { getHabitsByDateService } from '@/features/habits/services/get-habits-by-date-service'
 import { habitQueryKeys } from '@/features/habits/helpers/queryKeys'
 import { DEFAULT_STALE_TIME } from '@/lib/constants/global_constants'
-import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
+import type { DateTypesForAmountRangeHabit } from '@/features/habits/types/date-type-amount-range-habits'
 
-export const useHabitsByDateSuspense = (date: string, dateType: DateTypeHabit) => {
+export const useHabitsByDateSuspense = (date: string, dateType: DateTypesForAmountRangeHabit) => {
 
   const { data, isLoading, error, refetch } = useSuspenseQuery({
     queryKey: habitQueryKeys.byDate(date, dateType),

@@ -3,7 +3,7 @@ import type { ApiResponse, ErrorApiResponse } from '@/types/api_responses'
 import type { HabitForDateResponse } from '@/features/habits/types/response/habit-for-date'
 import { deleteHabitRecordService } from '@/features/habit-records/services/delete-habit-record-service'
 import { habitQueryKeys } from '@/features/habits/helpers/queryKeys'
-import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
+import type { DateTypesForAmountRangeHabit } from '@/features/habits/types/date-type-amount-range-habits'
 
 interface Variables {
   habitId: number
@@ -14,7 +14,7 @@ type Context = {
   snapshot: ApiResponse<HabitForDateResponse[]> | undefined
 }
 
-export const useDeleteHabitRecord = (dateType: DateTypeHabit) => {
+export const useDeleteHabitRecord = (dateType: DateTypesForAmountRangeHabit) => {
 
   const queryClient = useQueryClient()
 

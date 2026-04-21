@@ -4,7 +4,7 @@ import type { HabitForDateResponse } from '@/features/habits/types/response/habi
 import type { HabitRecordResponse } from '@/features/habit-records/types/response/habit-record'
 import { createHabitRecordService } from '@/features/habit-records/services/create-habit-record-service'
 import { habitQueryKeys } from '@/features/habits/helpers/queryKeys'
-import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
+import type { DateTypesForAmountRangeHabit } from '@/features/habits/types/date-type-amount-range-habits'
 
 interface Variables {
   habitId: number
@@ -12,7 +12,7 @@ interface Variables {
 
 interface Args {
   date: string
-  dateType: DateTypeHabit
+  dateType: DateTypesForAmountRangeHabit
 }
 
 type Context = {

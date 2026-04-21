@@ -1,4 +1,4 @@
-import type { DateTypeHabit } from '@/features/habits/types/date-type-habits'
+import type { DateTypeHabit } from '@/features/habits/types/date-type-amount-range-habits'
 import { ENDPOINTS_MAP } from "@/lib/constants/endpoints_map"
 
 export const getEndpointForDateTypeHabit = (dateType: DateTypeHabit) => {

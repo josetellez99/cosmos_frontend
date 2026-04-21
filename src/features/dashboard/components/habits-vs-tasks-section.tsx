@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Typography } from "@/components/ui/typography"
 import { AsyncErrorBoundary } from "@/components/async-boundary"
 import { HabitsVsTasksToggle } from "@/features/dashboard/components/habits-vs-tasks-toggle"
 import { TodayHabitsSection } from "@/features/dashboard/components/today-habits-section"
