@@ -45,6 +45,7 @@ export const DashboardHabitsList = ({ habits, dashboardDate, dateType }: props) 
                         isNested={false}
                         onClick={() => navigate(`/habitos/${habit.id}`)}
                         isShowedToday={dateIsToday(dashboardDate)}
+                        showingDate={dashboardDate}
                     />
                 </li>
             ))}

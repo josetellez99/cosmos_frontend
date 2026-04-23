@@ -1,13 +1,15 @@
-import { useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Check, Pencil, Trash2 } from "lucide-react";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { isDateInDatesStringArray } from "@/helpers/dates/is-date-in-records";
 import type { HabitSummaryResponse } from "@/features/habits/types/response/habits";
 import { cn } from "@/helpers/cn-tailwind";
 import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color";
 import { getColorByProgress } from "@/helpers/strings/colors/get-color-by-progress";
 import type { HabitCompletionField } from "@/features/habits/types/response/habits";
+import { dateIsToday } from "@/helpers/dates/date-is-today";
 
 interface props {
   habit: HabitSummaryResponse;
@@ -21,11 +23,19 @@ interface props {
   badge?: ReactNode;
   amountRangeHabitCompletion?: HabitCompletionField
   isShowedToday?: boolean
+  showingDate?: string
 }
 
-export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, amountRangeHabitCompletion, isShowedToday }: props) => {
+export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, amountRangeHabitCompletion, isShowedToday, showingDate }: props) => {
 
   const [tooltipOpen, setTooltipOpen] = useState(false)
+
+  const isHabitTypeAmountIntoRangeCompletedInShowingDateWhenIsNotToday = useMemo(() => (
+    habit.scheduleType === 'an_amount_into_a_range' &&
+    showingDate &&
+    !dateIsToday(showingDate) &&
+    amountRangeHabitCompletion?.records
+  ) ? isDateInDatesStringArray(showingDate, amountRangeHabitCompletion.records) : isChecked, [habit.scheduleType, showingDate, amountRangeHabitCompletion?.records, isChecked]);
 
   const hasProgress = habit.progress !== undefined
 
@@ -61,11 +71,11 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         {allowCheck && (
-          isShowedToday === false ? (
+          !isShowedToday ? (
             <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
               <TooltipTrigger asChild>
                 <span className="flex-shrink-0 size-5 rounded-md border flex items-center justify-center bg-primary/50 border-primary/50 cursor-not-allowed">
-                  {isChecked && <Check className="size-3 text-primary-foreground" />}
+                  {isHabitTypeAmountIntoRangeCompletedInShowingDateWhenIsNotToday && <Check className="size-3 text-primary-foreground" />}
                 </span>
               </TooltipTrigger>
               <TooltipContent>

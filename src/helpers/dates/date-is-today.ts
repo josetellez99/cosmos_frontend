@@ -1,7 +1,8 @@
 import { isValidDate } from "@/helpers/dates/is-valid-date";
 
-export const dateIsToday = (date: string): boolean => {
+export const dateIsToday = (date?: string): boolean => {
 
+    if(!date) throw new Error ('Ingresa una fecha')
     if(!isValidDate(date)) throw new Error('Ingresa una fecha válida')
 
     const today = new Date()
