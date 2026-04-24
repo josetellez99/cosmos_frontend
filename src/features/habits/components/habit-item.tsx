@@ -3,13 +3,12 @@ import { Check, Pencil, Trash2 } from "lucide-react";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { isDateInDatesStringArray } from "@/helpers/dates/is-date-in-records";
 import type { HabitSummaryResponse } from "@/features/habits/types/response/habits";
 import { cn } from "@/helpers/cn-tailwind";
 import { getStrengthenColor } from "@/helpers/strings/colors/get-strengthen-color";
 import { getColorByProgress } from "@/helpers/strings/colors/get-color-by-progress";
 import type { HabitCompletionField } from "@/features/habits/types/response/habits";
-import { dateIsToday } from "@/helpers/dates/date-is-today";
+import { getIsCheckedForAmountRangeHabit } from "@/features/habits/helpers/get-is-checked-for-amount-range-habit";
 
 interface props {
   habit: HabitSummaryResponse;
@@ -26,16 +25,20 @@ interface props {
   showingDate?: string
 }
 
-export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, amountRangeHabitCompletion, isShowedToday, showingDate }: props) => {
+export const HabitItem = ({ habit, allowCheck, isNested, isChecked: isCheckedProp, onToggleCheck, onClick, onEditClick, onRemoveClick, badge, amountRangeHabitCompletion, isShowedToday, showingDate }: props) => {
 
   const [tooltipOpen, setTooltipOpen] = useState(false)
 
-  const isHabitTypeAmountIntoRangeCompletedInShowingDateWhenIsNotToday = useMemo(() => (
-    habit.scheduleType === 'an_amount_into_a_range' &&
-    showingDate &&
-    !dateIsToday(showingDate) &&
-    amountRangeHabitCompletion?.records
-  ) ? isDateInDatesStringArray(showingDate, amountRangeHabitCompletion.records) : isChecked, [habit.scheduleType, showingDate, amountRangeHabitCompletion?.records, isChecked]);
+  const isChecked = useMemo(() => {
+    if (
+      habit.scheduleType === 'an_amount_into_a_range' &&
+      showingDate &&
+      amountRangeHabitCompletion?.records
+    ) {
+      return getIsCheckedForAmountRangeHabit(showingDate, amountRangeHabitCompletion.records)
+    }
+    return isCheckedProp
+  }, [habit.scheduleType, showingDate, amountRangeHabitCompletion?.records, isCheckedProp])
 
   const hasProgress = habit.progress !== undefined
 
@@ -52,7 +55,7 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
     const hasActions = onEditClick !== undefined || onRemoveClick !== undefined
 
   const handleCardClick = () => {
-    if (isShowedToday === false) {
+    if (!isShowedToday) {
       setTooltipOpen(true)
       setTimeout(() => setTooltipOpen(false), 2000)
       return
@@ -75,7 +78,7 @@ export const HabitItem = ({ habit, allowCheck, isNested, isChecked, onToggleChec
             <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
               <TooltipTrigger asChild>
                 <span className="flex-shrink-0 size-5 rounded-md border flex items-center justify-center bg-primary/50 border-primary/50 cursor-not-allowed">
-                  {isHabitTypeAmountIntoRangeCompletedInShowingDateWhenIsNotToday && <Check className="size-3 text-primary-foreground" />}
+                  {isChecked && <Check className="size-3 text-primary-foreground" />}
                 </span>
               </TooltipTrigger>
               <TooltipContent>
