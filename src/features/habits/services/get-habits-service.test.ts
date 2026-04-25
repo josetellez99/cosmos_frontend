@@ -10,8 +10,8 @@ const mockHabit: HabitSummaryResponse = {
     name: 'Morning Run',
     description: 'Run 5km in the morning',
     emoji: '🏃',
-    schedule_type: 'each_x_days',
-    schedule_config: '{"time": "06:00"}',
+    scheduleType: 'each_x_days',
+    scheduleConfig: '{"time": "06:00"}',
     starting_date: '2026-01-01',
     progress: 60,
 }

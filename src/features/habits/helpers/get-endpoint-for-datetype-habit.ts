@@ -1,7 +1,7 @@
-import type { DateTypeHabit } from '@/features/habits/types/date-type-amount-range-habits'
+import type { DateTypesForAmountRangeHabit } from '@/features/habits/types/date-type-amount-range-habits'
 import { ENDPOINTS_MAP } from "@/lib/constants/endpoints_map"
 
-export const getEndpointForDateTypeHabit = (dateType: DateTypeHabit) => {
+export const getEndpointForDateTypeHabit = (dateType: DateTypesForAmountRangeHabit) => {
     if(dateType === 'dayly') {
         return ENDPOINTS_MAP.HABITS.GET_HABITS_FOR_DAY
     } else if( dateType === 'weekly') {

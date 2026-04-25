@@ -39,8 +39,8 @@ export const useCreateHabit = () => {
                 name: newHabit.name,
                 description: newHabit.description ?? "",
                 emoji: newHabit.emoji,
-                schedule_type: newHabit.scheduleType as HabitSummaryResponse["schedule_type"],
-                schedule_config: newHabit.scheduleConfig,
+                scheduleType: newHabit.scheduleType as HabitSummaryResponse["scheduleType"],
+                scheduleConfig: newHabit.scheduleConfig,
                 starting_date: newHabit.startingDate,
                 progress: 0,
             }
